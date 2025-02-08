@@ -1,4 +1,11 @@
-package com.odvp.biblioteca.MenuOpciones;
+package com.odvp.biblioteca.FuncionesBarraOpciones;
+
+/*
+    calse Opcion, se utiliza para representar una opcion con los atributos:
+    imagePath (es la ruta de la imagen de la opcion)
+    title (titulo que se vera debajo de la imagen de opcion)
+    viewPath (es la direccion del .fxml que se cargará al seleccionar esa opcion)
+* */
 
 public class Opcion {
     private String imagePath;  // Ruta de la imagen

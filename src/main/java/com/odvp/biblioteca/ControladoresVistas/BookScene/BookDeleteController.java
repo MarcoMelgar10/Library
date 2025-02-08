@@ -6,6 +6,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+/*
+    Controlador que muestra la ventana emergente de advertencia al pulsionar el botón eliminar libro
+ */
 
 public class BookDeleteController {
     @FXML

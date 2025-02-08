@@ -1,12 +1,17 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
-import com.odvp.biblioteca.LibrosClasses.Libro;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/*
+    controlador que muestra la ventana emergente cuando se pulsiona las opciones (Editar, Add, Visualizar) libro.
+    Es una ventana que se reutiliza para cada opcion de acuerdo al tipo de operacion que se pasa en forma de String
+    como parametro en la funcion initComponents()
+ */
 
 public class BookOperationController {
     private Libro libro;
@@ -41,6 +46,8 @@ public class BookOperationController {
             ventana.close();
         });
     }
+
+    //initComponents: recibe el tipo de operacion y de acuerdo a eso configura la ventana
 
     public void initComponents(Libro libro, String operationType){
         this.libro = libro;

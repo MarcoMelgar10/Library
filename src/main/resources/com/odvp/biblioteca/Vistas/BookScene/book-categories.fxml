@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="categoriesContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="200.0" stylesheets="@../../../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.BookScene.BooksCategoriesController">
+<VBox fx:id="categoriesContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="200.0" stylesheets="@../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.BookScene.BookCategoriesController">
    <children>
       <StackPane alignment="CENTER_LEFT" prefHeight="20.0" style="-fx-background-color: #dddddd;">
          <children>

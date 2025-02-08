@@ -1,12 +1,16 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IVista;
-import com.odvp.biblioteca.LibrosClasses.ManejoCategorias.CargadorCategorias;
-import com.odvp.biblioteca.LibrosClasses.ManejoCategorias.CategoryData;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CargadorCategorias;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
+
+/*
+    Controlador de la vista category-card (La card de cada categoria con su checkBox)
+ */
 
 public class BookCategoryCardController implements IVista {
     @FXML

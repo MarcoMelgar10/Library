@@ -1,8 +1,8 @@
-package com.odvp.biblioteca.LibrosClasses.OperacionesLibro;
+package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
 import com.odvp.biblioteca.LibraryApplication;
-import com.odvp.biblioteca.LibrosClasses.Libro;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,10 +11,14 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
+/*
+    crea la ventana para editar un libro
+ */
+
 public class EditarLibro implements IOperacionLibro{
     private Libro libro;
     public EditarLibro(Integer libroID){
-        //reemplazar por metodo que obtenga el libro de la base de datos
+        //reemplazar por metodo que obtenga el libro de la base de datos, esto es solo prueba:
         this.libro = new Libro
                 .Builder()
                 .idAutor(1)

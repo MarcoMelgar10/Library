@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="libroViewContainer" fillWidth="true" stylesheets="@../../../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.BookScene.LibrosViewController">
+<VBox fx:id="libroViewContainer" fillWidth="true" stylesheets="@../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.BookScene.BooksViewController">
    <children>
       <HBox fx:id="librosHeader" alignment="CENTER" minHeight="70.0" prefHeight="70.0">
          <children>
@@ -30,7 +30,7 @@
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../Icons/Botones/plus.png" />
+                              <Image url="@../../Icons/Botones/plus.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -43,7 +43,7 @@
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../Icons/Botones/buscar.png" />
+                              <Image url="@../../Icons/Botones/buscar.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -57,7 +57,7 @@
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../Icons/Botones/editar.png" />
+                              <Image url="@../../Icons/Botones/editar.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -71,7 +71,7 @@
                      <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../Icons/Botones/cancelar.png" />
+                              <Image url="@../../Icons/Botones/cancelar.png" />
                            </image>
                         </ImageView>
                      </children>
@@ -91,7 +91,7 @@
                <children>
                   <ImageView fx:id="tipoBusquedaImagen" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../Icons/LibrosResources/texto.png" />
+                        <Image url="@../../Icons/LibrosResources/texto.png" />
                      </image>
                   </ImageView>
                </children>

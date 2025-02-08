@@ -1,6 +1,11 @@
-package com.odvp.biblioteca.LibrosClasses;
+package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros;
 
 import java.time.LocalDate;
+
+/*
+    clase que representa libros mediante objetos, usa builder pattern,se usa para visualizar
+    mejor la creacion de un objeto cuando su constructor recibe demasiado parametros, no se abrume Marquino
+ */
 
 public class Libro {
     private int ID;

@@ -1,7 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
-import com.odvp.biblioteca.LibrosClasses.ManejoLibros.ManejadorListaLibros;
-import com.odvp.biblioteca.LibrosClasses.ManejoLibros.LibroCardData;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
 import com.odvp.biblioteca.ControladoresVistas.IVista;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -9,6 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+
+/*Esta clase controla la vista de las card horizontales que se cargan al ScrollPane del Maestro
+* de libros
+*
+* */
 
 public class BookCardController implements IVista {
     @FXML

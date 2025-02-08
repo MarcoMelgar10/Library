@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.LibrosClasses.ManejoLibros;
+package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookCardController;
 import com.odvp.biblioteca.LibraryApplication;
@@ -10,15 +10,23 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    clase que se encarga de cargar los libros mediante cards en el ScrollPane del Maestro libros
+ */
+
 public class ManejadorListaLibros {
     public static final String CURRENT_LIBRO_OBSERVER = "CURRENT_LIBRO";
     private static VBox contenedorLibros;
-    private static int currentLibro = -1;
+    private static int currentLibro = -1;   //si ningul libro es seleccionado el indice será -1
     private static  List<BookCardController> cards;
     private static final PropertyChangeSupport observerSupport = new PropertyChangeSupport(ManejadorListaLibros.class);
-    public static void setPanelDeCarga(VBox borderPane){
-        contenedorLibros = borderPane;
+
+    //se establece el panel donde se cargaran los cards
+    public static void setPanelDeCarga(VBox vbox){
+        contenedorLibros = vbox;
     }
+
+    //recibe una lista de objetos tipo LibroCardData, crea las vistas y las almacena en una lista
     public static void loadBooks(List<LibroCardData> libros){
         cards = new ArrayList<>();
         contenedorLibros.getChildren().removeAll();
@@ -34,12 +42,13 @@ public class ManejadorListaLibros {
             }
         }
     }
-
+    //crea la vista (libro card)
     private static BookCardController createView() throws Exception{
-        FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("BookScene/book-card.fxml"));
+        FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/BookScene/book-card.fxml"));
         loader.load();
         return loader.getController();
     }
+
 
     public static int getCurrentLibro() {
         return currentLibro;
@@ -49,6 +58,12 @@ public class ManejadorListaLibros {
         observerSupport.addPropertyChangeListener(observer);
     }
 
+    /*
+        setCurrentLibro(): actualiza el libro seleccionado (si no se selecciona ninguno se -1)
+        aplica el estilo a la card que ha sido pulsada
+        informa a su observador que ocurrió un cambio, en este caso el observado es la clase BookView y lo que hace
+        al escuchar el cambio es habilitar o deshabilitar sus botones (edit, view, delete)
+     */
     public static void setCurrentLibro(int currentLibro) {
         if(ManejadorListaLibros.currentLibro == currentLibro) currentLibro = -1;
         int oldCurrentLibro = ManejadorListaLibros.currentLibro;

@@ -1,18 +1,19 @@
 package com.odvp.biblioteca;
-
-import com.odvp.biblioteca.ManejoEscenas.CambiadorDeEscena;
-import com.odvp.biblioteca.MenuOpciones.OpcionServicio;
+import com.odvp.biblioteca.FuncionesBarraOpciones.OpcionServicio;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/*
+    realiza el arranque de la app y carga la ventana con el loggin.
+ */
+
 public class LibraryApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        CambiadorDeEscena.setStage(stage);
         OpcionServicio.init();
-        FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);

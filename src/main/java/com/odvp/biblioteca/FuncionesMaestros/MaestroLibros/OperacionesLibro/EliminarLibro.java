@@ -1,13 +1,17 @@
-package com.odvp.biblioteca.LibrosClasses.OperacionesLibro;
+package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookDeleteController;
 import com.odvp.biblioteca.LibraryApplication;
-import com.odvp.biblioteca.LibrosClasses.Libro;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+/*
+    crea la ventana de eliminar libro
+ */
 
 public class EliminarLibro implements IOperacionLibro{
     int libroId;

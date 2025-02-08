@@ -1,9 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas;
 
-import com.odvp.biblioteca.ManejoAmbientes.ManejadorDeAmbientes;
-import com.odvp.biblioteca.MenuOpciones.ManejadorOpciones;
-import com.odvp.biblioteca.MenuOpciones.Opcion;
-import com.odvp.biblioteca.MenuOpciones.OpcionServicio;
+import com.odvp.biblioteca.FuncionesBarraOpciones.ManejadorOpciones;
+import com.odvp.biblioteca.FuncionesBarraOpciones.Opcion;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;

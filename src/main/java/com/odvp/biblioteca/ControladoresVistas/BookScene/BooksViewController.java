@@ -1,19 +1,16 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
-import com.odvp.biblioteca.LibraryApplication;
-import com.odvp.biblioteca.LibrosClasses.ManejoLibros.ManejadorListaLibros;
-import com.odvp.biblioteca.LibrosClasses.ManejoLibros.LibroCardData;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
 import com.odvp.biblioteca.ControladoresVistas.IVista;
-import com.odvp.biblioteca.LibrosClasses.ManejoCategorias.CargadorCategorias;
-import com.odvp.biblioteca.LibrosClasses.ManejoCategorias.CategoryData;
-import com.odvp.biblioteca.LibrosClasses.OperacionesLibro.AgregarLibro;
-import com.odvp.biblioteca.LibrosClasses.OperacionesLibro.EditarLibro;
-import com.odvp.biblioteca.LibrosClasses.OperacionesLibro.EliminarLibro;
-import com.odvp.biblioteca.LibrosClasses.OperacionesLibro.VisualizarLibro;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CargadorCategorias;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.AgregarLibro;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EditarLibro;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EliminarLibro;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.VisualizarLibro;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -22,8 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -32,7 +27,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibrosViewController implements IVista, PropertyChangeListener {
+/*
+    Controlador de la vista principal del maestro Libros, aqui se cargan las vistas de los otros controladores
+    (category-card, book-card, etc).
+
+     */
+
+public class BooksViewController implements IVista, PropertyChangeListener {
     @FXML
     GridPane gridFecha;
     @FXML
@@ -56,12 +57,12 @@ public class LibrosViewController implements IVista, PropertyChangeListener {
     int anioDesde = LocalDate.now().getYear()  -1, anioHasta = LocalDate.now().getYear();
 
     private boolean busquedaPorTitulo = true;
-    private final Image textoImagen = new Image(getClass().getResource("/Icons/LibrosResources/texto.png").toExternalForm());
-    private final Image autorImagen = new Image(getClass().getResource("/Icons/LibrosResources/pluma-pluma.png").toExternalForm());
+    private final Image textoImagen = new Image(getClass().getResource("/com/odvp/biblioteca/Icons/LibrosResources/texto.png").toExternalForm());
+    private final Image autorImagen = new Image(getClass().getResource("/com/odvp/biblioteca/Icons/LibrosResources/pluma-pluma.png").toExternalForm());
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     @FXML
-    public void initialize(){
+    public void initialize(){       //Inicia los componentes
         Tooltip.install(buttonBuscar,textoTool);
         ManejadorListaLibros.setPanelDeCarga(booksPane);
         CargadorCategorias.setCategoriasPanel(categoriesPanel);
@@ -71,6 +72,9 @@ public class LibrosViewController implements IVista, PropertyChangeListener {
         initFechaFields();
     }
 
+    /*
+    initFechaField() : Define las reestricciones de los campos desde y hasta del parametro de busqueda 'Fecha'.
+     */
 
     private void initFechaFields(){
         fieldDesdeFecha.setText(anioDesde + "");
@@ -96,6 +100,10 @@ public class LibrosViewController implements IVista, PropertyChangeListener {
     public Parent getContainer() {
         return libroViewContainer;
     }
+
+    /*simularDatos() : esta funcion solo fué creada para simular datos de libros y categorias ficticios
+    para probar el funcionamiento de los ScrollPane, cuando se tenga disponible la base de datos debe ser eliminada
+     */
 
     public void simularDatos(){
         List<LibroCardData> libros= new ArrayList<>();
@@ -129,6 +137,12 @@ public class LibrosViewController implements IVista, PropertyChangeListener {
         CargadorCategorias.setDataList(categorias);
 
     }
+
+    /*
+        Patron observer: detecta cambios en la propiedad currentLibro de la clase ManejadorListaLibros, si ahora
+        el libro seleccionado tiene indice -1 (Ninguno) entonces deshabilita los botones (Edicion, Nuevo, Eliminar),
+        caso contratrio los habilita y los colorea.
+     */
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -172,6 +186,10 @@ public class LibrosViewController implements IVista, PropertyChangeListener {
         if(ManejadorListaLibros.getCurrentLibro() == -1) return;
         EditarLibro editarLibro = new EditarLibro(ManejadorListaLibros.getCurrentLibro());
     }
+    /*tipoDeBusqueda():
+        cambia el tipo de busqueda y el estilo del botón a la derecha del textFiel de busqueda
+     */
+
     @FXML
     public void tipoDeBusquedaButtonAction(){
         busquedaPorTitulo = !busquedaPorTitulo;

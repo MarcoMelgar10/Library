@@ -1,4 +1,6 @@
-package com.odvp.biblioteca.LibrosClasses.ManejoCategorias;
+package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias;
+
+//representa los datos que se mostraran de cada categoria
 
 public class CategoryData {
     private int ID;

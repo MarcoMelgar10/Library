@@ -13,7 +13,7 @@
     <Insets bottom="20.0" />
   </padding>
 
-  <Label fx:id="titleLabel" styleClass="label-title" stylesheets="@../../../Styles/Styles.css" text="EBEN-EZER">
+  <Label fx:id="titleLabel" styleClass="label-title" stylesheets="@../Styles/Styles.css" text="EBEN-EZER">
       <font>
          <Font size="13.0" />
       </font>

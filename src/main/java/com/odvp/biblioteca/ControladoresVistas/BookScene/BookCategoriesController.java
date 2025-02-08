@@ -5,7 +5,11 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 
-public class BooksCategoriesController implements IVista {
+/*
+    Controlador que muestra el contenedor de la derecha (VBox) donde se cargaran las categorias
+ */
+
+public class BookCategoriesController implements IVista {
     @FXML
     public VBox categoriesContainer, categoriesPanel;
 

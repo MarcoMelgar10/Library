@@ -1,7 +1,11 @@
-package com.odvp.biblioteca.LibrosClasses.ManejoLibros;
+package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros;
 
 import com.odvp.biblioteca.LibraryApplication;
 import javafx.scene.image.Image;
+
+/*
+    representa la informacion que se verá de un libro en la lista de libros, incluyendo la legenda.
+ */
 
 public class LibroCardData {
     private int ID;
@@ -38,9 +42,9 @@ public class LibroCardData {
         this.stock = stock;
         this.stockDisponible = stockDisponible;
         if(stockDisponible == 0){
-            image = new Image(LibraryApplication.class.getResource("/Icons/LibrosResources/libro-no-disponible.png").toExternalForm());
+            image = new Image(LibraryApplication.class.getResource("/com/odvp/biblioteca/Icons/LibrosResources/libro-no-disponible.png").toExternalForm());
         } else {
-            image = new Image(LibraryApplication.class.getResource("/Icons/LibrosResources/libro-disponible.png").toExternalForm());
+            image = new Image(LibraryApplication.class.getResource("/com/odvp/biblioteca/Icons/LibrosResources/libro-disponible.png").toExternalForm());
         }
     }
 
