@@ -1,0 +1,96 @@
+package com.odvp.biblioteca.ControladoresVistas.BookScene;
+
+import com.odvp.biblioteca.LibrosClasses.Libro;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+
+public class BookOperationController {
+    private Libro libro;
+    public static final String TYPE_ADD = "ADD_BOOK";
+    public static final String TYPE_EDIT = "EDIT_BOOK";
+    public static final String TYPE_VIEW = "VIEW_BOOK";
+
+    @FXML
+    VBox operationBookContainer;
+    @FXML
+    HBox buttonsContainer;
+
+    @FXML
+    Label titleWindow;
+    @FXML
+    Button aceptarButton, cancelarButton;
+    @FXML
+    TextArea observacionTextArea;
+    @FXML
+    TextField titleField, idField;
+    @FXML
+    Spinner stockSpinner, disponibleSpinner;
+    @FXML
+    DatePicker publicacionDatePicker;
+    @FXML
+    ComboBox autorComboBox, categoriaComboBox;
+
+    @FXML
+    public void initialize(){
+        cancelarButton.setOnAction(e -> {
+            Stage ventana = (Stage) buttonsContainer.getScene().getWindow();
+            ventana.close();
+        });
+    }
+
+    public void initComponents(Libro libro, String operationType){
+        this.libro = libro;
+        switch (operationType){
+            case TYPE_ADD:
+                initAddMode();
+                break;
+            case TYPE_EDIT:
+                initEditMode();
+                break;
+            case TYPE_VIEW:
+                initViewMode();
+                break;
+        }
+    }
+
+    private void initAddMode(){
+        titleWindow.setText("Nuevo Libro");
+    }
+    private void initEditMode(){
+        idField.setText(libro.getID() +"");
+        titleWindow.setText("Editar Libro");
+        titleField.setText(libro.getTitulo());
+        autorComboBox.setValue(libro.getIdAutor());
+        categoriaComboBox.setValue(libro.getIdCategoria());
+        publicacionDatePicker.setValue(libro.getPublicacion());
+        observacionTextArea.setText(libro.getObservacion());
+    }
+    private void initViewMode(){
+        idField.setText(libro.getID() +"");
+        titleWindow.setText("Visualizar Libro");
+        titleField.setEditable(false);
+        titleField.setText(libro.getTitulo());
+        autorComboBox.setValue(libro.getIdAutor());
+        autorComboBox.setDisable(true);
+        autorComboBox.setOpacity(1);
+        categoriaComboBox.setDisable(true);
+        categoriaComboBox.setOpacity(1);
+        categoriaComboBox.setValue(libro.getIdCategoria());
+        stockSpinner.setDisable(true);
+        stockSpinner.setOpacity(1);
+        disponibleSpinner.setEditable(false);
+        disponibleSpinner.setDisable(true);
+        disponibleSpinner.setOpacity(1);
+        publicacionDatePicker.setDisable(true);
+        publicacionDatePicker.setValue(libro.getPublicacion());
+        publicacionDatePicker.setOpacity(1);
+        observacionTextArea.setEditable(false);
+        observacionTextArea.setText(libro.getObservacion());
+        buttonsContainer.getChildren().remove(aceptarButton);
+        cancelarButton.setText("Salir");
+    }
+}

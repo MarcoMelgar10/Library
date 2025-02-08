@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="libroViewContainer" fillWidth="true" stylesheets="@../../../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.BookScene.LibrosViewController">
+   <children>
+      <HBox fx:id="librosHeader" alignment="CENTER" minHeight="70.0" prefHeight="70.0">
+         <children>
+            <Label text="BIBLIOTECA EBEN-EZER" />
+            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <HBox alignment="CENTER" spacing="8.0" HBox.hgrow="NEVER">
+               <children>
+                  <StackPane fx:id="nuevoButton" layoutX="10.0" layoutY="10.0" onMouseClicked="#addBookButtonAction" prefWidth="50.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Icons/Botones/plus.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <styleClass>
+                        <String fx:value="button-yellow" />
+                        <String fx:value="button-shape" />
+                     </styleClass>
+                  </StackPane>
+                  <StackPane fx:id="visualizarButton" onMouseClicked="#viewBookButtonAction" prefWidth="50.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Icons/Botones/buscar.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <styleClass>
+                        <String fx:value="button-green" />
+                        <String fx:value="button-shape" />
+                        <String fx:value="button-disable" />
+                     </styleClass>
+                  </StackPane>
+                  <StackPane fx:id="editarButton" onMouseClicked="#editBookButtonAction" prefWidth="50.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Icons/Botones/editar.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <styleClass>
+                        <String fx:value="button-blue" />
+                        <String fx:value="button-shape" />
+                        <String fx:value="button-disable" />
+                     </styleClass>
+                  </StackPane>
+                  <StackPane fx:id="eliminarButton" onMouseClicked="#eliminarButtonAction" prefWidth="50.0">
+                     <children>
+                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../Icons/Botones/cancelar.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <styleClass>
+                        <String fx:value="button-red" />
+                        <String fx:value="button-shape" />
+                        <String fx:value="button-disable" />
+                     </styleClass>
+                  </StackPane>
+               </children>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </HBox>
+            <TextField fx:id="buscadorField" promptText="Buscar" styleClass="text-field-search-orange" />
+            <StackPane fx:id="buttonBuscar" maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#tipoDeBusquedaButtonAction" prefHeight="27.0" prefWidth="27.0">
+               <children>
+                  <ImageView fx:id="tipoBusquedaImagen" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../Icons/LibrosResources/texto.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <styleClass>
+                  <String fx:value="button-search-shape" />
+                  <String fx:value="button-orange" />
+               </styleClass>
+            </StackPane>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
+      <BorderPane VBox.vgrow="ALWAYS">
+         <center>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="15.0">
+                     <children>
+                        <Label maxWidth="40.0" minWidth="32.0" prefWidth="40.0" text="Estado">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <GridPane HBox.hgrow="ALWAYS">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" prefWidth="200.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="70.0" minWidth="70.0" percentWidth="0.0" prefWidth="70.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="70.0" minWidth="70.0" percentWidth="0.0" prefWidth="70.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Titulo">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Autor" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Stock" GridPane.columnIndex="2">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Disponibles" GridPane.columnIndex="3">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="8.0" right="8.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                     <padding>
+                        <Insets left="28.0" right="28.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <ScrollPane fitToWidth="true" styleClass="scrollPane" VBox.vgrow="ALWAYS">
+                     <padding>
+                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                     </padding>
+                     <content>
+                        <VBox fx:id="booksPane" spacing="5.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
+         </center>
+         <right>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="ALWAYS">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="20.0" style="-fx-background-color: dfdfdf;">
+                           <children>
+                              <Label text="Categorías">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </StackPane>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <content>
+                              <VBox fx:id="categoriesPanel" prefHeight="200.0" prefWidth="100.0" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="categoriesContainer1" layoutX="10.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" spacing="12.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="20.0" style="-fx-background-color: #dfdfdf;">
+                           <children>
+                              <Label text="Parámetros de Búsqueda">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="20.0">
+                           <children>
+                              <CheckBox fx:id="parametroDisponible" mnemonicParsing="false" text="Hay unidades disponibles">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </CheckBox>
+                           </children>
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </StackPane>
+                        <StackPane alignment="CENTER_LEFT" prefHeight="20.0">
+                           <children>
+                              <CheckBox fx:id="parametroObservacion" mnemonicParsing="false" text="No tiene observaciones">
+                                 <font>
+                                    <Font name="System Italic" size="12.0" />
+                                 </font>
+                              </CheckBox>
+                           </children>
+                           <padding>
+                              <Insets left="6.0" />
+                           </padding>
+                        </StackPane>
+                        <VBox prefHeight="66.0" prefWidth="100.0">
+                           <children>
+                              <StackPane alignment="CENTER_LEFT" prefHeight="20.0">
+                                 <children>
+                                    <CheckBox fx:id="parametroFecha" mnemonicParsing="false" onAction="#parametroFechaAction" text="Año de publicación">
+                                       <font>
+                                          <Font name="System Italic" size="12.0" />
+                                       </font>
+                                    </CheckBox>
+                                 </children>
+                                 <padding>
+                                    <Insets left="6.0" />
+                                 </padding>
+                              </StackPane>
+                              <GridPane fx:id="gridFecha" disable="true">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="35.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="40.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                  <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="Desde">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="fieldDesdeFecha" prefHeight="6.0" prefWidth="50.0" scaleY="0.7" GridPane.columnIndex="1" />
+                                    <Label text="Hasta" GridPane.rowIndex="1">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="fieldHastaFecha" prefHeight="6.0" prefWidth="50.0" scaleY="0.7" text="2025" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="30.0" top="3.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</VBox>

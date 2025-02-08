@@ -1,0 +1,50 @@
+package com.odvp.biblioteca.LibrosClasses.ManejoLibros;
+
+import com.odvp.biblioteca.LibraryApplication;
+import javafx.scene.image.Image;
+
+public class LibroCardData {
+    private int ID;
+    private Image image;
+    private String titulo;
+    private String autor;
+    private int stock;
+    private int stockDisponible;
+
+    public Image getImage() {
+        return image;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public int getStockDisponible() {
+        return stockDisponible;
+    }
+
+    public LibroCardData(int ID, String nombre, String autor, int stock, int stockDisponible) {
+        this.ID = ID;
+        this.titulo = nombre;
+        this.autor = autor;
+        this.stock = stock;
+        this.stockDisponible = stockDisponible;
+        if(stockDisponible == 0){
+            image = new Image(LibraryApplication.class.getResource("/Icons/LibrosResources/libro-no-disponible.png").toExternalForm());
+        } else {
+            image = new Image(LibraryApplication.class.getResource("/Icons/LibrosResources/libro-disponible.png").toExternalForm());
+        }
+    }
+
+    public int getID() {
+        return ID;
+    }
+}

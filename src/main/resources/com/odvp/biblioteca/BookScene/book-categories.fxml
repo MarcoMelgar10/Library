@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="categoriesContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="200.0" stylesheets="@../../../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.BookScene.BooksCategoriesController">
+   <children>
+      <StackPane alignment="CENTER_LEFT" prefHeight="20.0" style="-fx-background-color: #dddddd;">
+         <children>
+            <Label text="Categorías">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="6.0" />
+         </padding>
+      </StackPane>
+      <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" styleClass="scrollPane" VBox.vgrow="ALWAYS">
+         <content>
+            <VBox fx:id="categoriesPanel" prefHeight="200.0" prefWidth="100.0" />
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>
