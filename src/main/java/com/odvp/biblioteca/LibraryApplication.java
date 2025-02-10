@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.w3c.dom.ls.LSOutput;
 
 /*
     realiza el arranque de la app y carga la ventana con el loggin.
@@ -15,7 +16,7 @@ public class LibraryApplication extends Application {
         OpcionServicio.init();
         FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Hello!");
+        stage.setTitle("Oscarin!");
         stage.setScene(scene);
         stage.show();
     }
