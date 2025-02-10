@@ -24,7 +24,7 @@ public class AgregarLibro implements IOperacionLibro{
     public void buildWindow() {
         try{
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("BookScene/book-operation.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/BookScene/book-operation.fxml"));
             Parent root =fxmlLoader.load();
             BookOperationController controller =fxmlLoader.getController();
             controller.initComponents(libro, BookOperationController.TYPE_ADD);

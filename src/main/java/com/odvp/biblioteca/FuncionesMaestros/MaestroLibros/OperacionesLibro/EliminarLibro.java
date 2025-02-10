@@ -24,7 +24,7 @@ public class EliminarLibro implements IOperacionLibro{
     public void buildWindow() {
         try{
             Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("BookScene/book-delete.fxml"));
+            FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/BookScene/book-delete.fxml"));
             Parent root = loader.load();
             BookDeleteController controller = loader.getController();
             controller.initComponents(libroId);
