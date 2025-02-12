@@ -5,6 +5,7 @@ module com.odvp.biblioteca {
     requires java.desktop;
 
     requires org.controlsfx.controls;
+    requires java.sql;
 
     opens com.odvp.biblioteca to javafx.fxml;
     exports com.odvp.biblioteca;
