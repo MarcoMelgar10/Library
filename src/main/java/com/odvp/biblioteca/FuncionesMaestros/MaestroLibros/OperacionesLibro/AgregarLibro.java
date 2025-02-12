@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
+import com.odvp.biblioteca.FuncionesMaestros.IOperacion;
 import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
     crea la ventana para agregar un libro
  */
 
-public class AgregarLibro implements IOperacionLibro{
+public class AgregarLibro implements IOperacion {
     private Libro libro;
 
     public AgregarLibro(){
@@ -36,10 +37,5 @@ public class AgregarLibro implements IOperacionLibro{
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Libro getLibroData() {
-        return libro;
     }
 }

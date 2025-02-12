@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
+import com.odvp.biblioteca.FuncionesMaestros.IOperacion;
 import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
@@ -17,7 +18,7 @@ import java.util.Date;
     crea la ventana para editar un libro
  */
 
-public class EditarLibro implements IOperacionLibro{
+public class EditarLibro implements IOperacion {
     private Libro libro;
     private Date date;
     public EditarLibro(Integer libroID){
@@ -41,10 +42,5 @@ public class EditarLibro implements IOperacionLibro{
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Libro getLibroData() {
-        return libro;
     }
 }

@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
+import com.odvp.biblioteca.FuncionesMaestros.IOperacion;
 import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
     crea la vista para visualizar libro
  */
 
-public class VisualizarLibro implements IOperacionLibro{
+public class VisualizarLibro implements IOperacion {
     public Libro libro;
     public VisualizarLibro(Integer idLibro){
         //reemplazar por opcion de obtenerLibro de la base de datos
@@ -48,10 +49,5 @@ public class VisualizarLibro implements IOperacionLibro{
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Libro getLibroData() {
-        return libro;
     }
 }

@@ -1,8 +1,8 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookDeleteController;
+import com.odvp.biblioteca.FuncionesMaestros.IOperacion;
 import com.odvp.biblioteca.LibraryApplication;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
     crea la ventana de eliminar libro
  */
 
-public class EliminarLibro implements IOperacionLibro{
+public class EliminarLibro implements IOperacion {
     int libroId;
     public EliminarLibro(int libroId){
         this.libroId = libroId;
@@ -37,10 +37,5 @@ public class EliminarLibro implements IOperacionLibro{
             e.printStackTrace();
         }
 
-    }
-
-    @Override
-    public Libro getLibroData() {
-        return null;
     }
 }
