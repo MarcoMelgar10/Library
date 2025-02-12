@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
+import com.odvp.biblioteca.FuncionesMaestros.IOperacion;
 import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
     crea la ventana para editar un libro
  */
 
-public class EditarLibro implements IOperacionLibro{
+public class EditarLibro implements IOperacion {
     private Libro libro;
     public EditarLibro(Integer libroID){
         //reemplazar por metodo que obtenga el libro de la base de datos, esto es solo prueba:
@@ -50,10 +51,5 @@ public class EditarLibro implements IOperacionLibro{
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public Libro getLibroData() {
-        return libro;
     }
 }
