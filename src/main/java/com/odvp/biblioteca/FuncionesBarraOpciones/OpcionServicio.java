@@ -36,10 +36,10 @@ public class OpcionServicio {
                     LibraryApplication.class.getResource("Icons/Opciones/quill.png").toExternalForm(),
                     "Autores",
                     "");
-            Opcion usuarios = new Opcion(LibraryApplication.class.getResource(
-                    "Icons/Opciones/user.png").toExternalForm(),
+            Opcion usuarios = new Opcion(
+                    LibraryApplication.class.getResource("Icons/Opciones/user.png").toExternalForm(),
                     "Usuarios",
-                    "");
+                    "Vistas/UsuarioScene/usuarios-view.fxml");
             opciones = new ArrayList<>();
             opciones.add(libros);
             opciones.add(reservas);
