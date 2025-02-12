@@ -1,114 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="libroViewContainer" fillWidth="true" stylesheets="@../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.BookScene.BooksViewController">
-   <children>
-      <HBox fx:id="librosHeader" alignment="CENTER" minHeight="70.0" prefHeight="70.0">
-         <children>
-            <Label text="BIBLIOTECA EBEN-EZER" />
-            <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-            <HBox alignment="CENTER" spacing="8.0" HBox.hgrow="NEVER">
-               <children>
-                  <StackPane fx:id="nuevoButton" layoutX="10.0" layoutY="10.0" onMouseClicked="#addBookButtonAction" prefWidth="50.0">
-                     <children>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Icons/Botones/plus.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <styleClass>
-                        <String fx:value="button-yellow" />
-                        <String fx:value="button-shape" />
-                     </styleClass>
-                  </StackPane>
-                  <StackPane fx:id="visualizarButton" onMouseClicked="#viewBookButtonAction" prefWidth="50.0">
-                     <children>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Icons/Botones/buscar.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <styleClass>
-                        <String fx:value="button-green" />
-                        <String fx:value="button-shape" />
-                        <String fx:value="button-disable" />
-                     </styleClass>
-                  </StackPane>
-                  <StackPane fx:id="editarButton" onMouseClicked="#editBookButtonAction" prefWidth="50.0">
-                     <children>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Icons/Botones/editar.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <styleClass>
-                        <String fx:value="button-blue" />
-                        <String fx:value="button-shape" />
-                        <String fx:value="button-disable" />
-                     </styleClass>
-                  </StackPane>
-                  <StackPane fx:id="eliminarButton" onMouseClicked="#eliminarButtonAction" prefWidth="50.0">
-                     <children>
-                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../Icons/Botones/cancelar.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                     <styleClass>
-                        <String fx:value="button-red" />
-                        <String fx:value="button-shape" />
-                        <String fx:value="button-disable" />
-                     </styleClass>
-                  </StackPane>
-               </children>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </HBox>
-            <TextField fx:id="buscadorField" promptText="Buscar" styleClass="text-field-search-orange" />
-            <StackPane fx:id="buttonBuscar" maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#tipoDeBusquedaButtonAction" prefHeight="27.0" prefWidth="27.0">
-               <children>
-                  <ImageView fx:id="tipoBusquedaImagen" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../Icons/LibrosResources/texto.png" />
-                     </image>
-                  </ImageView>
-               </children>
-               <styleClass>
-                  <String fx:value="button-search-shape" />
-                  <String fx:value="button-orange" />
-               </styleClass>
-            </StackPane>
-         </children>
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </HBox>
-      <BorderPane VBox.vgrow="ALWAYS">
+
+<BorderPane fx:id="libroViewContainer" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.BookScene.BooksViewController" stylesheets="@../../Styles/Styles.css">
+   <center>
+      <BorderPane>
          <center>
             <VBox BorderPane.alignment="CENTER">
                <children>
@@ -288,5 +197,5 @@
             </VBox>
          </right>
       </BorderPane>
-   </children>
-</VBox>
+   </center>
+</BorderPane>

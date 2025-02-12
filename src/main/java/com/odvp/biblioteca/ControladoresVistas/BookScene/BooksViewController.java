@@ -1,5 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefaultController;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
 import com.odvp.biblioteca.ControladoresVistas.IVista;
@@ -9,20 +10,21 @@ import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.Agre
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EditarLibro;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EliminarLibro;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.VisualizarLibro;
+import com.odvp.biblioteca.LibraryApplication;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,31 +41,25 @@ public class BooksViewController implements IVista, PropertyChangeListener {
     @FXML
     CheckBox parametroFecha, parametroDisponible, parametroObservacion;
     @FXML
-    VBox libroViewContainer;
+    BorderPane libroViewContainer;
     @FXML
     TextField buscadorField, fieldDesdeFecha, fieldHastaFecha;
     @FXML
     VBox booksPane;
     @FXML
-    StackPane visualizarButton, eliminarButton, editarButton;
-    @FXML
     VBox categoriesPanel;
     @FXML
     ImageView tipoBusquedaImagen;
-    Tooltip autorTool = new Tooltip("Busqueda por Autor");
-    Tooltip textoTool = new Tooltip("Busqueda por Título");
+    @FXML
+    HeaderDefaultController header;
     @FXML
     StackPane buttonBuscar;
     int anioDesde = LocalDate.now().getYear()  -1, anioHasta = LocalDate.now().getYear();
 
-    private boolean busquedaPorTitulo = true;
-    private final Image textoImagen = new Image(getClass().getResource("/com/odvp/biblioteca/Icons/LibrosResources/texto.png").toExternalForm());
-    private final Image autorImagen = new Image(getClass().getResource("/com/odvp/biblioteca/Icons/LibrosResources/pluma-pluma.png").toExternalForm());
-
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     @FXML
     public void initialize(){       //Inicia los componentes
-        Tooltip.install(buttonBuscar,textoTool);
+        setHeader();
         ManejadorListaLibros.setPanelDeCarga(booksPane);
         CargadorCategorias.setCategoriasPanel(categoriesPanel);
         support.addPropertyChangeListener(this);
@@ -149,71 +145,34 @@ public class BooksViewController implements IVista, PropertyChangeListener {
         System.out.println("Cambio");
         if(evt.getPropertyName().equals(ManejadorListaLibros.CURRENT_LIBRO_OBSERVER)){
             if((int)evt.getNewValue() == -1){
-                editarButton.getStyleClass().add("button-disable");
-                eliminarButton.getStyleClass().add("button-disable");
-                visualizarButton.getStyleClass().add("button-disable");
-                editarButton.setDisable(true);
-                eliminarButton.setDisable(true);
-                visualizarButton.setDisable(true);
+                header.cambiarEstadoBotones(false);
             }else {
-                editarButton.getStyleClass().remove("button-disable");
-                eliminarButton.getStyleClass().remove("button-disable");
-                visualizarButton.getStyleClass().remove("button-disable");
-                editarButton.setDisable(false);
-                eliminarButton.setDisable(false);
-                visualizarButton.setDisable(false);
+                header.cambiarEstadoBotones(true);
             }
         }
     }
 
-    @FXML
-    public void eliminarButtonAction(){
-        if(ManejadorListaLibros.getCurrentLibro() == -1) return;
-        EliminarLibro eliminarLibro = new EliminarLibro(ManejadorListaLibros.getCurrentLibro());
-    }
 
-    @FXML
-    public void addBookButtonAction(){
-        AgregarLibro agregarLibro = new AgregarLibro();
-    }
-    @FXML
-    public void viewBookButtonAction(){
-        if(ManejadorListaLibros.getCurrentLibro() == -1) return;
-        VisualizarLibro agregarLibro = new VisualizarLibro(ManejadorListaLibros.getCurrentLibro());
-    }
-    @FXML
-    public void editBookButtonAction(){
-        if(ManejadorListaLibros.getCurrentLibro() == -1) return;
-        EditarLibro editarLibro = new EditarLibro(ManejadorListaLibros.getCurrentLibro());
-    }
-    /*tipoDeBusqueda():
-        cambia el tipo de busqueda y el estilo del botón a la derecha del textFiel de busqueda
-     */
 
-    @FXML
-    public void tipoDeBusquedaButtonAction(){
-        busquedaPorTitulo = !busquedaPorTitulo;
-        if(busquedaPorTitulo) {
-            tipoBusquedaImagen.setImage(textoImagen);
-            Tooltip.uninstall(buttonBuscar,autorTool);
-            Tooltip.install(buttonBuscar,textoTool);
-            buttonBuscar.getStyleClass().add("button-orange");
-            buttonBuscar.getStyleClass().remove("button-purple");
-            buscadorField.getStyleClass().add("text-field-search-orange");
-            buscadorField.getStyleClass().remove("text-field-search-purple");
-
-        }else {
-            tipoBusquedaImagen.setImage(autorImagen);
-            Tooltip.uninstall(buttonBuscar,textoTool);
-            Tooltip.install(buttonBuscar,autorTool);
-            buttonBuscar.getStyleClass().add("button-purple");
-            buttonBuscar.getStyleClass().remove("button-orange");
-            buscadorField.getStyleClass().remove("text-field-search-orange");
-            buscadorField.getStyleClass().add("text-field-search-purple");
-        }
-    }
     @FXML
     public void parametroFechaAction(){
         gridFecha.setDisable(!parametroFecha.isSelected());
+    }
+
+    public void setHeader(){
+        try{
+            FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/DefaultComponents/header-default.fxml"));
+            loader.load();
+            HeaderDefaultController headerDefaultController = loader.getController();
+            this.header = headerDefaultController;
+            header.getEditarButton().setOnMouseClicked(e-> new EditarLibro(ManejadorListaLibros.getCurrentLibro()));
+            header.getNuevoButton().setOnMouseClicked(e -> new AgregarLibro());
+            header.getEliminarButton().setOnMouseClicked(e -> new EliminarLibro(ManejadorListaLibros.getCurrentLibro()));
+            header.getVisualizarButton().setOnMouseClicked(e -> new VisualizarLibro(ManejadorListaLibros.getCurrentLibro()));
+            libroViewContainer.setTop(headerDefaultController.getContainer());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

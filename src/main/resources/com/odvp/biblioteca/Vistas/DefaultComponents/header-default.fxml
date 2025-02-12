@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+
+
+<HBox fx:id="container" alignment="CENTER" minHeight="70.0" prefHeight="70.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefaultController" stylesheets="@../../Styles/Styles.css">
+   <children>
+      <Label text="BIBLIOTECA EBEN-EZER" />
+      <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+      <HBox alignment="CENTER" spacing="8.0" HBox.hgrow="NEVER">
+         <children>
+            <StackPane fx:id="nuevoButton" layoutX="10.0" layoutY="10.0" prefWidth="50.0">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Icons/Botones/plus.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <styleClass>
+                  <String fx:value="button-yellow" />
+                  <String fx:value="button-shape" />
+               </styleClass>
+            </StackPane>
+            <StackPane fx:id="visualizarButton" prefWidth="50.0" disable="true">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Icons/Botones/buscar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <styleClass>
+                  <String fx:value="button-green" />
+                  <String fx:value="button-shape" />
+                  <String fx:value="button-disable" />
+               </styleClass>
+            </StackPane>
+            <StackPane fx:id="editarButton" prefWidth="50.0" disable="true">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Icons/Botones/editar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <styleClass>
+                  <String fx:value="button-blue" />
+                  <String fx:value="button-shape" />
+                  <String fx:value="button-disable" />
+               </styleClass>
+            </StackPane>
+            <StackPane fx:id="eliminarButton" prefWidth="50.0" disable="true">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Icons/Botones/cancelar.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <styleClass>
+                  <String fx:value="button-red" />
+                  <String fx:value="button-shape" />
+                  <String fx:value="button-disable" />
+               </styleClass>
+            </StackPane>
+         </children>
+         <HBox.margin>
+            <Insets right="20.0" />
+         </HBox.margin>
+      </HBox>
+      <TextField fx:id="buscadorField" promptText="Buscar" styleClass="text-field-search-orange" />
+      <StackPane fx:id="busquedaDinamicaButton" maxHeight="-Infinity" minHeight="-Infinity"  prefHeight="27.0" prefWidth="27.0" onMouseClicked="#tipoDeBusquedaButtonAction" disable="true">
+         <children>
+            <ImageView fx:id="tipoBusquedaImagen" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../Icons/LibrosResources/texto.png" />
+               </image>
+            </ImageView>
+         </children>
+         <styleClass>
+            <String fx:value="button-search-shape" />
+            <String fx:value="button-orange" />
+         </styleClass>
+      </StackPane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</HBox>
