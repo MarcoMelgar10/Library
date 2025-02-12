@@ -10,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 /*
     crea la ventana para editar un libro
@@ -19,6 +20,8 @@ public class EditarAutor implements IOperacionAutor {
     private Libro libro;
     public EditarAutor(Integer libroID){
         //reemplazar por metodo que obtenga el libro de la base de datos, esto es solo prueba:
+        Date date;
+        date = new Date(10/10/2001);
         this.libro = new Libro
                 .Builder()
                 .idAutor(1)

@@ -16,7 +16,7 @@ public class LibraryApplication extends Application {
         OpcionServicio.init();
         FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Oscarin!");
+        stage.setTitle("Biblioteca");
         stage.setScene(scene);
         stage.show();
     }

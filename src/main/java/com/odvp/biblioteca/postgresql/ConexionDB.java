@@ -21,7 +21,7 @@ public class ConexionDB {
 
     public ConexionDB() throws SQLException {
         conexion = DriverManager.getConnection(url , user, password);
-       // logger.info("Database connected!");
+        System.out.println("Database connected!");
     }
 
     public void desconectar() throws SQLException {

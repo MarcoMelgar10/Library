@@ -3,6 +3,7 @@ package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
 import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
+import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 /*
     crea la ventana para editar un libro
@@ -17,7 +19,9 @@ import java.time.LocalDate;
 
 public class EditarLibro implements IOperacionLibro{
     private Libro libro;
+    private Date date;
     public EditarLibro(Integer libroID){
+        date = new Date(10/10/2001);
         //reemplazar por metodo que obtenga el libro de la base de datos, esto es solo prueba:
         this.libro = new Libro
                 .Builder()
@@ -31,6 +35,9 @@ public class EditarLibro implements IOperacionLibro{
                 .ID(1)
                 .build();
         buildWindow();
+        LibroDAO libroDAO= new LibroDAO(libro);
+        libroDAO.insertar();
+
     }
 
 

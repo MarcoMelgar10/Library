@@ -1,11 +1,16 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
+import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.time.LocalDate;
 
 /*
     controlador que muestra la ventana emergente cuando se pulsiona las opciones (Editar, Add, Visualizar) libro.
@@ -66,7 +71,28 @@ public class BookOperationController {
 
     private void initAddMode(){
         titleWindow.setText("Nuevo Libro");
+        Libro libro = new Libro
+                .Builder()
+                .idAutor(1)
+                .idCategoria(1)
+                .titulo("Libro 1")
+                .publicacion(LocalDate.now())
+                .observacion("Libro 1")
+                .stock(10)
+                .stockDisponible(10)
+                .ID(1)
+                .build();
+        LibroDAO libroDAO = new LibroDAO(libro);
+
+        aceptarButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+               libroDAO.insertar();
+            }
+
+        });
     }
+
     private void initEditMode(){
         idField.setText(libro.getID() +"");
         titleWindow.setText("Editar Libro");
