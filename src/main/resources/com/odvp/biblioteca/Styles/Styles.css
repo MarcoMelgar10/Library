@@ -36,6 +36,13 @@
     -fx-scale-y: 1.01;
     -fx-cursor: hand;
 }
+.card-user {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 1, 0.3, 0, 2);
+}
+
 .scrollPane:focused{
     -fx-border-color: #fafafa;
     -fx-background-insets: 1;

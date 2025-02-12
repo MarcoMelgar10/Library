@@ -15,11 +15,11 @@ import java.util.List;
  */
 
 public class ManejadorListaLibros {
-    public static final String CURRENT_LIBRO_OBSERVER = "CURRENT_LIBRO";
     private static VBox contenedorLibros;
     private static int currentLibro = -1;   //si ningul libro es seleccionado el indice será -1
     private static  List<BookCardController> cards;
     private static final PropertyChangeSupport observerSupport = new PropertyChangeSupport(ManejadorListaLibros.class);
+    public static final String CURRENT_LIBRO_OBSERVER = "CURRENT_LIBRO";
 
     //se establece el panel donde se cargaran los cards
     public static void setPanelDeCarga(VBox vbox){
