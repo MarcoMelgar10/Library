@@ -26,7 +26,7 @@ public class BookCategoryCardController implements IVista {
 
     public void setData(CategoryData category) {
         categoryCheck.setText(category.getNombre());
-        this.idCategory = category.getID();
+        //this.idCategory = category.getID();
     }
 
     public Integer getIdCategory() {

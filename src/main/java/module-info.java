@@ -6,6 +6,7 @@ module com.odvp.biblioteca {
 
     requires org.controlsfx.controls;
     requires java.sql;
+    requires jbcrypt;
 
     opens com.odvp.biblioteca to javafx.fxml;
     exports com.odvp.biblioteca;

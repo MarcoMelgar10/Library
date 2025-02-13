@@ -21,22 +21,6 @@ public class EditarLibro implements IOperacionLibro{
     private Libro libro;
     private Date date;
     public EditarLibro(Integer libroID){
-        date = new Date(10/10/2001);
-        //reemplazar por metodo que obtenga el libro de la base de datos, esto es solo prueba:
-        this.libro = new Libro
-                .Builder()
-                .idAutor(1)
-                .idCategoria(1)
-                .titulo("Las aventuras de los programadores junior")
-                .publicacion(LocalDate.now())
-                .observacion("Esta muy bueno")
-                .stock(10)
-                .stockDisponible(10)
-                .ID(1)
-                .build();
-        buildWindow();
-        LibroDAO libroDAO= new LibroDAO(libro);
-        libroDAO.insertar();
 
     }
 

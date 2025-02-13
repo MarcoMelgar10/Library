@@ -71,23 +71,10 @@ public class BookOperationController {
 
     private void initAddMode(){
         titleWindow.setText("Nuevo Libro");
-        Libro libro = new Libro
-                .Builder()
-                .idAutor(1)
-                .idCategoria(1)
-                .titulo("Libro 1")
-                .publicacion(LocalDate.now())
-                .observacion("Libro 1")
-                .stock(10)
-                .stockDisponible(10)
-                .ID(1)
-                .build();
-        LibroDAO libroDAO = new LibroDAO(libro);
-
         aceptarButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-               libroDAO.insertar();
+                System.out.println("Hola");
             }
 
         });
@@ -99,7 +86,7 @@ public class BookOperationController {
         titleField.setText(libro.getTitulo());
         autorComboBox.setValue(libro.getIdAutor());
         categoriaComboBox.setValue(libro.getIdCategoria());
-        publicacionDatePicker.setValue(libro.getPublicacion());
+        publicacionDatePicker.setValue(libro.getPublicacion().toLocalDate());
         observacionTextArea.setText(libro.getObservacion());
     }
     private void initViewMode(){
@@ -119,7 +106,7 @@ public class BookOperationController {
         disponibleSpinner.setDisable(true);
         disponibleSpinner.setOpacity(1);
         publicacionDatePicker.setDisable(true);
-        publicacionDatePicker.setValue(libro.getPublicacion());
+        publicacionDatePicker.setValue(libro.getPublicacion().toLocalDate());
         publicacionDatePicker.setOpacity(1);
         observacionTextArea.setEditable(false);
         observacionTextArea.setText(libro.getObservacion());

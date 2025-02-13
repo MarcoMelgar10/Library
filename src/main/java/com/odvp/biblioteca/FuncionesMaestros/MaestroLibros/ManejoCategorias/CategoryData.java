@@ -3,20 +3,20 @@ package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias;
 //representa los datos que se mostraran de cada categoria
 
 public class CategoryData {
-    private int ID;
     private String nombre;
+    private String descripcion;
 
-    public CategoryData(int ID, String nombre) {
-        this.ID = ID;
+    public CategoryData(String nombre, String descripcion) {
         this.nombre = nombre;
+        this.descripcion = descripcion;
     }
 
-    public int getID() {
-        return ID;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getNombre() {

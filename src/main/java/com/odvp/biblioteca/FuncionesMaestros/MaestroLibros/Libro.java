@@ -53,8 +53,8 @@ public class Libro {
         this.observacion = observacion;
     }
 
-    public LocalDate getPublicacion() {
-        return publicacion;
+    public Date getPublicacion() {
+        return Date.valueOf(publicacion);
     }
 
     public void setPublicacion(LocalDate publicacion) {

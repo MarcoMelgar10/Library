@@ -64,7 +64,7 @@ public class BooksViewController implements IVista, PropertyChangeListener {
         CargadorCategorias.setCategoriasPanel(categoriesPanel);
         support.addPropertyChangeListener(this);
         ManejadorListaLibros.addObserver(this);
-        simularDatos();
+      //  simularDatos();
         initFechaFields();
     }
 
@@ -101,7 +101,7 @@ public class BooksViewController implements IVista, PropertyChangeListener {
     para probar el funcionamiento de los ScrollPane, cuando se tenga disponible la base de datos debe ser eliminada
      */
 
-    public void simularDatos(){
+   /* public void simularDatos(){
         List<LibroCardData> libros= new ArrayList<>();
         for(int i=0;i<30;i++) {
             LibroCardData libroData2 = new LibroCardData(
@@ -132,7 +132,7 @@ public class BooksViewController implements IVista, PropertyChangeListener {
         ManejadorListaLibros.loadBooks(libros);
         CargadorCategorias.setDataList(categorias);
 
-    }
+    }*/
 
     /*
         Patron observer: detecta cambios en la propiedad currentLibro de la clase ManejadorListaLibros, si ahora

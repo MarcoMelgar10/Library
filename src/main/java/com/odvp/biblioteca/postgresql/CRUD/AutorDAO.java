@@ -3,23 +3,22 @@ import com.odvp.biblioteca.FuncionesMaestros.MaestroAutor.Autor;
 import com.odvp.biblioteca.postgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /*
 Clase para realizar las consultas y operaciones en Autor: crear, leer, actualizar, eliminar
  */
+
 public class AutorDAO implements ICRUD{
 private String sql;
 private Autor autor;
 private ConexionDB conexionDB;
-public AutorDAO(Autor autor){
+public AutorDAO(Autor autor, ConexionDB conexionDB){
     this.autor = autor;
-    try{
-        conexionDB = new ConexionDB();
-    }catch (SQLException e){
-        throw new RuntimeException(e);
-    }
+   this.conexionDB = conexionDB;
 }
+
     @Override
     public void insertar() {
         sql = "Call agregar_autor(?,?)";
@@ -31,7 +30,7 @@ public AutorDAO(Autor autor){
         } catch (SQLException e) {
             // Manejo de error cuando el correo ya existe o cualquier otra excepción
             if (e.getSQLState().equals("P0001")) { // Código SQL para una excepción RAISE EXCEPTION
-                //      logger.warn("Error: {}", e.getMessage());
+                System.out.println("Error: {}"+ e.getMessage());
             } else {
                 //   logger.error("Error mientras se ejecutaba el procedimiento: {}", e.getMessage());
             }
@@ -51,5 +50,24 @@ public AutorDAO(Autor autor){
     @Override
     public void eliminar() {
 
+    }
+
+    public int getIdAutor(String nombre){
+        int id = -1; // Valor por defecto en caso de error
+        String qry = "SELECT buscar_autor(?)";
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
+            stmt.setString(1, nombre);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error SQL State: " + e.getSQLState());
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return id;
     }
 }
