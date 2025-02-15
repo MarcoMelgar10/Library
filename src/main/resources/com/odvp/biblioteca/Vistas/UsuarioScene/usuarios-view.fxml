@@ -5,14 +5,15 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<BorderPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.UsuarioScene.UsuariosViewController">
+<?import javafx.scene.control.ListView?>
+<BorderPane fx:id="container" scaleShape="false" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.UsuarioScene.UsuariosViewController">
    <center>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
          <content>
-            <FlowPane fx:id="panelUsuarios" hgap="8.0" vgap="8.0">
+            <ListView fx:id="panelUsuarios">
                <padding>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-               </padding></FlowPane>
+               </padding></ListView>
          </content>
       </ScrollPane>
    </center>

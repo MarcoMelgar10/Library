@@ -1,8 +1,7 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias;
 
-import com.odvp.biblioteca.ControladoresVistas.BookScene.BookCategoryCardController;
-import com.odvp.biblioteca.LibraryApplication;
-import javafx.fxml.FXMLLoader;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ParametersDefault;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.List;
 public class CargadorCategorias {
     private static VBox categoriasPanel;
     private static List<Integer> selectedCategoriasId;
-    private static List<CategoryData> allCategories;
 
     private CargadorCategorias(){
 
@@ -32,14 +30,12 @@ public class CargadorCategorias {
      */
 
     public static void setDataList(List<CategoryData> categorias){
-        allCategories = new ArrayList<>();
+        categoriasPanel.getChildren().clear();
         selectedCategoriasId = new ArrayList<>();
         for(CategoryData category : categorias){
-            BookCategoryCardController categoryCard = createView();
-            if(categoryCard == null) continue;
-            categoryCard.setData(category);
-            allCategories.add(category);
-            categoriasPanel.getChildren().add(categoryCard.getContainer());
+            CheckBox categoryCard = ParametersDefault.createSimpleParam(category.getNombre());
+            categoryCard.setOnMouseClicked(e -> captureCategorySelection(category.getID(),categoryCard.isSelected()));
+            categoriasPanel.getChildren().add(categoryCard);
         }
     }
 
@@ -60,18 +56,5 @@ public class CargadorCategorias {
         for(int categoryID : selectedCategoriasId){
             System.out.print(categoryID + " - ");
         }
-    }
-
-    //crea la vista de una categoria, es usada por la funcion setDataList()
-
-    private static BookCategoryCardController createView(){
-        try {
-            FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/BookScene/book-category-card.fxml"));
-            loader.load();
-            return loader.getController();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
     }
 }

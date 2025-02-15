@@ -1,31 +1,16 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
-import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefaultController;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
 import com.odvp.biblioteca.ControladoresVistas.IVista;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CargadorCategorias;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.AgregarLibro;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EditarLibro;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EliminarLibro;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.VisualizarLibro;
-import com.odvp.biblioteca.LibraryApplication;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,60 +21,26 @@ import java.util.List;
      */
 
 public class BooksViewController implements IVista, PropertyChangeListener {
-    @FXML
-    GridPane gridFecha;
-    @FXML
-    CheckBox parametroFecha, parametroDisponible, parametroObservacion;
+
     @FXML
     BorderPane libroViewContainer;
     @FXML
-    TextField buscadorField, fieldDesdeFecha, fieldHastaFecha;
-    @FXML
     VBox booksPane;
-    @FXML
-    VBox categoriesPanel;
-    @FXML
-    ImageView tipoBusquedaImagen;
-    @FXML
-    HeaderDefaultController header;
-    @FXML
-    StackPane buttonBuscar;
-    int anioDesde = LocalDate.now().getYear()  -1, anioHasta = LocalDate.now().getYear();
 
+    private final HeaderLibros header = new HeaderLibros();
+    private final ParametersLibros paramsRight = new ParametersLibros();
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+
     @FXML
     public void initialize(){       //Inicia los componentes
-        setHeader();
+        libroViewContainer.setTop(header);
+        libroViewContainer.setRight(paramsRight);
         ManejadorListaLibros.setPanelDeCarga(booksPane);
-        CargadorCategorias.setCategoriasPanel(categoriesPanel);
+        CargadorCategorias.setCategoriasPanel(paramsRight.getVentanaCategorias());
         support.addPropertyChangeListener(this);
         ManejadorListaLibros.addObserver(this);
         simularDatos();
-        initFechaFields();
-    }
-
-    /*
-    initFechaField() : Define las reestricciones de los campos desde y hasta del parametro de busqueda 'Fecha'.
-     */
-
-    private void initFechaFields(){
-        fieldDesdeFecha.setText(anioDesde + "");
-        fieldHastaFecha.setText(anioHasta + "");
-        fieldDesdeFecha.setTextFormatter(new javafx.scene.control.TextFormatter<String>(change -> {
-            // Verificar que el texto nuevo sea un número y que no exceda 4 caracteres
-            if (change.getControlNewText().matches("\\d{0,4}")) {
-                return change;
-            }
-            return null; // Si no es válido, no se realiza el cambio
-        }));
-
-        fieldHastaFecha.setTextFormatter(new javafx.scene.control.TextFormatter<String>(change -> {
-            // Verificar que el texto nuevo sea un número y que no exceda 4 caracteres
-            if (change.getControlNewText().matches("\\d{0,4}")) {
-                return change;
-            }
-            return null; // Si no es válido, no se realiza el cambio
-        }));
     }
 
     @Override
@@ -144,35 +95,9 @@ public class BooksViewController implements IVista, PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         System.out.println("Cambio");
         if(evt.getPropertyName().equals(ManejadorListaLibros.CURRENT_LIBRO_OBSERVER)){
-            if((int)evt.getNewValue() == -1){
-                header.cambiarEstadoBotones(false);
-            }else {
-                header.cambiarEstadoBotones(true);
+            if((int)evt.getNewValue() == -1 || (int) evt.getOldValue() == -1){
+                header.deshabilitarBotones((int) evt.getNewValue() == -1);
             }
         }
-    }
-
-
-
-    @FXML
-    public void parametroFechaAction(){
-        gridFecha.setDisable(!parametroFecha.isSelected());
-    }
-
-    public void setHeader(){
-        try{
-            FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/DefaultComponents/header-default.fxml"));
-            loader.load();
-            HeaderDefaultController headerDefaultController = loader.getController();
-            this.header = headerDefaultController;
-            header.getEditarButton().setOnMouseClicked(e-> new EditarLibro(ManejadorListaLibros.getCurrentLibro()));
-            header.getNuevoButton().setOnMouseClicked(e -> new AgregarLibro());
-            header.getEliminarButton().setOnMouseClicked(e -> new EliminarLibro(ManejadorListaLibros.getCurrentLibro()));
-            header.getVisualizarButton().setOnMouseClicked(e -> new VisualizarLibro(ManejadorListaLibros.getCurrentLibro()));
-            libroViewContainer.setTop(headerDefaultController.getContainer());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
     }
 }

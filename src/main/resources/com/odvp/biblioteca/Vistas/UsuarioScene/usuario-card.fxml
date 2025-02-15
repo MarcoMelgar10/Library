@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="container" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="280.0" spacing="8.0" styleClass="card-user" stylesheets="@../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.UsuarioScene.UsuarioCardController">
+<HBox fx:id="container" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="280.0" spacing="8.0" styleClass="card-user" stylesheets="@../../Styles/Styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.UsuarioScene.UsuarioCardController" onMousePressed="#cardAction">
    <children>
       <ImageView fx:id="userLegend" fitHeight="25.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
          <image>
