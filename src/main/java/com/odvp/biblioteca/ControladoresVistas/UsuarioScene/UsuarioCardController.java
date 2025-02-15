@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.UsuarioScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IVista;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroUsuarios.ManejoUsuarios.ManejadorUsuarios;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroUsuarios.ManejoUsuarios.UsuarioData;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -31,5 +32,10 @@ public class UsuarioCardController implements IVista {
     @Override
     public Parent getContainer() {
         return container;
+    }
+
+    @FXML
+    public void cardAction(){
+        ManejadorUsuarios.setCurrentUsuario(id);
     }
 }
