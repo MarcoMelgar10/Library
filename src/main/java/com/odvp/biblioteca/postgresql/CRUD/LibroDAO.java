@@ -1,12 +1,10 @@
 package com.odvp.biblioteca.postgresql.CRUD;
-
-import com.odvp.biblioteca.FuncionesMaestros.MaestroAutor.Autor;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import com.odvp.biblioteca.postgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
+
 
 
 public class LibroDAO implements ICRUD {
