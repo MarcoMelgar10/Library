@@ -7,7 +7,7 @@ public class ReservaDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar() {
+    public Object buscar(String nombre) {
         return null;
     }
 

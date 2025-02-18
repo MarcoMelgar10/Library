@@ -3,11 +3,21 @@ package com.odvp.biblioteca.FuncionesMaestros.MaestroAdministrador;
 import com.odvp.biblioteca.postgresql.CRUD.AdministradorDAO;
 
 public class Administrador {
+    private int id;
     private String nombre;
     private String contrasena;
-    public Administrador(String nombre, String contrasena){
+    public Administrador(int id,String nombre, String contrasena){
         this.contrasena = contrasena;
         this.nombre = nombre;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {

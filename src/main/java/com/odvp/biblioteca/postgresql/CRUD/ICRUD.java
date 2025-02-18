@@ -3,7 +3,7 @@ package com.odvp.biblioteca.postgresql.CRUD;
 
 public interface ICRUD {
     void insertar();
-    Object buscar();
+    Object buscar(String nombre);
     void modificar();
     void eliminar();
 }

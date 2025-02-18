@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.SubCategoryData;
-import com.odvp.biblioteca.postgresql.ConexionDB;
+import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 public class SubCategoriaDAO implements ICRUD {
     private String qry;
-    private  int id;
     private ConexionDB conexionDB;
     private SubCategoryData subCategoryData;
 
@@ -28,7 +27,6 @@ public class SubCategoriaDAO implements ICRUD {
 
         } catch (SQLException e) {
             // Manejo de errores más detallado
-
             System.out.println("Error SQL State: " + e.getSQLState());
             System.out.println("Error: " + e.getMessage());
 
@@ -37,8 +35,31 @@ public class SubCategoriaDAO implements ICRUD {
     }
 
     @Override
-    public Object buscar() {
-        return null;
+    public Object buscar(String nombre) {
+        subCategoryData  = null;
+        String sql = "SELECT id_sub_categoria, nombre, descripcion, id_categoria FROM sub_categoria WHERE nombre = ?";
+
+        try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                subCategoryData = new SubCategoryData(
+                        rs.getInt("id_sub_categoria"),
+                        rs.getString("nombre"),
+                        rs.getString("descripcion"),
+                        rs.getInt("id_categoria")
+                );
+
+                System.out.println("Subcategoría encontrada: " + subCategoryData.getNombre());
+            } else {
+                System.out.println("No se encontró la subcategoría: " + subCategoryData.getNombre());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return subCategoryData;
     }
 
     @Override

@@ -1,8 +1,7 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CargadorCategorias;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
-import com.odvp.biblioteca.postgresql.ConexionDB;
+import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +9,6 @@ import java.sql.SQLException;
 
 public class CategoriaDAO implements ICRUD{
     private String qry;
-    private  int id;
     private ConexionDB conexionDB;
     private CategoryData categoryData;
 
@@ -38,9 +36,33 @@ public class CategoriaDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar() {
-        return null;
+    public Object buscar(String titulo) {
+        CategoryData categoria = null;
+        String sql = "SELECT id_categoria, nombre, descripcion FROM categoria WHERE id_categoria = ?";
+
+        try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(sql)) {
+            pstmt.setString(1, titulo);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                categoria = new CategoryData(
+                        rs.getInt("id_categoria"),
+                        rs.getString("nombre"),
+                        rs.getString("descripcion")
+                );
+
+                System.out.println("Categoría encontrada: " + categoria.getNombre());
+            } else {
+                System.out.println("No se encontró la categoría: " + categoria.getNombre());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoria;
     }
+
+
 
     @Override
     public void modificar() {
@@ -51,6 +73,8 @@ public class CategoriaDAO implements ICRUD{
     public void eliminar() {
 
     }
+
+
 
 
     public int getIdCategoria(String nombre){

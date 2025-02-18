@@ -1,7 +1,7 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
 import com.odvp.biblioteca.FuncionesMaestros.MaestroAdministrador.Administrador;
-import com.odvp.biblioteca.postgresql.ConexionDB;
+import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.PreparedStatement;
@@ -36,7 +36,7 @@ public class AdministradorDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar() {
+    public Object buscar(String usuario) {
         return null;
     }
 

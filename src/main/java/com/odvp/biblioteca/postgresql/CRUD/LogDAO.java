@@ -1,7 +1,7 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLog.Log;
-import com.odvp.biblioteca.postgresql.ConexionDB;
+import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -31,7 +31,7 @@ public class LogDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar() {
+    public Object buscar(String nombre) {
         return null;
     }
 

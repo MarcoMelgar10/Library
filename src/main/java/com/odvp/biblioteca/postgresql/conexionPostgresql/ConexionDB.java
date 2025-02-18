@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.postgresql;
+package com.odvp.biblioteca.postgresql.conexionPostgresql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConexionDB {
     private static ConexionDB instancia;
-    private final String url = "jdbc:postgresql://10.5.200.209:5432/biblioteca";
+    private final String url = "jdbc:postgresql://172.18.240.1:5432/biblioteca";
     //  private static final Logger logger = LogManager.getRootLogger();
     private final String user = "biblioteca";
     private final String password = "biblioteca";

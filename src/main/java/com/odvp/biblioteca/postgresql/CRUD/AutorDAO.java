@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroAutor.Autor;
-import com.odvp.biblioteca.postgresql.ConexionDB;
+import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,7 +11,7 @@ Clase para realizar las consultas y operaciones en Autor: crear, leer, actualiza
  */
 
 public class AutorDAO implements ICRUD{
-private String sql;
+private String qry;
 private Autor autor;
 private ConexionDB conexionDB;
 public AutorDAO(Autor autor, ConexionDB conexionDB){
@@ -21,8 +21,8 @@ public AutorDAO(Autor autor, ConexionDB conexionDB){
 
     @Override
     public void insertar() {
-        sql = "Call agregar_autor(?,?)";
-        try (PreparedStatement stmt =conexionDB.getConexion().prepareStatement(sql)) {
+        qry = "Call agregar_autor(?,?)";
+        try (PreparedStatement stmt =conexionDB.getConexion().prepareStatement(qry)) {
             stmt.setString(1, autor.getNombre());
             stmt.setString(2, autor.getDescripcion());
             stmt.execute();
@@ -38,8 +38,8 @@ public AutorDAO(Autor autor, ConexionDB conexionDB){
     }
 
     @Override
-    public Object buscar() {
-        return null;
+    public Object buscar(String titulo) {
+            return autor;
     }
 
     @Override

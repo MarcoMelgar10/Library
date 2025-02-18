@@ -2,6 +2,7 @@ package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
+import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.time.LocalDate;
+import java.sql.SQLException;
 
 /*
     controlador que muestra la ventana emergente cuando se pulsiona las opciones (Editar, Add, Visualizar) libro.
@@ -74,7 +75,21 @@ public class BookOperationController {
         aceptarButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                System.out.println("Hola");
+
+                try {
+                    LibroDAO libroDAO = new LibroDAO( null, new ConexionDB());
+                   //Libro libro1;
+                    //libro1 = libroDAO.buscar("hola");
+                    //System.out.println(libro1.getTitulo() + " " + libro1.getNombreCategoria());
+                    if(!libroDAO.listaLibros().isEmpty()){
+                        for (int i = 0; i < libroDAO.listaLibros().toArray().length; i++) {
+                            System.out.println(libroDAO.listaLibros().get(i).getTitulo());
+                        }
+                    }
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
             }
 
         });

@@ -15,8 +15,12 @@ public class Libro {
     private LocalDate publicacion;
     private int stock;
     private int stockDisponible;
-    private int idCategoria;
+    private String nombreCategoria;
+    private String nombreAutor;
+    private String nombreSubCategoria;
     private int idAutor;
+    private int idCategoria;
+    private int idSubCategoria;
 
     public Libro(Builder builder){
         this.ID = builder.ID;
@@ -25,8 +29,18 @@ public class Libro {
         this.publicacion = builder.publicacion;
         this.stock = builder.stock;
         this.stockDisponible = builder.stockDisponible;
-        this.idCategoria = builder.idCategoria;
-        this.idAutor = builder.idAutor;
+        nombreCategoria = builder.categoria;
+        nombreAutor = builder.autor;
+        nombreSubCategoria = builder.subCategoria;
+
+    }
+
+    public String getNombreSubCategoria() {
+        return nombreSubCategoria;
+    }
+
+    public void setNombreSubCategoria(String nombreSubCategoria) {
+        this.nombreSubCategoria = nombreSubCategoria;
     }
 
     public int getID() {
@@ -77,12 +91,20 @@ public class Libro {
         this.stockDisponible = stockDisponible;
     }
 
-    public int getIdCategoria() {
-        return idCategoria;
+    public String getNombreCategoria() {
+        return nombreCategoria;
     }
 
-    public void setIdCategoria(int idCategoria) {
-        this.idCategoria = idCategoria;
+    public void setNombreCategoria(String nombreCategoria) {
+        nombreCategoria = nombreCategoria;
+    }
+
+    public String getNombreAutor() {
+        return nombreAutor;
+    }
+
+    public void setNombreAutor(String nombreAutor) {
+        this.nombreAutor = nombreAutor;
     }
 
     public int getIdAutor() {
@@ -93,6 +115,22 @@ public class Libro {
         this.idAutor = idAutor;
     }
 
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public int getIdSubCategoria() {
+        return idSubCategoria;
+    }
+
+    public void setIdSubCategoria(int idSubCategoria) {
+        this.idSubCategoria = idSubCategoria;
+    }
+
     public static class Builder {
         private int ID;
         private String titulo;
@@ -100,8 +138,12 @@ public class Libro {
         private LocalDate publicacion;
         private int stock;
         private int stockDisponible;
+        private String categoria;
         private int idCategoria;
+        private String autor;
         private int idAutor;
+        private String subCategoria;
+        private int idSubCategoria;
 
         public Builder ID(int ID) {
             this.ID = ID;
@@ -133,13 +175,29 @@ public class Libro {
             return this;
         }
 
-        public Builder idCategoria(int idCategoria) {
-            this.idCategoria = idCategoria;
+        public Builder categoria(String categoria) {
+            this.categoria = categoria;
             return this;
         }
 
-        public Builder idAutor(int idAutor) {
+        public Builder autor(String autor) {
+            this.autor = autor;
+            return this;
+        }
+        public Builder subCategoria(String subCategoria){
+           this.subCategoria = subCategoria;
+            return this;
+        }
+        public Builder idAutor(int idAutor){
             this.idAutor = idAutor;
+            return this;
+        }
+        public Builder idCategoria(int idCategoria){
+            this.idCategoria = idCategoria;
+            return this;
+        }
+        public Builder idSubCategoria(int idSubCategoria){
+            this.idSubCategoria = idSubCategoria;
             return this;
         }
 

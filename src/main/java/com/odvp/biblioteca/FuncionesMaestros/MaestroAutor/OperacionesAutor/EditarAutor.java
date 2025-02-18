@@ -24,8 +24,8 @@ public class EditarAutor implements IOperacionAutor {
         date = new Date(10/10/2001);
         this.libro = new Libro
                 .Builder()
-                .idAutor(1)
-                .idCategoria(1)
+                //.idAutor(1)
+                //.idCategoria(1)
                 .titulo("Las aventuras de los programadores junior")
                 .publicacion(LocalDate.now())
                 .observacion("Esta muy bueno")

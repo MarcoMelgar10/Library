@@ -1,7 +1,7 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
 import com.odvp.biblioteca.FuncionesMaestros.MaestroMulta.Multa;
-import com.odvp.biblioteca.postgresql.ConexionDB;
+import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,7 +21,7 @@ public class MultaDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar() {
+    public Object buscar(String nombre) {
         return null;
     }
 
