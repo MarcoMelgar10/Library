@@ -1,13 +1,10 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros;
 
-import com.odvp.biblioteca.ControladoresVistas.BookScene.BookCardController;
-import com.odvp.biblioteca.LibraryApplication;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.VBox;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.TableLibros;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.TableDefault;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -15,40 +12,21 @@ import java.util.List;
  */
 
 public class ManejadorListaLibros {
-    private static VBox contenedorLibros;
+    private static TableLibros tableLibros;
     private static int currentLibro = -1;   //si ningul libro es seleccionado el indice será -1
-    private static  List<BookCardController> cards;
+
     private static final PropertyChangeSupport observerSupport = new PropertyChangeSupport(ManejadorListaLibros.class);
     public static final String CURRENT_LIBRO_OBSERVER = "CURRENT_LIBRO";
 
     //se establece el panel donde se cargaran los cards
-    public static void setPanelDeCarga(VBox vbox){
-        contenedorLibros = vbox;
+    public static void setTable(TableLibros tableLibros){
+        ManejadorListaLibros.tableLibros = tableLibros;
     }
 
     //recibe una lista de objetos tipo LibroCardData, crea las vistas y las almacena en una lista
-    public static void loadBooks(List<LibroCardData> libros){
-        cards = new ArrayList<>();
-        contenedorLibros.getChildren().removeAll();
-        //CAmbiar por query de busqueda de libros
-        for(LibroCardData libro: libros){
-            try{
-                BookCardController bookCard = createView();
-                bookCard.initComponents(libro);
-                contenedorLibros.getChildren().add(bookCard.getContainer());
-                cards.add(bookCard);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+    public static void loadBooks(List<IDatoVisual> libros){
+        tableLibros.addCards(libros);
     }
-    //crea la vista (libro card)
-    private static BookCardController createView() throws Exception{
-        FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/BookScene/book-card.fxml"));
-        loader.load();
-        return loader.getController();
-    }
-
 
     public static int getCurrentLibro() {
         return currentLibro;
@@ -70,13 +48,15 @@ public class ManejadorListaLibros {
         ManejadorListaLibros.currentLibro = currentLibro;
         System.out.println("oldValue: " + oldCurrentLibro + " new: " + ManejadorListaLibros.currentLibro);
         observerSupport.firePropertyChange(CURRENT_LIBRO_OBSERVER, oldCurrentLibro, currentLibro);
-        for(BookCardController card : cards){
-            if(card.getIDBook() == currentLibro){
-                card.getContainer().getStyleClass().add("selected-book-card");
+        for(TableDefault.Card card : tableLibros.getCards()){
+            if(card.getID() == currentLibro){
+                card.getVista().getStyleClass().add("selected-card");
             }
             else{
-                card.getContainer().getStyleClass().remove("selected-book-card");
+                card.getVista().getStyleClass().remove("selected-card");
             }
         }
     }
+
+
 }

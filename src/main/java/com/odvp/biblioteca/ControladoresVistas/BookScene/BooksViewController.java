@@ -1,5 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
 import com.odvp.biblioteca.ControladoresVistas.IVista;
@@ -24,11 +25,10 @@ public class BooksViewController implements IVista, PropertyChangeListener {
 
     @FXML
     BorderPane libroViewContainer;
-    @FXML
-    VBox booksPane;
 
     private final HeaderLibros header = new HeaderLibros();
     private final ParametersLibros paramsRight = new ParametersLibros();
+    private final TableLibros table = new TableLibros();
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
 
@@ -36,7 +36,8 @@ public class BooksViewController implements IVista, PropertyChangeListener {
     public void initialize(){       //Inicia los componentes
         libroViewContainer.setTop(header);
         libroViewContainer.setRight(paramsRight);
-        ManejadorListaLibros.setPanelDeCarga(booksPane);
+        libroViewContainer.setCenter(table);
+        ManejadorListaLibros.setTable(table);
         CargadorCategorias.setCategoriasPanel(paramsRight.getVentanaCategorias());
         support.addPropertyChangeListener(this);
         ManejadorListaLibros.addObserver(this);
@@ -53,7 +54,7 @@ public class BooksViewController implements IVista, PropertyChangeListener {
      */
 
     public void simularDatos(){
-        List<LibroCardData> libros= new ArrayList<>();
+        List<IDatoVisual> libros= new ArrayList<>();
         for(int i=0;i<30;i++) {
             LibroCardData libroData2 = new LibroCardData(
                     i,
