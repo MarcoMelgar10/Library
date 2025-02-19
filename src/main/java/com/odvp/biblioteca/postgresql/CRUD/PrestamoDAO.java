@@ -35,7 +35,7 @@ public class PrestamoDAO implements  ICRUD{
 
     }
     public ArrayList<Prestamo> listaPrestamos() {
-        String qry = "SELECT p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, u.nombre AS usuario, l.titulo AS libro, p.estado " +
+        qry = "SELECT p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, u.nombre AS usuario, l.titulo AS libro, p.estado " +
                 "FROM prestamo p " +
                 "JOIN usuario u ON p.id_usuario = u.id_usuario " +
                 "JOIN libro l ON p.id_libro = l.id_libro";

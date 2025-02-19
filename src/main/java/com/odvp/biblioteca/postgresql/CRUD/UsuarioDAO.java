@@ -43,7 +43,6 @@ public class UsuarioDAO implements ICRUD{
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
             pstmt.setString(1, "%" + nombre.toUpperCase() + "%"); // Buscar con LIKE y sin distinción de mayúsculas/minúsculas
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
                 Usuario.Builder builder = new Usuario.Builder();
                 builder.idUsuario(rs.getInt("id_usuario"));

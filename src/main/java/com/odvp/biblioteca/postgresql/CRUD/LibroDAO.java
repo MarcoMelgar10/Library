@@ -48,7 +48,7 @@ public LibroDAO(Libro libro, ConexionDB conexionDB){
     @Override
     public Libro buscar(String titulo) {
         Libro.Builder builder = new Libro.Builder();
-        String sql = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, " +
+        qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, " +
                 "l.stock, l.stock_disponible, a.nombre AS autor, " +
                 "c.nombre AS categoria, s.nombre AS sub_categoria " +
                 "FROM libro l " +
@@ -57,7 +57,7 @@ public LibroDAO(Libro libro, ConexionDB conexionDB){
                 "JOIN sub_categoria s ON l.id_sub_categoria = s.id_sub_categoria " +
                 "WHERE UPPER(l.titulo) LIKE ?";
 
-        try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
             pstmt.setString(1, "%" + titulo.toUpperCase() + "%"); // Usar LIKE con comodines
             ResultSet rs = pstmt.executeQuery();
 
@@ -97,7 +97,7 @@ public LibroDAO(Libro libro, ConexionDB conexionDB){
     }
 
     public ArrayList<Libro> listaLibros() {
-        String qry = "SELECT id_libro, titulo, observacion, fecha_publicacion, stock, stock_disponible, id_autor, id_categoria, id_sub_categoria FROM libro";
+         qry = "SELECT id_libro, titulo, observacion, fecha_publicacion, stock, stock_disponible, id_autor, id_categoria, id_sub_categoria FROM libro";
         ArrayList<Libro> libros = new ArrayList<>();
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
              ResultSet rs = stmt.executeQuery()) {  // Usamos stmt.executeQuery sin pasarle qry, ya que ya lo definimos antes

@@ -75,11 +75,6 @@ public class BooksViewController implements IVista, PropertyChangeListener {
         );
         libros.add(libroData);
         List<CategoryData> categorias = new ArrayList<>();
-        categorias.add(new CategoryData(1, "Ciencia Ficcion"));
-        categorias.add(new CategoryData(2, "Romanticismo"));
-        categorias.add(new CategoryData(3, "Historia Boliviana"));
-        categorias.add(new CategoryData(4, "Postulados científicos"));
-        categorias.add(new CategoryData(5, "Crecimiento personal"));
 
         ManejadorListaLibros.loadBooks(libros);
         CargadorCategorias.setDataList(categorias);

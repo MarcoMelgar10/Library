@@ -27,11 +27,8 @@ public class CategoriaDAO implements ICRUD{
             System.out.println("Información cargada a la base de datos: " + categoryData.getNombre());
 
         } catch (SQLException e) {
-            // Manejo de errores más detallado
-
             System.out.println("Error SQL State: " + e.getSQLState());
             System.out.println("Error: " + e.getMessage());
-
         }
 
     }
@@ -44,7 +41,6 @@ public class CategoriaDAO implements ICRUD{
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(sql)) {
             pstmt.setString(1, titulo);
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
                 categoria = new CategoryData(
                         rs.getInt("id_categoria"),

@@ -54,7 +54,7 @@ public AutorDAO(Autor autor, ConexionDB conexionDB){
 
     public int getIdAutor(String nombre){
         int id = -1; // Valor por defecto en caso de error
-        String qry = "SELECT buscar_autor(?)";
+         qry = "SELECT buscar_autor(?)";
 
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
             stmt.setString(1, nombre);

@@ -42,6 +42,19 @@ public class AdministradorDAO implements ICRUD{
 
     @Override
     public void modificar() {
+        qry = "CALL modificar_administrador(?,?,?)";
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
+            stmt.setInt(1,administrador.getId());
+            stmt.setString(2, administrador.getNombre());
+            stmt.setString(3, administrador.getContrasena());
+            stmt.execute();
+            System.out.println("Información Actualizada a la base de datos: " + administrador.getNombre());
+
+        } catch (SQLException e) {
+            System.out.println("Error SQL State: " + e.getSQLState());
+            System.out.println("Error: " + e.getMessage());
+
+        }
 
     }
 
