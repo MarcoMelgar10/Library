@@ -3,11 +3,13 @@ package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros;
 import com.odvp.biblioteca.LibraryApplication;
 import javafx.scene.image.Image;
 
+import java.util.List;
+
 /*
     representa la informacion que se verá de un libro en la lista de libros, incluyendo la legenda.
  */
 
-public class LibroCardData {
+public class LibroCardData implements IDatoVisual {
     private int ID;
     private Image image;
     private String titulo;
@@ -48,7 +50,13 @@ public class LibroCardData {
         }
     }
 
+    @Override
     public int getID() {
         return ID;
+    }
+
+    @Override
+    public List<Object> getDatos() {
+        return List.of(image,titulo, autor, stock, stockDisponible);
     }
 }
