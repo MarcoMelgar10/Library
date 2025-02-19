@@ -1,30 +1,25 @@
-package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
+package com.odvp.biblioteca.FuncionesMaestros.MaestroAutor.OperacionesAutor;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
-import com.odvp.biblioteca.FuncionesMaestros.IOperacion;
-import com.odvp.biblioteca.LibraryApplication;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroAutor.Autor;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
-import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
+import com.odvp.biblioteca.LibraryApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.time.LocalDate;
-import java.util.Date;
-
 /*
-    crea la ventana para editar un libro
+    crea la ventana para agregar un autor
  */
 
-public class EditarLibro implements IOperacion {
-    private Libro libro;
-    private Date date;
-    public EditarLibro(Integer libroID){
+public class AgregarAutor implements IOperacionAutor{
+    private Autor libro;
 
+    public AgregarAutor(){
+        buildWindow();
     }
-
 
     @Override
     public void buildWindow() {
@@ -32,8 +27,8 @@ public class EditarLibro implements IOperacion {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/BookScene/book-operation.fxml"));
             Parent root =fxmlLoader.load();
-            BookOperationController controller =fxmlLoader.getController();
-            controller.initComponents(libro, BookOperationController.TYPE_EDIT);
+            //BookOperationController controller =fxmlLoader.getController();
+            //controller.initComponents(libro, BookOperationController.TYPE_ADD);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.centerOnScreen();
@@ -43,4 +38,5 @@ public class EditarLibro implements IOperacion {
             e.printStackTrace();
         }
     }
+
 }

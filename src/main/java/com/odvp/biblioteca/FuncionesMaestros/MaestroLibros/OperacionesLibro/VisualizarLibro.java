@@ -22,8 +22,8 @@ public class VisualizarLibro implements IOperacion {
         //reemplazar por opcion de obtenerLibro de la base de datos
         this.libro = new Libro
                 .Builder()
-                .idAutor(1)
-                .idCategoria(1)
+                //.idAutor(1)
+                //.idCategoria(1)
                 .titulo("Las aventuras de los programadores junior")
                 .publicacion(LocalDate.now())
                 .observacion("Esta muy bueno")

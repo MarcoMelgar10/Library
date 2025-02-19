@@ -1,11 +1,11 @@
 module com.odvp.biblioteca {
     requires javafx.controls;
     requires javafx.fxml;
-
     requires java.desktop;
-
     requires org.controlsfx.controls;
     requires java.smartcardio;
+    requires java.sql;
+    requires jbcrypt;
 
     opens com.odvp.biblioteca to javafx.fxml;
     exports com.odvp.biblioteca;

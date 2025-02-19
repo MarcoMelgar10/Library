@@ -13,7 +13,7 @@ public class LibraryApplication extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Oscarin!");
+        stage.setTitle("Biblioteca");
         stage.setScene(scene);
         stage.show();
     }

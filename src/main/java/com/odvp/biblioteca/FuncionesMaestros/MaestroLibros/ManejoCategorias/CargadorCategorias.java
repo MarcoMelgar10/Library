@@ -42,7 +42,7 @@ public class CargadorCategorias {
         selectedCategoriasId = new ArrayList<>();
         for(CategoryData category : categorias){
             CheckBox categoryCard = ParametersDefault.createSimpleParam(category.getNombre());
-            categoryCard.setOnMouseClicked(e -> captureCategorySelection(category.getID(),categoryCard.isSelected()));
+            categoryCard.setOnMouseClicked(e -> captureCategorySelection(category.getId(),categoryCard.isSelected()));
             categoriasPanel.getChildren().add(categoryCard);
         }
     }

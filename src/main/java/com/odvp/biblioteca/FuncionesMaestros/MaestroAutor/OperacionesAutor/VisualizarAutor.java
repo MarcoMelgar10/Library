@@ -1,10 +1,8 @@
-package com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro;
+package com.odvp.biblioteca.FuncionesMaestros.MaestroAutor.OperacionesAutor;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
-import com.odvp.biblioteca.FuncionesMaestros.IOperacion;
-import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
-import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
+import com.odvp.biblioteca.LibraryApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,20 +10,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /*
-    crea la ventana para editar un libro
+    crea la vista para visualizar libro
  */
 
-public class EditarLibro implements IOperacion {
-    private Libro libro;
-    private Date date;
-    public EditarLibro(Integer libroID){
-
+public class VisualizarAutor implements IOperacionAutor {
+    public Libro libro;
+    public VisualizarAutor(Integer idLibro){
+        buildWindow();
     }
-
-
     @Override
     public void buildWindow() {
         try{
@@ -33,7 +27,7 @@ public class EditarLibro implements IOperacion {
             FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/BookScene/book-operation.fxml"));
             Parent root =fxmlLoader.load();
             BookOperationController controller =fxmlLoader.getController();
-            controller.initComponents(libro, BookOperationController.TYPE_EDIT);
+            controller.initComponents(libro, BookOperationController.TYPE_VIEW);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.centerOnScreen();
