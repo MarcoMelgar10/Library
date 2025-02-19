@@ -17,7 +17,22 @@ public class AdministradorDAO implements ICRUD{
         this.conexionDB = conexionDB;
         this.administrador = administrador;
     }
+    @Override
+    public Object buscar(String usuario) {
+        return null;
+    }
 
+    @Override
+    public void modificar() {
+
+    }
+
+    @Override
+    public void eliminar() {
+
+    }
+
+    //Agregar un nuevo administrador
     @Override
     public void insertar() {
         qry = "CALL agregar_administrador(?,?)";
@@ -35,33 +50,7 @@ public class AdministradorDAO implements ICRUD{
 
     }
 
-    @Override
-    public Object buscar(String usuario) {
-        return null;
-    }
-
-    @Override
-    public void modificar() {
-        qry = "CALL modificar_administrador(?,?,?)";
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setInt(1,administrador.getId());
-            stmt.setString(2, administrador.getNombre());
-            stmt.setString(3, administrador.getContrasena());
-            stmt.execute();
-            System.out.println("Información Actualizada a la base de datos: " + administrador.getNombre());
-
-        } catch (SQLException e) {
-            System.out.println("Error SQL State: " + e.getSQLState());
-            System.out.println("Error: " + e.getMessage());
-
-        }
-
-    }
-
-    @Override
-    public void eliminar() {
-    }
-
+    //Buscar el nombre del administrador si existe
     public String obtenerUsuarioAdmin(){
         String usuario = null;
          qry = "select usuario from administrador where usuario = (?)";
@@ -80,6 +69,8 @@ public class AdministradorDAO implements ICRUD{
         }
         return usuario;
     }
+
+    //Comprobar la constasena del administrador
     public boolean comprobarContrasena() {
         String sql = "SELECT contrasena FROM administrador WHERE usuario = ?";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(sql)) {
