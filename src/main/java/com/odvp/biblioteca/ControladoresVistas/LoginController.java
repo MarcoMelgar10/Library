@@ -32,9 +32,9 @@ public class LoginController  implements IVista{
         try{
             Stage stage = (Stage) loginContainer.getScene().getWindow();
             if(stage == null) return;
-            Parent root = FXMLLoader.load(LibraryApplication.class.getResource("Vistas/main-view.fxml"));
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(new MainEscena());
             stage.setScene(scene);
+            stage.setTitle("Main");
             stage.sizeToScene();
             stage.centerOnScreen();
             stage.show();

@@ -1,52 +1,38 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
-import com.odvp.biblioteca.ControladoresVistas.IVista;
+import com.odvp.biblioteca.ControladoresVistas.IModulo;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CargadorCategorias;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
-import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.layout.*;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
+import javafx.scene.layout.BorderPane;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-    Controlador de la vista principal del maestro Libros, aqui se cargan las vistas de los otros controladores
-    (category-card, book-card, etc).
-
-     */
-
-public class BooksViewController implements IVista, PropertyChangeListener {
-
-    @FXML
-    BorderPane libroViewContainer;
+public class ModuloLibros extends BorderPane implements PropertyChangeListener, IModulo {
 
     private final HeaderLibros header = new HeaderLibros();
     private final ParametersLibros paramsRight = new ParametersLibros();
     private final TableLibros table = new TableLibros();
+
+    private final ManejadorListaLibros manejadorLibros = ManejadorListaLibros.getInstance();
+    private final CargadorCategorias manejadorCategorias = CargadorCategorias.getInstance();
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
+    public ModuloLibros(){       //Inicia los componentes
+        setTop(header);
+        setRight(paramsRight);
+        setCenter(table);
 
-    @FXML
-    public void initialize(){       //Inicia los componentes
-        libroViewContainer.setTop(header);
-        libroViewContainer.setRight(paramsRight);
-        libroViewContainer.setCenter(table);
-        ManejadorListaLibros.setTable(table);
-        CargadorCategorias.setCategoriasPanel(paramsRight.getVentanaCategorias());
+        manejadorLibros.setTable(table);
+        manejadorCategorias.setCategoriasPanel(paramsRight.getVentanaCategorias());
         support.addPropertyChangeListener(this);
-        ManejadorListaLibros.addObserver(this);
+        manejadorLibros.addObserver(this);
         simularDatos();
-    }
-
-    @Override
-    public Parent getContainer() {
-        return libroViewContainer;
     }
 
     /*simularDatos() : esta funcion solo fué creada para simular datos de libros y categorias ficticios
@@ -81,8 +67,8 @@ public class BooksViewController implements IVista, PropertyChangeListener {
         categorias.add(new CategoryData(4, "Postulados científicos"));
         categorias.add(new CategoryData(5, "Crecimiento personal"));
 
-        ManejadorListaLibros.loadBooks(libros);
-        CargadorCategorias.setDataList(categorias);
+        manejadorLibros.loadBooks(libros);
+        manejadorCategorias.setDataList(categorias);
 
     }
 

@@ -12,27 +12,38 @@ import java.util.List;
  */
 
 public class ManejadorListaLibros {
-    private static TableLibros tableLibros;
-    private static int currentLibro = -1;   //si ningul libro es seleccionado el indice será -1
+    private static ManejadorListaLibros instance;
+    private TableLibros tableLibros;
+    private int currentLibro = -1;   //si ningul libro es seleccionado el indice será -1
 
-    private static final PropertyChangeSupport observerSupport = new PropertyChangeSupport(ManejadorListaLibros.class);
+    private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(ManejadorListaLibros.class);
     public static final String CURRENT_LIBRO_OBSERVER = "CURRENT_LIBRO";
 
+    private ManejadorListaLibros(){
+    }
+
+    public static ManejadorListaLibros getInstance(){
+        if(instance == null){
+            instance = new ManejadorListaLibros();
+        }
+        return instance;
+    }
+
     //se establece el panel donde se cargaran los cards
-    public static void setTable(TableLibros tableLibros){
-        ManejadorListaLibros.tableLibros = tableLibros;
+    public void setTable(TableLibros tableLibros){
+       this.tableLibros = tableLibros;
     }
 
     //recibe una lista de objetos tipo LibroCardData, crea las vistas y las almacena en una lista
-    public static void loadBooks(List<IDatoVisual> libros){
+    public void loadBooks(List<IDatoVisual> libros){
         tableLibros.addCards(libros);
     }
 
-    public static int getCurrentLibro() {
+    public int getCurrentLibro() {
         return currentLibro;
     }
 
-    public static void addObserver(PropertyChangeListener observer){
+    public void addObserver(PropertyChangeListener observer){
         observerSupport.addPropertyChangeListener(observer);
     }
 
@@ -42,19 +53,14 @@ public class ManejadorListaLibros {
         informa a su observador que ocurrió un cambio, en este caso el observado es la clase BookView y lo que hace
         al escuchar el cambio es habilitar o deshabilitar sus botones (edit, view, delete)
      */
-    public static void setCurrentLibro(int currentLibro) {
-        if(ManejadorListaLibros.currentLibro == currentLibro) currentLibro = -1;
-        int oldCurrentLibro = ManejadorListaLibros.currentLibro;
-        ManejadorListaLibros.currentLibro = currentLibro;
-        System.out.println("oldValue: " + oldCurrentLibro + " new: " + ManejadorListaLibros.currentLibro);
+    public void setCurrentLibro(int currentLibro) {
+        if(this.currentLibro == currentLibro) currentLibro = -1;
+        int oldCurrentLibro = this.currentLibro;
+        this.currentLibro = currentLibro;
+        System.out.println("oldValue: " + oldCurrentLibro + " new: " + this.currentLibro);
         observerSupport.firePropertyChange(CURRENT_LIBRO_OBSERVER, oldCurrentLibro, currentLibro);
         for(TableDefault.Card card : tableLibros.getCards()){
-            if(card.getID() == currentLibro){
-                card.getVista().getStyleClass().add("selected-card");
-            }
-            else{
-                card.getVista().getStyleClass().remove("selected-card");
-            }
+            card.setSelected(card.getID() == currentLibro);
         }
     }
 

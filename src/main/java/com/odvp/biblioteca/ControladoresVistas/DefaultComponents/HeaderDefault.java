@@ -1,5 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
+import com.odvp.biblioteca.LibraryApplication;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +21,7 @@ public class HeaderDefault extends HBox {
     private List<ButtonDefault> botones;
 
     public HeaderDefault(String titulo) {
+        getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
         this.titulo = titulo;
         initialize();
         botones = new ArrayList<>();

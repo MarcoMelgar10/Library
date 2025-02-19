@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TableLibros extends TableDefault {
+
     public TableLibros() {
         super(
                 List.of("Estado", "Titulo", "Autor", "Stock", "Disponible"),
@@ -20,7 +21,7 @@ public class TableLibros extends TableDefault {
     @Override
     public void setCardsAction(){
         for(Card card : getCards()){
-            card.getVista().setOnMouseClicked(e -> ManejadorListaLibros.setCurrentLibro(card.getID()));
+            card.getVista().setOnMouseClicked(e -> ManejadorListaLibros.getInstance().setCurrentLibro(card.getID()));
         }
     }
 }

@@ -13,14 +13,22 @@ import java.util.List;
  */
 
 public class CargadorCategorias {
-    private static VBox categoriasPanel;
-    private static List<Integer> selectedCategoriasId;
+    private static CargadorCategorias instance;
+    private VBox categoriasPanel;
+    private List<Integer> selectedCategoriasId;
 
     private CargadorCategorias(){
 
     }
 
-    public static void setCategoriasPanel(VBox categoriasPanel1) {
+    public static CargadorCategorias getInstance(){
+        if(instance == null){
+            instance = new CargadorCategorias();
+        }
+        return instance;
+    }
+
+    public void setCategoriasPanel(VBox categoriasPanel1) {
         categoriasPanel = categoriasPanel1;
     }
 
@@ -29,7 +37,7 @@ public class CargadorCategorias {
         y se cargan en el panel de categorias.
      */
 
-    public static void setDataList(List<CategoryData> categorias){
+    public void setDataList(List<CategoryData> categorias){
         categoriasPanel.getChildren().clear();
         selectedCategoriasId = new ArrayList<>();
         for(CategoryData category : categorias){
@@ -44,7 +52,7 @@ public class CargadorCategorias {
         o la elimina de ella si ya estaba marcada
      */
 
-    public static void captureCategorySelection(Integer id, boolean estaMarcado){
+    public void captureCategorySelection(Integer id, boolean estaMarcado){
         if(estaMarcado){
             selectedCategoriasId.add(id);
             System.out.println("Cateforia '" + id + "' agregada");

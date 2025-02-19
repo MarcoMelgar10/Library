@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
+import com.odvp.biblioteca.LibraryApplication;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -20,10 +21,12 @@ public abstract class TableDefault extends VBox {
     private List<ColumnConstraints> columnConstraints;
 
     public TableDefault(List<String> titulos, List<Integer> ancho, List<Boolean> seExpanden, List<Boolean> centrar) {
+        getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
         this.columnConstraints = new ArrayList<>();
         GridPane headerGrid = new GridPane();
         headerGrid.setPadding(new Insets(0, 18, 0, 8));
         headerGrid.setMaxHeight(20);
+
         for (int i=0;i<titulos.size(); i++) {
             ColumnConstraints cc = new ColumnConstraints(ancho.get(i));
             cc.setMaxWidth(USE_COMPUTED_SIZE);
@@ -91,6 +94,11 @@ public abstract class TableDefault extends VBox {
             bookGrid.getStyleClass().add("card");
             bookGrid.setPadding(new Insets(8,8,8,8));
             vista = bookGrid;
+        }
+
+        public void setSelected(boolean selected){
+            if(selected) getVista().getStyleClass().add("selected-card");
+            else getVista().getStyleClass().remove("selected-card");
         }
 
         public int getID() {

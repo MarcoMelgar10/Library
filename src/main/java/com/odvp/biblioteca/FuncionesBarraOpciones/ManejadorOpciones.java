@@ -1,8 +1,7 @@
 package com.odvp.biblioteca.FuncionesBarraOpciones;
 
-import com.odvp.biblioteca.LibraryApplication;
-import com.odvp.biblioteca.ControladoresVistas.OptionController;
-import javafx.fxml.FXMLLoader;
+import com.odvp.biblioteca.ControladoresVistas.MainEscena;
+import javafx.scene.Node;
 
 import java.util.*;
 
@@ -13,44 +12,53 @@ import java.util.*;
 */
 
 public class ManejadorOpciones {
-    private static Opcion currentOpcion;
-    private static Map<Opcion,OptionController> opciones;
+    private static ManejadorOpciones instance;
+    private OpcionButton currentOpcion;
+    private List<OpcionButton> opciones;
+    private MainEscena escenePrincipal;
 
     /*
     setOptions(): carga las opciones del OpcionServicio y crea un diccionario donde
     las llabes son las opcioones y el valor ees el controlador de la vista asociada a esa opcion (Maestro)
      */
 
-    public static void setOptions() throws Exception{
-        opciones = new LinkedHashMap<>() {
-        };
-        for(Opcion opcion : OpcionServicio.getOpciones()){
-            FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/iconOption-view.fxml"));
-            loader.load();
-            OptionController optionController = loader.getController();
-            optionController.initOptionView(opcion);
-            opciones.put(opcion,optionController);
-        }
+    private ManejadorOpciones(){
+
     }
 
+    public static ManejadorOpciones getInstance(){
+        if(instance == null){
+            instance = new ManejadorOpciones();
+        }
+        return instance;
+    }
+
+    public void setEscenePrincipal(MainEscena escenePrincipal) {
+        this.escenePrincipal = escenePrincipal;
+    }
     /*
         setCurrentOption() : recibe una opcion como parametro, colorea la opcion nueva en pantalla y
         hace que la clase ManejadorDeMaestros cambia al Maestro asociado a esa opcion.
      */
 
-    public static void setCurrentOption(Opcion opcionNueva){
+
+    public void setCurrentOption(OpcionButton opcionNueva){
         if(opcionNueva.equals(currentOpcion)) return;
         currentOpcion = opcionNueva;
-        opciones.get(currentOpcion).getContainer().getStyleClass().add("option-container-selected");
-        ManejadorDeMaestros.cambiarAmbiente(currentOpcion);
-        for (Opcion opcion : opciones.keySet()) {
-            if(opcion != currentOpcion){
-                opciones.get(opcion).getContainer().getStyleClass().remove("option-container-selected");
-            }
+        escenePrincipal.setCenter((Node) opcionNueva.getModulo());
+        for(OpcionButton op : opciones){
+            op.setSelected(op.equals(currentOpcion));
+        }
+    }
+    public void setOpciones(List<OpcionButton> opciones){
+        this.opciones = opciones;
+        escenePrincipal.getPanelOpciones().getChildren().clear();
+        for(OpcionButton op : this.opciones){
+            escenePrincipal.getPanelOpciones().getChildren().add(op);
         }
     }
 
-    public static Map<Opcion, OptionController> getOpciones() {
+    public List<OpcionButton> getOpciones() {
         return opciones;
     }
 }

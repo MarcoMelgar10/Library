@@ -30,9 +30,9 @@ public class HeaderLibros extends HeaderDefault {
         super("BIBLIOTECA EBEN-EZER");
 
         buttonNew.setOnMouseClicked(e -> new AgregarLibro());
-        buttonView.setOnMouseClicked(e -> new VisualizarLibro(ManejadorListaLibros.getCurrentLibro()));
-        buttonEdit.setOnMouseClicked(e -> new EditarLibro(ManejadorListaLibros.getCurrentLibro()));
-        buttonDelete.setOnMouseClicked(e -> new EliminarLibro(ManejadorListaLibros.getCurrentLibro()));
+        buttonView.setOnMouseClicked(e -> new VisualizarLibro(ManejadorListaLibros.getInstance().getCurrentLibro()));
+        buttonEdit.setOnMouseClicked(e -> new EditarLibro(ManejadorListaLibros.getInstance().getCurrentLibro()));
+        buttonDelete.setOnMouseClicked(e -> new EliminarLibro(ManejadorListaLibros.getInstance().getCurrentLibro()));
 
         deshabilitarBotones(true);
         addButtons(buttonNew,buttonView,buttonEdit,buttonDelete);

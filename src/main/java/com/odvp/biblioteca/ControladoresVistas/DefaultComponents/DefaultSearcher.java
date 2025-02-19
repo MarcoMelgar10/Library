@@ -1,5 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
+import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +21,7 @@ public class DefaultSearcher extends HBox {
 
 
     private DefaultSearcher(){
+        getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
         buscador = new TextField();
         buscador.setPromptText("Buscar");
         buscador.scaleYProperty().setValue(1.05);

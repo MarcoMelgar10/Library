@@ -1,5 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
+import com.odvp.biblioteca.LibraryApplication;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
@@ -21,6 +22,7 @@ public class ParametersDefault extends VBox {
     }
 
     public VBox addSubWindow(String title, List<Parent> params){
+        getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
         VBox window = new VBox();
         VBox.setVgrow(window, Priority.ALWAYS);
 
