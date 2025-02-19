@@ -16,10 +16,11 @@ public class LogDAO implements ICRUD{
     }
     @Override
     public void insertar() {
-        qry = "call agregar_log(?, ?)";
+        qry = "INSERT INTO LOGS (tipo, descripcion, fecha) VALUES(?, ?, ?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
             stmt.setString(1, log.getTipo());
             stmt.setString(2, log.getDescripcion());
+            stmt.setDate(3, log.getFecha());
             stmt.execute();
             System.out.println("Información cargada a la base de datos: " + log.getTipo());
 
@@ -37,7 +38,6 @@ public class LogDAO implements ICRUD{
 
     @Override
     public void modificar() {
-
     }
 
     @Override

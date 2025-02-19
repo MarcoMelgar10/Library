@@ -5,6 +5,7 @@ import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SubCategoriaDAO implements ICRUD {
     private String qry;
@@ -31,7 +32,6 @@ public class SubCategoriaDAO implements ICRUD {
             System.out.println("Error: " + e.getMessage());
 
         }
-
     }
 
     @Override
@@ -91,4 +91,25 @@ public class SubCategoriaDAO implements ICRUD {
 
         return id;
     }
+    public ArrayList<SubCategoryData> listaSubCategorias() {
+        String qry = "SELECT sc.id_sub_categoria, sc.nombre, sc.descripcion, sc.id_categoria, c.nombre AS categoria " +
+                "FROM sub_categoria sc " +
+                "JOIN categoria c ON sc.id_categoria = c.id_categoria";
+        ArrayList<SubCategoryData> subCategorias = new ArrayList<>();
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("id_sub_categoria");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                int idCategoria = rs.getInt("id_categoria");
+                subCategorias.add(new SubCategoryData(id, nombre, descripcion, idCategoria));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subCategorias;
+    }
+
 }

@@ -2,25 +2,39 @@ package com.odvp.biblioteca.FuncionesMaestros.MaestroReserva;
 
 import java.util.Date;
 
+import java.util.Date;
+
 public class Reserva {
-    private Date fecha;
+    private int idReserva;
+    private Date fechaReserva;
     private boolean estado;
-    private String libro;
-    private String usuario;
+    private int idUsuario;
+    private int idLibro;
 
-    public Reserva(Date fecha, boolean estado, String libro, String usuario) {
-        this.fecha = fecha;
+    // Constructor
+    public Reserva(int idReserva, Date fechaReserva, boolean estado, int idUsuario, int idLibro) {
+        this.idReserva = idReserva;
+        this.fechaReserva = fechaReserva;
         this.estado = estado;
-        this.libro = libro;
-        this.usuario = usuario;
+        this.idUsuario = idUsuario;
+        this.idLibro = idLibro;
     }
 
-    public Date getFecha() {
-        return fecha;
+    // Getters y Setters
+    public int getIdReserva() {
+        return idReserva;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setIdReserva(int idReserva) {
+        this.idReserva = idReserva;
+    }
+
+    public Date getFechaReserva() {
+        return fechaReserva;
+    }
+
+    public void setFechaReserva(Date fechaReserva) {
+        this.fechaReserva = fechaReserva;
     }
 
     public boolean isEstado() {
@@ -31,19 +45,31 @@ public class Reserva {
         this.estado = estado;
     }
 
-    public String getLibro() {
-        return libro;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setLibro(String libro) {
-        this.libro = libro;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public int getIdLibro() {
+        return idLibro;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setIdLibro(int idLibro) {
+        this.idLibro = idLibro;
+    }
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "idReserva=" + idReserva +
+                ", fechaReserva=" + fechaReserva +
+                ", estado=" + estado +
+                ", idUsuario=" + idUsuario +
+                ", idLibro=" + idLibro +
+                '}';
     }
 }
+

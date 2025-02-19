@@ -1,11 +1,15 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroLog;
 
+import java.sql.Date;
+
 public class Log {
 private String tipo;
 private String descripcion;
-    public Log(String tipo, String descripcion){
+private Date fecha;
+    public Log(String tipo, String descripcion, Date fecha){
         this.tipo = tipo;
         this.descripcion = descripcion;
+        this.fecha = fecha;
     }
 
     public String getTipo() {
@@ -22,5 +26,13 @@ private String descripcion;
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 }
