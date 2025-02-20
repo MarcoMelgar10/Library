@@ -1,6 +1,8 @@
 package com.odvp.biblioteca.ControladoresVistas;
 
+import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloModuloLibros;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModuloLibros;
+import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.ModuloUsuarios;
 import com.odvp.biblioteca.FuncionesBarraOpciones.ManejadorOpciones;
 import com.odvp.biblioteca.FuncionesBarraOpciones.OpcionButton;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
@@ -17,17 +19,21 @@ import java.util.List;
  */
 
 public class MainEscena extends BorderPane{
+
+    ModeloModuloLibros modeloLibros = new ModeloModuloLibros();
     
     VBox panelOpciones;
 
-    OpcionButton opcionLibros = new OpcionButton("Libros",new ModuloLibros(),ServicioIconos.OPCION_MODULO_LIBROS);
+    OpcionButton opcionLibros = new OpcionButton("Libros",new ModuloLibros(modeloLibros),ServicioIconos.OPCION_MODULO_LIBROS);
     OpcionButton opcionAutores = new OpcionButton("Autores",null,ServicioIconos.OPCION_MODULO_AUTORES);
     OpcionButton opcionPrestamos = new OpcionButton("Prestamos", null, ServicioIconos.OPCION_MODULO_PRESTAMOS);
     OpcionButton opcionReservas = new OpcionButton("Reservas", null, ServicioIconos.OPCION_MODULO_RESERVAS);
     OpcionButton opcionDeudas = new OpcionButton("Deudas", null, ServicioIconos.OPCION_MODULO_DEUDAS);
-    OpcionButton opcionUsuarios = new OpcionButton("Usuarios", null, ServicioIconos.OPCION_MODULO_USUARIOS);
+    OpcionButton opcionUsuarios = new OpcionButton("Usuarios", new ModuloUsuarios(), ServicioIconos.OPCION_MODULO_USUARIOS);
 
     ManejadorOpciones manejadorOpciones = ManejadorOpciones.getInstance();
+
+
     
     public MainEscena(){
         init();

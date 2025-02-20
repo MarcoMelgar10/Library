@@ -39,6 +39,7 @@ public class OpcionButton extends VBox {
 
         // Agregar nodos al VBox
         this.getChildren().addAll(optionIcon, optionLabel);
+        setOnMouseClicked(e -> ManejadorOpciones.getInstance().setCurrentOption(this));
     }
 
     public IModulo getModulo() {
@@ -48,5 +49,6 @@ public class OpcionButton extends VBox {
     public void setSelected(boolean selected) {
         if(selected) getStyleClass().add("option-container-selected");
         else getStyleClass().remove("option-container-selected");
+
     }
 }

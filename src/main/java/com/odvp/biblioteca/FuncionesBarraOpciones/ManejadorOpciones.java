@@ -45,7 +45,7 @@ public class ManejadorOpciones {
     public void setCurrentOption(OpcionButton opcionNueva){
         if(opcionNueva.equals(currentOpcion)) return;
         currentOpcion = opcionNueva;
-        escenePrincipal.setCenter((Node) opcionNueva.getModulo());
+        escenePrincipal.setCenter((Node) currentOpcion.getModulo());
         for(OpcionButton op : opciones){
             op.setSelected(op.equals(currentOpcion));
         }

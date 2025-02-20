@@ -1,10 +1,12 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ParametersDefault;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 
+import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +18,12 @@ public class ParametersLibros extends ParametersDefault {
 
     private VBox ventanaCategorias, ventanaFiltros;
 
+    private ModeloModuloLibros modelo;
 
-    public ParametersLibros(){
+
+    public ParametersLibros(ModeloModuloLibros modelo){
+        this.modelo = modelo;
+        this.modelo.addObserver(this);
         List<Parent> categorias = new ArrayList<>();
         ventanaCategorias = addSubWindow("Categorias",categorias);
 
@@ -27,6 +33,18 @@ public class ParametersLibros extends ParametersDefault {
         filtros.add(PARAM_ANO_PUBLICACION);
 
         ventanaFiltros = addSubWindow("Filtros", filtros);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals(ModeloModuloLibros.OBS_CATEGORIAS_MOSTRADAS)){
+            ventanaCategorias.getChildren().clear();
+            for(CategoryData categoria : modelo.getCategoriasMostradas()){
+                CheckBox checkBox = createSimpleParam(categoria.getNombre());
+                checkBox.setOnAction( e -> modelo.setCategoriaSelected(categoria, checkBox.isSelected()));
+                ventanaCategorias.getChildren().add(checkBox);
+            }
+        }
     }
 
     public VBox getVentanaCategorias() {

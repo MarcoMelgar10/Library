@@ -11,6 +11,8 @@ import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.Visu
 import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.scene.image.Image;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeSupport;
 import java.util.Objects;
 
 public class HeaderLibros extends HeaderDefault {
@@ -26,17 +28,22 @@ public class HeaderLibros extends HeaderDefault {
     private final Image imagePorAutor = new Image(ServicioIconos.LIBRO_POR_AUTOR);
     private final Image imagePorTitulo = new Image(ServicioIconos.LIBRO_POR_TITULO);
 
-    public HeaderLibros() {
+    private  ModeloModuloLibros modelo;
+
+    public HeaderLibros(ModeloModuloLibros modelo) {
         super("BIBLIOTECA EBEN-EZER");
 
+        this.modelo = modelo;
+        this.modelo.addObserver(this);
+
         buttonNew.setOnMouseClicked(e -> new AgregarLibro());
-        buttonView.setOnMouseClicked(e -> new VisualizarLibro(ManejadorListaLibros.getInstance().getCurrentLibro()));
-        buttonEdit.setOnMouseClicked(e -> new EditarLibro(ManejadorListaLibros.getInstance().getCurrentLibro()));
-        buttonDelete.setOnMouseClicked(e -> new EliminarLibro(ManejadorListaLibros.getInstance().getCurrentLibro()));
+        buttonView.setOnMouseClicked(e -> new VisualizarLibro(modelo.getLibroSeleccionado().getID()));
+        buttonEdit.setOnMouseClicked(e -> new EditarLibro(modelo.getLibroSeleccionado().getID()));
+        buttonDelete.setOnMouseClicked(e -> new EliminarLibro(modelo.getLibroSeleccionado().getID()));
 
         deshabilitarBotones(true);
         addButtons(buttonNew,buttonView,buttonEdit,buttonDelete);
-        getChildren().add(searcher);
+        setSearcherContainer(searcher);
         setTipoBusqueda();
         searcher.getBuscador().getStyleClass().remove("text-field-search");
         searcher.getButtonSearcher().setOnMouseClicked(e -> {
@@ -62,8 +69,17 @@ public class HeaderLibros extends HeaderDefault {
             searcher.getBuscador().getStyleClass().add("text-field-search-orange");
         }
     }
-
-
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals(ModeloModuloLibros.OBS_LIBRO_SELECCIONADO)){
+            if(evt.getOldValue() == null){
+                deshabilitarBotones(false);
+            }
+            if(evt.getNewValue() == null){
+                deshabilitarBotones(true);
+            }
+        }
+    }
 
     @Override
     public void deshabilitarBotones(boolean deshabilitar){

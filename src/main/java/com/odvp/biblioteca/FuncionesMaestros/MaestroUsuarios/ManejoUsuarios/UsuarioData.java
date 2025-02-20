@@ -1,9 +1,13 @@
 package com.odvp.biblioteca.FuncionesMaestros.MaestroUsuarios.ManejoUsuarios;
 
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
 import com.odvp.biblioteca.LibraryApplication;
+import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.scene.image.Image;
 
-public class UsuarioData {
+import java.util.List;
+
+public class UsuarioData implements IDatoVisual {
     private final int id;
     private final String nombre;
     private final Image legenda;
@@ -12,9 +16,8 @@ public class UsuarioData {
         this.id = id;
         this.nombre = nombre;
         String nameIcon;
-        if(bloqueado) nameIcon = "Icons/UserResources/user-disable.png";
-        else nameIcon = "Icons/UserResources/user-enable.png";
-        this.legenda = new Image(LibraryApplication.class.getResource(nameIcon).toExternalForm());
+        if(bloqueado) this.legenda = new Image(ServicioIconos.USUARIO_NO_DISPONIBLE);
+        else this.legenda = new Image(ServicioIconos.USUARIO_DISPONIBLE);
     }
 
     public int getId() {
@@ -29,4 +32,13 @@ public class UsuarioData {
         return legenda;
     }
 
+    @Override
+    public int getID() {
+        return id;
+    }
+
+    @Override
+    public List<Object> getDatos() {
+        return List.of(legenda,id, nombre);
+    }
 }

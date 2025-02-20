@@ -60,7 +60,7 @@ public class ManejadorListaLibros {
         System.out.println("oldValue: " + oldCurrentLibro + " new: " + this.currentLibro);
         observerSupport.firePropertyChange(CURRENT_LIBRO_OBSERVER, oldCurrentLibro, currentLibro);
         for(TableDefault.Card card : tableLibros.getCards()){
-            card.setSelected(card.getID() == currentLibro);
+            //card.setSelected(card.getID() == currentLibro);
         }
     }
 

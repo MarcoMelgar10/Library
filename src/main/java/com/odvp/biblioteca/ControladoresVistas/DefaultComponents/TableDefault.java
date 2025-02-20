@@ -11,14 +11,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class TableDefault extends VBox {
+public abstract class TableDefault extends VBox implements PropertyChangeListener {
 
     private VBox cardsPane;
     private List<Card> cards = new ArrayList<>();
     private List<ColumnConstraints> columnConstraints;
+    private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public TableDefault(List<String> titulos, List<Integer> ancho, List<Boolean> seExpanden, List<Boolean> centrar) {
         getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
@@ -26,6 +30,7 @@ public abstract class TableDefault extends VBox {
         GridPane headerGrid = new GridPane();
         headerGrid.setPadding(new Insets(0, 18, 0, 8));
         headerGrid.setMaxHeight(20);
+        support.addPropertyChangeListener(this);
 
         for (int i=0;i<titulos.size(); i++) {
             ColumnConstraints cc = new ColumnConstraints(ancho.get(i));
@@ -58,6 +63,10 @@ public abstract class TableDefault extends VBox {
         }
         setCardsAction();
     }
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 
     public List<Card> getCards() {
         return cards;
@@ -67,10 +76,10 @@ public abstract class TableDefault extends VBox {
 
 
     public class Card{
-        private int ID;
+        private IDatoVisual datoVisual;
         private GridPane vista;
         public Card(IDatoVisual dato){
-            ID = dato.getID();
+            datoVisual= dato;
             GridPane bookGrid = new GridPane();
             List<Node> elementos = new ArrayList<>();
             for(Object elemento : dato.getDatos()){
@@ -101,12 +110,14 @@ public abstract class TableDefault extends VBox {
             else getVista().getStyleClass().remove("selected-card");
         }
 
-        public int getID() {
-            return ID;
+        public IDatoVisual getDatoVisual() {
+            return datoVisual;
         }
 
         public GridPane getVista() {
             return vista;
         }
+
+
     }
 }

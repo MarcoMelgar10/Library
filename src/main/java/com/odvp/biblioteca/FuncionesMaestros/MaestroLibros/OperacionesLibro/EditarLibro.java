@@ -22,7 +22,18 @@ public class EditarLibro implements IOperacion {
     private Libro libro;
     private Date date;
     public EditarLibro(Integer libroID){
-
+        this.libro = new Libro
+                .Builder()
+                //.idAutor(1)
+                //.idCategoria(1)
+                .titulo("Las aventuras de los programadores junior")
+                .publicacion(LocalDate.now())
+                .observacion("Esta muy bueno")
+                .stock(10)
+                .stockDisponible(10)
+                .ID(1)
+                .build();
+        buildWindow();
     }
 
 

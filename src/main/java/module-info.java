@@ -4,8 +4,9 @@ module com.odvp.biblioteca {
     requires java.desktop;
     requires org.controlsfx.controls;
     requires java.smartcardio;
-    requires java.sql;
     requires jbcrypt;
+    requires org.apache.logging.log4j;
+    requires java.sql;
 
     opens com.odvp.biblioteca to javafx.fxml;
     exports com.odvp.biblioteca;

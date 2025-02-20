@@ -7,10 +7,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeaderDefault extends HBox {
+public class HeaderDefault extends HBox implements PropertyChangeListener {
 
     private String titulo;
 
@@ -19,8 +22,10 @@ public class HeaderDefault extends HBox {
     private HBox buttonContainer;
     private HBox searcherContainer = new HBox();
     private List<ButtonDefault> botones;
+    private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public HeaderDefault(String titulo) {
+        support.addPropertyChangeListener(this);
         getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
         this.titulo = titulo;
         initialize();
@@ -50,7 +55,7 @@ public class HeaderDefault extends HBox {
         HBox.setHgrow(buttonContainer, javafx.scene.layout.Priority.NEVER);
         HBox.setMargin(buttonContainer, new Insets(0, 20, 0, 0));
         // Agregar elementos a la caja principal
-        this.getChildren().addAll(titleLabel, spacer, buttonContainer, searcherContainer);
+        this.getChildren().addAll(titleLabel, spacer, buttonContainer);
     }
 
 
@@ -67,7 +72,10 @@ public class HeaderDefault extends HBox {
     }
 
     public void setSearcherContainer(HBox searcher){
+        getChildren().remove(searcherContainer);
         searcherContainer = searcher;
+        getChildren().add(searcherContainer);
+
     }
 
     public HBox getButtonContainer() {
@@ -78,5 +86,10 @@ public class HeaderDefault extends HBox {
         for(ButtonDefault button : botones){
             button.desactivar(deshabilitar);
         }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }

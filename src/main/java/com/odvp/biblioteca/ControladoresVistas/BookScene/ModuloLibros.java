@@ -13,25 +13,23 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModuloLibros extends BorderPane implements PropertyChangeListener, IModulo {
+public class ModuloLibros extends BorderPane implements IModulo {
 
-    private final HeaderLibros header = new HeaderLibros();
-    private final ParametersLibros paramsRight = new ParametersLibros();
-    private final TableLibros table = new TableLibros();
+    private ModeloModuloLibros modelo;
 
-    private final ManejadorListaLibros manejadorLibros = ManejadorListaLibros.getInstance();
-    private final CargadorCategorias manejadorCategorias = CargadorCategorias.getInstance();
-    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private HeaderLibros header;
+    private ParametersLibros paramsRight;
+    private TableLibros table;
 
-    public ModuloLibros(){       //Inicia los componentes
+    public ModuloLibros(ModeloModuloLibros modelo){
+        this.modelo = modelo;
+        header = new HeaderLibros(this.modelo);
+        paramsRight = new ParametersLibros(this.modelo);
+        table = new TableLibros(this.modelo);
+
         setTop(header);
         setRight(paramsRight);
         setCenter(table);
-
-        manejadorLibros.setTable(table);
-        manejadorCategorias.setCategoriasPanel(paramsRight.getVentanaCategorias());
-        support.addPropertyChangeListener(this);
-        manejadorLibros.addObserver(this);
         simularDatos();
     }
 
@@ -62,8 +60,12 @@ public class ModuloLibros extends BorderPane implements PropertyChangeListener, 
         libros.add(libroData);
         List<CategoryData> categorias = new ArrayList<>();
 
-        manejadorLibros.loadBooks(libros);
-        manejadorCategorias.setDataList(categorias);
+        for(int i=0;i<15;i++){
+            CategoryData categoryData = new CategoryData(i,"Categoria " +i,"Categoria ficticia");
+            categorias.add(categoryData);
+        }
+        modelo.setLibrosMostrados(libros);
+        modelo.setCategoriasMostradas(categorias);
 
     }
 
@@ -72,14 +74,4 @@ public class ModuloLibros extends BorderPane implements PropertyChangeListener, 
         el libro seleccionado tiene indice -1 (Ninguno) entonces deshabilita los botones (Edicion, Nuevo, Eliminar),
         caso contratrio los habilita y los colorea.
      */
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("Cambio");
-        if(evt.getPropertyName().equals(ManejadorListaLibros.CURRENT_LIBRO_OBSERVER)){
-            if((int)evt.getNewValue() == -1 || (int) evt.getOldValue() == -1){
-                header.deshabilitarBotones((int) evt.getNewValue() == -1);
-            }
-        }
-    }
 }

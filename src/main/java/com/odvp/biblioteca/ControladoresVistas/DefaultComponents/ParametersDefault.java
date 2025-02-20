@@ -10,14 +10,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import org.w3c.dom.Text;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParametersDefault extends VBox {
+public class ParametersDefault extends VBox implements PropertyChangeListener {
 
     List<VBox> subwindows = new ArrayList<>();
+    private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public ParametersDefault() {
+        support.addPropertyChangeListener(this);
         this.setPrefSize(USE_COMPUTED_SIZE, USE_COMPUTED_SIZE);
     }
 
@@ -51,6 +56,7 @@ public class ParametersDefault extends VBox {
         }
         scrollPane.setContent(bodyScroll);
         window.getChildren().addAll(titlePane, scrollPane);
+        window.setMinHeight(300);
         getChildren().add(window);
 
         subwindows.add(window);
@@ -103,5 +109,10 @@ public class ParametersDefault extends VBox {
 
         dateContainer.getChildren().addAll(dateFilterPane, gridFecha);
         return dateContainer;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
     }
 }
