@@ -6,32 +6,35 @@ import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+/*
+  Clase para realizar la interaccion con la base de datas, para la tabla prestamo.
+   */
 public class PrestamoDAO implements  ICRUD{
     private String qry;
     private Prestamo prestamo;
     private ConexionDB conexionDB;
-    public PrestamoDAO(Prestamo prestamo, ConexionDB conexionDB){
-        this.prestamo = prestamo;
-        this.conexionDB = conexionDB;
+    public PrestamoDAO(){
+        this.conexionDB = ConexionDB.getOrCreate();
     }
     @Override
-    public void insertar() {
+    public void insertar(Object prestamo) {
+        this.prestamo = (Prestamo) prestamo;
 
     }
 
     @Override
-    public Object buscar(String nombre) {
+    public Object visualizar(String nombre) {
         return null;
     }
 
     @Override
-    public void modificar() {
+    public void modificar(Object prestamo) {
+        this.prestamo = (Prestamo) prestamo;
 
     }
 
     @Override
-    public void eliminar() {
+    public void eliminar(int id) {
 
     }
     public ArrayList<Prestamo> listaPrestamos() {

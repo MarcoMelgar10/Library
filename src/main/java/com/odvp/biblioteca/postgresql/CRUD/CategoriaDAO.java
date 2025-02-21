@@ -7,24 +7,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+/*
+  Clase para realizar la interaccion con la base de datas, para la tabla categoria.
+   */
 public class CategoriaDAO implements ICRUD{
     private String qry;
     private ConexionDB conexionDB;
     private CategoryData categoryData;
 
-    public CategoriaDAO(CategoryData categoryData, ConexionDB conexionDB){
-      this.conexionDB = conexionDB;
-      this.categoryData = categoryData;
+    public CategoriaDAO(){
+      this.conexionDB = ConexionDB.getOrCreate();
     }
     @Override
-    public void insertar() {
+    public void insertar(Object categoryData) {
+        this.categoryData = (CategoryData) categoryData;
         qry = "CALL agregar_categoria(?,?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1,categoryData.getNombre());
-            stmt.setString(2, categoryData.getDescripcion());
+            stmt.setString(1,((CategoryData) categoryData).getDescripcion());
+            stmt.setString(2, ((CategoryData) categoryData).getDescripcion());
             stmt.execute();
-            System.out.println("Información cargada a la base de datos: " + categoryData.getNombre());
+            System.out.println("Información cargada a la base de datos: " + ((CategoryData) categoryData).getNombre());
 
         } catch (SQLException e) {
             System.out.println("Error SQL State: " + e.getSQLState());
@@ -34,7 +36,7 @@ public class CategoriaDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar(String titulo) {
+    public Object visualizar(String titulo) {
         CategoryData categoria = null;
         String sql = "SELECT id_categoria, nombre, descripcion FROM categoria WHERE id_categoria = ?";
 
@@ -62,12 +64,12 @@ public class CategoriaDAO implements ICRUD{
 
 
     @Override
-    public void modificar() {
+    public void modificar(Object categoryData) {
 
     }
 
     @Override
-    public void eliminar() {
+    public void eliminar(int id) {
 
     }
 

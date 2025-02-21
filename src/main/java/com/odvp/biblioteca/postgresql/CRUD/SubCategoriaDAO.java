@@ -7,24 +7,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+/*
+  Clase para realizar la interaccion con la base de datas, para la tabla subcategoria.
+   */
 public class SubCategoriaDAO implements ICRUD {
     private String qry;
     private ConexionDB conexionDB;
     private SubCategoryData subCategoryData;
 
-    public SubCategoriaDAO(SubCategoryData subCategoryData, ConexionDB conexionDB){
-        this.conexionDB = conexionDB;
-        this.subCategoryData = subCategoryData;
+    public SubCategoriaDAO(){
+        this.conexionDB = ConexionDB.getOrCreate();
     }
     @Override
-    public void insertar() {
+    public void insertar(Object subCategoryData) {
+       this.subCategoryData = (SubCategoryData) subCategoryData;
         qry = "CALL agregar_sub_categoria(?,?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1,subCategoryData.getNombre());
-            stmt.setString(2, subCategoryData.getDescripcion());
-            stmt.setString(3, subCategoryData.getCategoria());
+            stmt.setString(1,((SubCategoryData) subCategoryData).getNombre());
+            stmt.setString(2, ((SubCategoryData) subCategoryData).getDescripcion());
+            stmt.setString(3, ((SubCategoryData) subCategoryData).getCategoria());
             stmt.execute();
-            System.out.println("Información cargada a la base de datos: " + subCategoryData.getNombre());
+            System.out.println("Información cargada a la base de datos: " + ((SubCategoryData) subCategoryData).getNombre());
 
         } catch (SQLException e) {
             // Manejo de errores más detallado
@@ -35,7 +39,7 @@ public class SubCategoriaDAO implements ICRUD {
     }
 
     @Override
-    public Object buscar(String nombre) {
+    public Object visualizar(String nombre) {
         subCategoryData  = null;
         qry = "SELECT id_sub_categoria, nombre, descripcion, id_categoria FROM sub_categoria WHERE nombre = ?";
 
@@ -63,12 +67,12 @@ public class SubCategoriaDAO implements ICRUD {
     }
 
     @Override
-    public void modificar() {
-
+    public void modificar(Object categorySubData) {
+this.subCategoryData = subCategoryData;
     }
 
     @Override
-    public void eliminar() {
+    public void eliminar(int id) {
 
     }
 

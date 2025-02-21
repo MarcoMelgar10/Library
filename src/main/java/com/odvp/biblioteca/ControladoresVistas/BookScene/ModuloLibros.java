@@ -1,30 +1,39 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CargadorCategorias;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
+import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
+import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.scene.layout.BorderPane;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModuloLibros extends BorderPane implements IModulo {
+public class ModuloLibros extends BorderPane implements PropertyChangeListener, IModulo {
 
-    private ModeloLibros modelo;
+    private final HeaderLibros header = new HeaderLibros();
+    private final ParametersLibros paramsRight = new ParametersLibros();
+    private final TableLibros table = new TableLibros();
 
-    private HeaderLibros header;
-    private ParametersLibros paramsRight;
-    private TableLibros table;
+    private final ManejadorListaLibros manejadorLibros = ManejadorListaLibros.getInstance();
+    private final CargadorCategorias manejadorCategorias = CargadorCategorias.getInstance();
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public ModuloLibros(ModeloLibros modelo){
-        this.modelo = modelo;
-        header = new HeaderLibros(this.modelo);
-        paramsRight = new ParametersLibros(this.modelo);
-        table = new TableLibros(this.modelo);
-
+    public ModuloLibros(){       //Inicia los componentes
         setTop(header);
         setRight(paramsRight);
         setCenter(table);
+
+        manejadorLibros.setTable(table);
+        manejadorCategorias.setCategoriasPanel(paramsRight.getVentanaCategorias());
+        support.addPropertyChangeListener(this);
+        manejadorLibros.addObserver(this);
         simularDatos();
     }
 
@@ -34,13 +43,14 @@ public class ModuloLibros extends BorderPane implements IModulo {
 
     public void simularDatos(){
         List<IDatoVisual> libros= new ArrayList<>();
-        for(int i=0;i<30;i++) {
+        LibroDAO libroDAO = new LibroDAO();
+        for(int i=0;i<libroDAO.listaLibros().size();i++) {
             LibroCardData libroData2 = new LibroCardData(
-                    i,
-                    "La transformacion a través del desarrollo de los años 2000",
-                    "Oscar David Valle Pereyra",
-                    10,
-                    2
+                    libroDAO.listaLibros().get(i).getID(),
+                    libroDAO.listaLibros().get(i).getTitulo(),
+                    libroDAO.listaLibros().get(i).getNombreAutor(),
+                    libroDAO.listaLibros().get(i).getStock(),
+                    libroDAO.listaLibros().get(i).getStockDisponible()
             );
             libros.add(libroData2);
         }
@@ -55,12 +65,24 @@ public class ModuloLibros extends BorderPane implements IModulo {
         libros.add(libroData);
         List<CategoryData> categorias = new ArrayList<>();
 
-        for(int i=0;i<15;i++){
-            CategoryData categoryData = new CategoryData(i,"Categoria " +i,"Categoria ficticia");
-            categorias.add(categoryData);
-        }
-        modelo.setLibrosMostrados(libros);
-        modelo.setCategoriasMostradas(categorias);
+        manejadorLibros.loadBooks(libros);
+        manejadorCategorias.setDataList(categorias);
 
+    }
+
+    /*
+        Patron observer: detecta cambios en la propiedad currentLibro de la clase ManejadorListaLibros, si ahora
+        el libro seleccionado tiene indice -1 (Ninguno) entonces deshabilita los botones (Edicion, Nuevo, Eliminar),
+        caso contratrio los habilita y los colorea.
+     */
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("Cambio");
+        if(evt.getPropertyName().equals(ManejadorListaLibros.CURRENT_LIBRO_OBSERVER)){
+            if((int)evt.getNewValue() == -1 || (int) evt.getOldValue() == -1){
+                header.deshabilitarBotones((int) evt.getNewValue() == -1);
+            }
+        }
     }
 }

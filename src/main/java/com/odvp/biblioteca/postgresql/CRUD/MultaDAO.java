@@ -10,22 +10,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+/*
+  Clase para realizar la interaccion con la base de datas, para la tabla multa.
+   */
 public class MultaDAO implements ICRUD{
     private Multa multa;
     private ConexionDB conexionDB;
     private String qry;
-    public MultaDAO(Multa multa, ConexionDB conexionDB){
-        this.multa = multa;
-        this.conexionDB = conexionDB;
+    public MultaDAO(){
+        this.conexionDB = ConexionDB.getOrCreate();
     }
     @Override
-    public void insertar() {
+    public void insertar(Object multa) {
+        this.multa = (Multa) multa;
         qry = "CALL agregar_multa(?,?,?,?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, multa.getDescripcion());
-            stmt.setInt(2, multa.getMonto());
-            stmt.setInt(3, multa.getIdPrestamo());
-            stmt.setInt(4, multa.getIdUsuario());
+            stmt.setString(1, ((Multa) multa).getDescripcion());
+            stmt.setInt(2, ((Multa) multa).getMonto());
+            stmt.setInt(3, ((Multa) multa).getIdPrestamo());
+            stmt.setInt(4, ((Multa) multa).getIdUsuario());
             stmt.execute();
             System.out.println("Prestamo agregato");
         } catch (SQLException e) {
@@ -37,17 +40,18 @@ public class MultaDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar(String descripcion) {
+    public Object visualizar(String descripcion) {
         return null;
     }
 
     @Override
-    public void modificar() {
+    public void modificar(Object multa) {
+        this.multa = (Multa) multa;
 
     }
 
     @Override
-    public void eliminar() {
+    public void eliminar(int id) {
 
     }
 

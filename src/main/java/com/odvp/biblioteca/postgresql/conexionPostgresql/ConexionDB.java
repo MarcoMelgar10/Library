@@ -11,16 +11,21 @@ public class ConexionDB {
     private final String user = "biblioteca";
     private final String password = "biblioteca";
     private Connection conexion;
-    public static ConexionDB getOrCreate() throws SQLException {
+
+    public static ConexionDB getOrCreate(){
         if (instancia == null) {
             instancia = new ConexionDB();
         }
         return instancia;
     }
 
-    public ConexionDB() throws SQLException {
-        conexion = DriverManager.getConnection(url , user, password);
-        System.out.println("Database connected!");
+    private ConexionDB(){
+        try{
+            conexion = DriverManager.getConnection(url , user, password);
+            System.out.println("Database connected!");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void desconectar() throws SQLException {

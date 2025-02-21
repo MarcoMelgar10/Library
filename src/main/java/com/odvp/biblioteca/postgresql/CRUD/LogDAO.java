@@ -6,23 +6,26 @@ import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/*
+  Clase para realizar la interaccion con la base de datas, para la tabla libro.
+   */
 public class LogDAO implements ICRUD{
     private ConexionDB conexionDB;
     private String qry;
     private Log log;
-    public LogDAO(Log log, ConexionDB conexionDB){
-        this.conexionDB = conexionDB;
-        this.log = log;
+    public LogDAO(){
+        this.conexionDB = ConexionDB.getOrCreate();
     }
     @Override
-    public void insertar() {
+    public void insertar(Object log) {
+        this.log = (Log) log;
         qry = "INSERT INTO LOGS (tipo, descripcion, fecha) VALUES(?, ?, ?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, log.getTipo());
-            stmt.setString(2, log.getDescripcion());
-            stmt.setDate(3, log.getFecha());
+            stmt.setString(1, ((Log) log).getTipo());
+            stmt.setString(2, ((Log) log).getDescripcion());
+            stmt.setDate(3, ((Log) log).getFecha());
             stmt.execute();
-            System.out.println("Información cargada a la base de datos: " + log.getTipo());
+            System.out.println("Información cargada a la base de datos: " + ((Log) log).getTipo());
 
         } catch (SQLException e) {
             // Manejo de errores más detallado
@@ -32,16 +35,17 @@ public class LogDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar(String nombre) {
+    public Object visualizar(String nombre) {
         return null;
     }
 
     @Override
-    public void modificar() {
+    public void modificar(Object log) {
+        this.log = (Log) log;
     }
 
     @Override
-    public void eliminar() {
+    public void eliminar(int id) {
 
     }
 }

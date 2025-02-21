@@ -15,19 +15,19 @@ public class AutorDAO implements ICRUD{
 private String qry;
 private Autor autor;
 private ConexionDB conexionDB;
-public AutorDAO(Autor autor, ConexionDB conexionDB){
-    this.autor = autor;
-   this.conexionDB = conexionDB;
+public AutorDAO(){
+    this.conexionDB = ConexionDB.getOrCreate();
 }
 
 
 //Insertar un nuevo autor
     @Override
-    public void insertar() {
+    public void insertar(Object autor) {
+    this.autor = (Autor) autor;
         qry = "Call agregar_autor(?,?)";
         try (PreparedStatement stmt =conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, autor.getNombre());
-            stmt.setString(2, autor.getDescripcion());
+            stmt.setString(1, ((Autor) autor).getNombre());
+            stmt.setString(2, ((Autor) autor).getDescripcion());
             stmt.execute();
             //  logger.info("Informacion cargada a la base de datos",evento.getNombre());
         } catch (SQLException e) {
@@ -43,7 +43,7 @@ public AutorDAO(Autor autor, ConexionDB conexionDB){
     //Devolver el autor que se busca
 
     @Override
-    public Object buscar(String nombre) {
+    public Object visualizar(String nombre) {
         String qry = "SELECT id_autor, nombre, biografia FROM autor WHERE nombre = ?";
         Autor autor = null;
 
@@ -70,12 +70,13 @@ public AutorDAO(Autor autor, ConexionDB conexionDB){
 
     //Funcion para modificar autor, pasandole el mismo id pero con los datos modificados
     @Override
-    public void modificar() {
+    public void modificar(Object autor) {
+    this.autor = (Autor) autor;
     qry = "UPDATE autor SET nombre = ?, biografia = ? WHERE id_autor = ?";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, autor.getNombre());
-            stmt.setString(2, autor.getDescripcion());
-            stmt.setInt(3, autor.getID());
+            stmt.setString(1, ((Autor) autor).getNombre());
+            stmt.setString(2, ((Autor) autor).getDescripcion());
+            stmt.setInt(3, ((Autor) autor).getID());
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
@@ -88,7 +89,7 @@ public AutorDAO(Autor autor, ConexionDB conexionDB){
     }
 
     @Override
-    public void eliminar() {
+    public void eliminar(int id) {
 
     }
 
@@ -96,7 +97,6 @@ public AutorDAO(Autor autor, ConexionDB conexionDB){
     public int getIdAutor(String nombre){
         int id = -1; // Valor por defecto en caso de error
         qry = "SELECT buscar_autor(?)";
-
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
             stmt.setString(1, nombre);
             try (ResultSet rs = stmt.executeQuery()) {

@@ -9,31 +9,33 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-
+/*
+  Clase para realizar la interaccion con la base de datas, para la tabla libro.
+   */
 public class LibroDAO implements ICRUD {
 private  String qry;
 private Libro libro;
 private ConexionDB conexionDB;
 
-public LibroDAO(Libro libro, ConexionDB conexionDB){
-        this.libro = libro;
-        this.conexionDB = conexionDB;
+public LibroDAO(){
+        conexionDB = ConexionDB.getOrCreate();
     }
 
 
     //Inserta nuevos libros en la BD
     @Override
-    public void insertar() {
+    public void insertar(Object libro) {
+    this.libro = (Libro) libro;
          qry = "call agregar_libro(?, ?, ?, ?, ?,?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, libro.getTitulo());
-            stmt.setString(2, libro.getObservacion());
-            stmt.setDate(3, libro.getPublicacion());
-            stmt.setInt(4, libro.getStock());
-            stmt.setInt(5, libro.getIdAutor());
-            stmt.setInt(6,libro.getIdCategoria());
+            stmt.setString(1, ((Libro) libro).getTitulo());
+            stmt.setString(2, ((Libro) libro).getObservacion());
+            stmt.setDate(3, ((Libro) libro).getPublicacion());
+            stmt.setInt(4, ((Libro) libro).getStock());
+            stmt.setInt(5, ((Libro) libro).getIdAutor());
+            stmt.setInt(6,((Libro) libro).getIdCategoria());
             stmt.execute();
-            System.out.println("Información cargada a la base de datos: " + libro.getTitulo());
+            System.out.println("Información cargada a la base de datos: " + ((Libro) libro).getTitulo());
 
         } catch (SQLException e) {
             // Manejo de errores más detallado
@@ -44,9 +46,11 @@ public LibroDAO(Libro libro, ConexionDB conexionDB){
     }
 
 
+
+
     //Busca y devuelve un libro especifico por titulo
     @Override
-    public Libro buscar(String titulo) {
+    public Libro visualizar(String titulo) {
         Libro.Builder builder = new Libro.Builder();
         qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, " +
                 "l.stock, l.stock_disponible, a.nombre AS autor, " +
@@ -84,20 +88,21 @@ public LibroDAO(Libro libro, ConexionDB conexionDB){
         return null; // Retornar null si no se encuentra el libro
     }
 
-
-
     @Override
-    public void modificar() {
+    public void modificar(Object libro) {
 
     }
 
     @Override
-    public void eliminar() {
+    public void eliminar(int id) {
 
     }
+
+
 
     public ArrayList<Libro> listaLibros() {
-         qry = "SELECT id_libro, titulo, observacion, fecha_publicacion, stock, stock_disponible, id_autor, id_categoria, id_sub_categoria FROM libro";
+         qry = "\n" +
+                 "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, l.stock, l.stock_disponible,l.id_autor, l.id_categoria, l.id_sub_categoria, a.nombre FROM libro l JOIN autor a on l.id_autor = a.id_autor";
         ArrayList<Libro> libros = new ArrayList<>();
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
              ResultSet rs = stmt.executeQuery()) {  // Usamos stmt.executeQuery sin pasarle qry, ya que ya lo definimos antes
@@ -112,6 +117,7 @@ public LibroDAO(Libro libro, ConexionDB conexionDB){
                 int idAutor = rs.getInt("id_autor");
                 int idCategoria = rs.getInt("id_categoria");
                 int idSubCategoria = rs.getInt("id_sub_categoria");
+                String nombreAutor = rs.getString("nombre");
 
                 // Usando el patrón Builder para construir el objeto Libro
                 Libro libro = new Libro.Builder()
@@ -124,6 +130,7 @@ public LibroDAO(Libro libro, ConexionDB conexionDB){
                         .idAutor(idAutor)
                         .idCategoria(idCategoria)
                         .idSubCategoria(idSubCategoria)
+                        .autor(nombreAutor)
                         .build(); // Llamar a build() para obtener el objeto final
 
                 libros.add(libro);

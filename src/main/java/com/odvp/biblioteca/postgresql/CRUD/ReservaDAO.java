@@ -9,22 +9,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+
+
+/*
+  Clase para realizar la interaccion con la base de datas, para la tabla reserva.
+   */
 public class ReservaDAO implements ICRUD{
     private Reserva reserva;
     private ConexionDB conexionDB;
     private String qry;
 
-    public ReservaDAO(Reserva reserva, ConexionDB conexionDB) {
-        this.reserva = reserva;
-        this.conexionDB = conexionDB;
+    public ReservaDAO() {
+        this.conexionDB = ConexionDB.getOrCreate();
     }
 
     @Override
-    public void insertar() {
+    public void insertar(Object reserva) {
+        this.reserva = (Reserva) reserva;
         qry = "CALL agregar_reserva(?,?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setInt(1, reserva.getIdUsuario());
-            stmt.setInt(2, reserva.getIdLibro());
+            stmt.setInt(1, ((Reserva) reserva).getIdUsuario());
+            stmt.setInt(2, ((Reserva) reserva).getIdLibro());
             stmt.executeQuery();
             System.out.println("Reserva registrada");
         } catch (SQLException e) {
@@ -34,17 +39,17 @@ public class ReservaDAO implements ICRUD{
     }
 
     @Override
-    public Object buscar(String nombre) {
+    public Object visualizar(String nombre) {
         return null;
     }
 
     @Override
-    public void modificar() {
+    public void modificar(Object reserva) {
 
     }
 
     @Override
-    public void eliminar() {
+    public void eliminar(int id) {
 
     }
     public ArrayList<Reserva> listaReservas() {

@@ -40,6 +40,7 @@ public class LoginController  implements IVista{
             stage.show();
         }catch (Exception e){
             System.out.println("No se pudo cargar de escena");
+            e.printStackTrace();
         }
     }
 }

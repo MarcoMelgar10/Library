@@ -77,7 +77,7 @@ public class BookOperationController {
             public void handle(ActionEvent actionEvent) {
 
                 try {
-                    LibroDAO libroDAO = new LibroDAO( null, new ConexionDB());
+                    LibroDAO libroDAO = new LibroDAO();
                    //Libro libro1;
                     //libro1 = libroDAO.buscar("hola");
                     //System.out.println(libro1.getTitulo() + " " + libro1.getNombreCategoria());
@@ -86,7 +86,7 @@ public class BookOperationController {
                             System.out.println(libroDAO.listaLibros().get(i).getTitulo());
                         }
                     }
-                } catch (SQLException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 
