@@ -1,13 +1,12 @@
 package com.odvp.biblioteca.ControladoresVistas;
 
-import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloModuloLibros;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModuloLibros;
 import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.ModuloUsuarios;
 import com.odvp.biblioteca.FuncionesBarraOpciones.ManejadorOpciones;
 import com.odvp.biblioteca.FuncionesBarraOpciones.OpcionButton;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -20,7 +19,7 @@ import java.util.List;
 
 public class MainEscena extends BorderPane{
 
-    ModeloModuloLibros modeloLibros = new ModeloModuloLibros();
+    ModeloLibros modeloLibros = new ModeloLibros();
     
     VBox panelOpciones;
 

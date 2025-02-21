@@ -11,8 +11,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModeloModuloLibros {
-    private static final Logger log = LogManager.getLogger(ModeloModuloLibros.class);
+public class ModeloLibros {
+    private static final Logger log = LogManager.getLogger(ModeloLibros.class);
     private List<CategoryData> categorias;
     private List<IFiltro> filtros;
     private String textoBusqueda;
@@ -28,7 +28,7 @@ public class ModeloModuloLibros {
     public static final String OBS_LIBROS_MOSTRADOS = "OBS_LIBROS_MOSTRADOS";
     public static final String OBS_LIBRO_SELECCIONADO = "OBS_LIBRO_SELECCIONADO";
 
-    public ModeloModuloLibros(){
+    public ModeloLibros(){
         categorias = new ArrayList<>();
         categoriasSeleccionadas = new ArrayList<>();
         filtros = new ArrayList<>();
