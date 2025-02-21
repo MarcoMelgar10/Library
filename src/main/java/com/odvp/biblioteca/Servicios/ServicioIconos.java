@@ -17,7 +17,7 @@ public class ServicioIconos {
     public static final String OPCION_MODULO_RESERVAS =  LibraryApplication.class.getResource("Icons/Opciones/modulo-reservas.png").toExternalForm();
     public static final String OPCION_MODULO_DEUDAS =  LibraryApplication.class.getResource("Icons/Opciones/modulo-deudas.png").toExternalForm();
 
-    public static final String USUARIO_DISPONIBLE = LibraryApplication.class.getResource("Icons/UserResources/usuario.png").toExternalForm();
-    public static final String USUARIO_NO_DISPONIBLE = LibraryApplication.class.getResource("Icons/UserResources/usuario-bloqueado.png").toExternalForm();
+    public static final String USUARIO_DISPONIBLE = LibraryApplication.class.getResource("Icons/UsuariosResources/usuario.png").toExternalForm();
+    public static final String USUARIO_NO_DISPONIBLE = LibraryApplication.class.getResource("Icons/UsuariosResources/usuario-bloqueado.png").toExternalForm();
 
 }

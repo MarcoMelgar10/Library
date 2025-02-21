@@ -1,27 +1,22 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CargadorCategorias;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
 import javafx.scene.layout.BorderPane;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModuloLibros extends BorderPane implements IModulo {
 
-    private ModeloModuloLibros modelo;
+    private ModeloLibros modelo;
 
     private HeaderLibros header;
     private ParametersLibros paramsRight;
     private TableLibros table;
 
-    public ModuloLibros(ModeloModuloLibros modelo){
+    public ModuloLibros(ModeloLibros modelo){
         this.modelo = modelo;
         header = new HeaderLibros(this.modelo);
         paramsRight = new ParametersLibros(this.modelo);
@@ -68,10 +63,4 @@ public class ModuloLibros extends BorderPane implements IModulo {
         modelo.setCategoriasMostradas(categorias);
 
     }
-
-    /*
-        Patron observer: detecta cambios en la propiedad currentLibro de la clase ManejadorListaLibros, si ahora
-        el libro seleccionado tiene indice -1 (Ninguno) entonces deshabilita los botones (Edicion, Nuevo, Eliminar),
-        caso contratrio los habilita y los colorea.
-     */
 }

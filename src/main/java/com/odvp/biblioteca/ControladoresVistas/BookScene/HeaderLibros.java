@@ -3,7 +3,6 @@ package com.odvp.biblioteca.ControladoresVistas.BookScene;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.ManejadorListaLibros;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.AgregarLibro;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EditarLibro;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EliminarLibro;
@@ -12,8 +11,6 @@ import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.scene.image.Image;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeSupport;
-import java.util.Objects;
 
 public class HeaderLibros extends HeaderDefault {
 
@@ -28,9 +25,9 @@ public class HeaderLibros extends HeaderDefault {
     private final Image imagePorAutor = new Image(ServicioIconos.LIBRO_POR_AUTOR);
     private final Image imagePorTitulo = new Image(ServicioIconos.LIBRO_POR_TITULO);
 
-    private  ModeloModuloLibros modelo;
+    private ModeloLibros modelo;
 
-    public HeaderLibros(ModeloModuloLibros modelo) {
+    public HeaderLibros(ModeloLibros modelo) {
         super("BIBLIOTECA EBEN-EZER");
 
         this.modelo = modelo;
@@ -71,7 +68,7 @@ public class HeaderLibros extends HeaderDefault {
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals(ModeloModuloLibros.OBS_LIBRO_SELECCIONADO)){
+        if(evt.getPropertyName().equals(ModeloLibros.OBS_LIBRO_SELECCIONADO)){
             if(evt.getOldValue() == null){
                 deshabilitarBotones(false);
             }

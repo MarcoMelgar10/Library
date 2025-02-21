@@ -18,10 +18,10 @@ public class ParametersLibros extends ParametersDefault {
 
     private VBox ventanaCategorias, ventanaFiltros;
 
-    private ModeloModuloLibros modelo;
+    private ModeloLibros modelo;
 
 
-    public ParametersLibros(ModeloModuloLibros modelo){
+    public ParametersLibros(ModeloLibros modelo){
         this.modelo = modelo;
         this.modelo.addObserver(this);
         List<Parent> categorias = new ArrayList<>();
@@ -37,7 +37,7 @@ public class ParametersLibros extends ParametersDefault {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals(ModeloModuloLibros.OBS_CATEGORIAS_MOSTRADAS)){
+        if(evt.getPropertyName().equals(ModeloLibros.OBS_CATEGORIAS_MOSTRADAS)){
             ventanaCategorias.getChildren().clear();
             for(CategoryData categoria : modelo.getCategoriasMostradas()){
                 CheckBox checkBox = createSimpleParam(categoria.getNombre());
