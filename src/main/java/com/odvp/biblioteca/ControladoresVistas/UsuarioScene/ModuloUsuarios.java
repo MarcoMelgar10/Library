@@ -10,15 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModuloUsuarios extends BorderPane implements IModulo {
-    private final HeaderUsuarios header = new HeaderUsuarios();
-    private final TableUsuarios table = new TableUsuarios();
+    private HeaderUsuarios header;
+    private TableUsuarios table;
 
-    private ManejadorTableDefault manejadorTableDefault;
+    private ModeloUsuarios modelo;
 
-    public ModuloUsuarios(){
+    public ModuloUsuarios(ModeloUsuarios modelo){
+        this.modelo = modelo;
+
+        header = new HeaderUsuarios(this.modelo);
+        table = new TableUsuarios(this.modelo);
+
         setTop(header);
         setCenter(table);
-        manejadorTableDefault = new ManejadorTableDefault(table);
         simularDatos();
     }
 
@@ -28,6 +32,7 @@ public class ModuloUsuarios extends BorderPane implements IModulo {
         for(int i=1; i<=20; i++){
             usuarios.add(new UsuarioData(i + 12402330, "Marco Antonio Melgar Parada", false));
         }
+        modelo.setUsuariosMostrados(usuarios);
 
     }
 }
