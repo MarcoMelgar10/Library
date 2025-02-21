@@ -4,8 +4,6 @@ import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
 
-import java.beans.PropertyChangeEvent;
-
 public class HeaderUsuarios extends HeaderDefault {
     private final ButtonDefault buttonNew = ButtonDefault.getButtonNew();
     private final ButtonDefault buttonEdit = ButtonDefault.getButtonEdit();
@@ -13,11 +11,10 @@ public class HeaderUsuarios extends HeaderDefault {
     private final ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
 
     private final DefaultSearcher searcher = DefaultSearcher.getSimpleSearcher();
-    private ModeloUsuarios modelo;
 
-    public HeaderUsuarios(ModeloUsuarios modelo) {
+
+    public HeaderUsuarios() {
         super("USUARIOS");
-        this.modelo = modelo;
         addButtons(buttonNew, buttonView, buttonEdit, buttonDelete);
         deshabilitarBotones(true);
         setSearcherContainer(searcher);
@@ -29,11 +26,5 @@ public class HeaderUsuarios extends HeaderDefault {
         buttonView.desactivar(deshabilitar);
         buttonDelete.desactivar(deshabilitar);
     }
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals(ModeloUsuarios.OBS_USUARIO_SELECCIONADO)){
-            if(evt.getOldValue() != null || evt.getNewValue() != null) return;
-            deshabilitarBotones(evt.getNewValue() == null);
-        }
-    }
+
 }
