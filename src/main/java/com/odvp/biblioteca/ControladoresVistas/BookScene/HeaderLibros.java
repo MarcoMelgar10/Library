@@ -3,10 +3,10 @@ package com.odvp.biblioteca.ControladoresVistas.BookScene;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.AgregarLibro;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EditarLibro;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.EliminarLibro;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.OperacionesLibro.VisualizarLibro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.AgregarLibro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EditarLibro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EliminarLibro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.VisualizarLibro;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.scene.image.Image;
 

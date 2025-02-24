@@ -1,5 +1,5 @@
 package com.odvp.biblioteca.postgresql.CRUD;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroAutor.Autor;
+import com.odvp.biblioteca.Objetos.Autor;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;

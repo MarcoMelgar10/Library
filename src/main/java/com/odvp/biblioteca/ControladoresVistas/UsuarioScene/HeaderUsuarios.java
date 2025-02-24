@@ -18,6 +18,7 @@ public class HeaderUsuarios extends HeaderDefault {
     public HeaderUsuarios(ModeloUsuarios modelo) {
         super("USUARIOS");
         this.modelo = modelo;
+        this.modelo.addObserver(this);
         addButtons(buttonNew, buttonView, buttonEdit, buttonDelete);
         deshabilitarBotones(true);
         setSearcherContainer(searcher);
@@ -32,7 +33,8 @@ public class HeaderUsuarios extends HeaderDefault {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(ModeloUsuarios.OBS_USUARIO_SELECCIONADO)){
-            if(evt.getOldValue() != null || evt.getNewValue() != null) return;
+            System.out.println(evt.getNewValue());
+            if(evt.getOldValue() != null && evt.getNewValue() != null) return;
             deshabilitarBotones(evt.getNewValue() == null);
         }
     }

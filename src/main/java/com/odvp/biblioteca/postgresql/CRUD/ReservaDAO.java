@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroReserva.Reserva;
+import com.odvp.biblioteca.Objetos.Reserva;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.Date;

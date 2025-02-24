@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLog.Log;
+import com.odvp.biblioteca.Objetos.Log;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;

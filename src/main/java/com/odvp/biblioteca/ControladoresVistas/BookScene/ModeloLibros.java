@@ -1,8 +1,8 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
+import com.odvp.biblioteca.Objetos.CategoryData;
+import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.Objetos.LibroCardData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

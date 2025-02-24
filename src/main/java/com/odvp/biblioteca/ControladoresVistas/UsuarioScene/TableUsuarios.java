@@ -1,10 +1,10 @@
 package com.odvp.biblioteca.ControladoresVistas.UsuarioScene;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.TableDefault;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroUsuarios.ManejoUsuarios.ManejadorTableDefault;
 
 import java.beans.PropertyChangeEvent;
 import java.util.List;
+import java.util.Objects;
 
 public class TableUsuarios extends TableDefault {
 
@@ -18,6 +18,7 @@ public class TableUsuarios extends TableDefault {
                 List.of(false,false,false)
         );
         this.modelo = modelo;
+        this.modelo.addObserver(this);
     }
 
     @Override
@@ -29,8 +30,15 @@ public class TableUsuarios extends TableDefault {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getSource().equals(ModeloUsuarios.OBS_USUARIOS_MOSTRADOS)){
+
+        if(Objects.equals(evt.getPropertyName(), ModeloUsuarios.OBS_USUARIOS_MOSTRADOS)){
+            System.out.println("Recibiendo cambios");
             addCards(modelo.getUsuariosMostrados());
+        }
+        if(evt.getPropertyName().equals(ModeloUsuarios.OBS_USUARIO_SELECCIONADO)){
+            for(Card card : getCards()){
+                card.setSelected(card.getDatoVisual().equals(evt.getNewValue()));
+            }
         }
     }
 

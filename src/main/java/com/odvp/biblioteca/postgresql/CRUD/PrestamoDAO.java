@@ -1,10 +1,9 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroPrestamo.Prestamo;
+import com.odvp.biblioteca.Objetos.Prestamo;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla prestamo.

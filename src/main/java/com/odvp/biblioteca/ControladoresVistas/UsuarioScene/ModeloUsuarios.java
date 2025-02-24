@@ -1,12 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.UsuarioScene;
 
-import com.odvp.biblioteca.ControladoresVistas.BookScene.IFiltro;
-import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroUsuarios.ManejoUsuarios.UsuarioData;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.Objetos.UsuarioData;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -20,8 +15,8 @@ public class ModeloUsuarios {
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public static final String OBS_TEXTO_BUSCADOR = "OBS_TEXTO_BUSCADOR";
-    public static final String OBS_USUARIOS_MOSTRADOS = "OBS_LIBROS_MOSTRADOS";
-    public static final String OBS_USUARIO_SELECCIONADO = "OBS_LIBRO_SELECCIONADO";
+    public static final String OBS_USUARIOS_MOSTRADOS = "OBS_USUARIOS_MOSTRADOS";
+    public static final String OBS_USUARIO_SELECCIONADO = "OBS_USUARIO_SELECCIONADO";
 
     public ModeloUsuarios(){
         usuariosMostrados = new ArrayList<>();
@@ -32,14 +27,17 @@ public class ModeloUsuarios {
     }
 
     public void setUsuariosMostrados(List<IDatoVisual> usuarios){
-        List<IDatoVisual> oldUsuariosMostrados = List.copyOf(usuariosMostrados);
+        List<IDatoVisual> oldUsuariosMostrados = List.copyOf(this.usuariosMostrados);
         this.usuariosMostrados = usuarios;
         support.firePropertyChange(OBS_USUARIOS_MOSTRADOS, oldUsuariosMostrados, this.usuariosMostrados);
+        System.out.println("cambio en usuarios");
     }
     public void setUsuarioSeleccionado(IDatoVisual usuarioSeleccionado){
+        if(this.usuarioSeleccionado == usuarioSeleccionado) usuarioSeleccionado = null;
         IDatoVisual oldUsuarioSeleccionado = this.usuarioSeleccionado;
         this.usuarioSeleccionado = usuarioSeleccionado;
         support.firePropertyChange(OBS_USUARIO_SELECCIONADO, oldUsuarioSeleccionado,this.usuarioSeleccionado);
+
     }
 
     public UsuarioData getUsuarioSeleccionado() {

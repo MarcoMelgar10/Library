@@ -1,10 +1,9 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
-import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
+import com.odvp.biblioteca.Objetos.CategoryData;
+import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.Objetos.LibroCardData;
 import javafx.scene.layout.BorderPane;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,14 +34,13 @@ public class ModuloLibros extends BorderPane implements IModulo {
 
     public void simularDatos(){
         List<IDatoVisual> libros= new ArrayList<>();
-        LibroDAO libroDAO = new LibroDAO();
-        for(int i=0;i<libroDAO.listaLibros().size();i++) {
+        for(int i=0;i<30;i++) {
             LibroCardData libroData2 = new LibroCardData(
-                    libroDAO.listaLibros().get(i).getID(),
-                    libroDAO.listaLibros().get(i).getTitulo(),
-                    libroDAO.listaLibros().get(i).getNombreAutor(),
-                    libroDAO.listaLibros().get(i).getStock(),
-                    libroDAO.listaLibros().get(i).getStockDisponible()
+                    i,
+                    "La transformacion a través del desarrollo de los años 2000",
+                    "Oscar David Valle Pereyra",
+                    10,
+                    2
             );
             libros.add(libroData2);
         }

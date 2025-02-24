@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
+import com.odvp.biblioteca.Objetos.Libro;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 import javafx.event.ActionEvent;
