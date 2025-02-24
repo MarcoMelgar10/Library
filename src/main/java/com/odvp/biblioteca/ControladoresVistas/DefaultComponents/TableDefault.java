@@ -2,10 +2,14 @@ package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
 import com.odvp.biblioteca.Objetos.IDatoVisual;
 import com.odvp.biblioteca.LibraryApplication;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +27,8 @@ public abstract class TableDefault extends VBox implements PropertyChangeListene
     private List<Card> cards = new ArrayList<>();
     private List<ColumnConstraints> columnConstraints;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+
 
     public TableDefault(List<String> titulos, List<Integer> ancho, List<Boolean> seExpanden, List<Boolean> centrar) {
         getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
@@ -50,19 +56,62 @@ public abstract class TableDefault extends VBox implements PropertyChangeListene
         ScrollPane scrollPane = new ScrollPane(cardsPane);
         scrollPane.getStyleClass().add("scrollPane");
         scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        setVgrow(scrollPane, Priority.ALWAYS);
         getChildren().addAll(headerGrid, scrollPane);
     }
 
+
     public void addCards(List<IDatoVisual> datos) {
-        cardsPane.getChildren().clear();
-        cards.clear();
-        for(IDatoVisual dato : datos){
-            Card card = new Card(dato);
-            cardsPane.getChildren().add(card.getVista());
-            cards.add(card);
-        }
-        setCardsAction();
+        // Crear el indicador de carga (círculo giratorio)
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setMaxSize(25, 25);
+
+        // Asegurar que la UI se actualiza incluso si la pestaña no está visible
+        Platform.runLater(() -> {
+            StackPane progressContainer = new StackPane(progressIndicator);
+            setVgrow(progressContainer, Priority.ALWAYS);
+            progressContainer.setAlignment(Pos.CENTER);
+            cardsPane.getChildren().setAll(progressContainer);
+        });
+
+        Task<List<Card>> task = getListTask(datos);
+
+        new Thread(task).start();
     }
+
+    private Task<List<Card>> getListTask(List<IDatoVisual> datos) {
+        Task<List<Card>> task = new Task<>() {
+            @Override
+            protected List<Card> call() throws Exception {
+                List<Card> nuevasCards = new ArrayList<>();
+                for (IDatoVisual dato : datos) {
+                    nuevasCards.add(new Card(dato));
+                }
+                return nuevasCards;
+            }
+        };
+
+        task.setOnSucceeded(event -> {
+            Platform.runLater(() -> {
+                cardsPane.getChildren().clear();
+                cards.clear();
+                cards.addAll(task.getValue());
+
+                for (Card card : cards) {
+                    cardsPane.getChildren().add(card.getVista());
+                }
+
+                setCardsAction();
+            });
+        });
+
+        task.setOnFailed(event -> {
+            Platform.runLater(() -> cardsPane.getChildren().setAll(new Label("Error al cargar datos")));
+        });
+        return task;
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 

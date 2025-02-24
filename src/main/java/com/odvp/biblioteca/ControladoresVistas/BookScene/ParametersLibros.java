@@ -2,6 +2,7 @@ package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ParametersDefault;
 import com.odvp.biblioteca.Objetos.CategoryData;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
@@ -38,12 +39,14 @@ public class ParametersLibros extends ParametersDefault {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(ModeloLibros.OBS_CATEGORIAS_MOSTRADAS)){
-            ventanaCategorias.getChildren().clear();
-            for(CategoryData categoria : modelo.getCategoriasMostradas()){
-                CheckBox checkBox = createSimpleParam(categoria.getNombre());
-                checkBox.setOnAction( e -> modelo.setCategoriaSelected(categoria, checkBox.isSelected()));
-                ventanaCategorias.getChildren().add(checkBox);
-            }
+            Platform.runLater(() -> {
+                ventanaCategorias.getChildren().clear();
+                for(CategoryData categoria : modelo.getCategoriasMostradas()){
+                    CheckBox checkBox = createSimpleParam(categoria.getNombre());
+                    checkBox.setOnAction( e -> modelo.setCategoriaSelected(categoria, checkBox.isSelected()));
+                    ventanaCategorias.getChildren().add(checkBox);
+                }
+            });
         }
     }
 

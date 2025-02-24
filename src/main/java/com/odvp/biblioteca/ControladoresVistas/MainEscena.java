@@ -8,6 +8,7 @@ import com.odvp.biblioteca.FuncionesBarraOpciones.ManejadorOpciones;
 import com.odvp.biblioteca.FuncionesBarraOpciones.OpcionButton;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -50,6 +51,7 @@ public class MainEscena extends BorderPane{
         panelOpciones.setPrefWidth(120);
         panelOpciones.setMinWidth(100);
         panelOpciones.setPadding(new Insets(10));
+        panelOpciones.setAlignment(Pos.CENTER);
     }
 
     public VBox getPanelOpciones() {
