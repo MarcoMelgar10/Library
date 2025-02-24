@@ -39,7 +39,7 @@ public class UsuarioDAO implements ICRUD{
     @Override
     public Object visualizar(String nombre) {
         Usuario usuario = null;
-        qry = "SELECT id_usuario, nombre, apellidos, telefono, direccion, multa, estado_bloqueo " +
+        qry = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, telefono, direccion, multa, estado_bloqueo " +
                 "FROM usuario WHERE UPPER(nombre) LIKE ?";
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
             pstmt.setString(1, "%" + nombre.toUpperCase() + "%"); // Buscar con LIKE y sin distinción de mayúsculas/minúsculas
@@ -48,7 +48,7 @@ public class UsuarioDAO implements ICRUD{
                 Usuario.Builder builder = new Usuario.Builder();
                 builder.idUsuario(rs.getInt("id_usuario"));
                 builder.nombre( rs.getString("nombre"));
-                builder.apellidos(rs.getString("apellidos"));
+                builder.apellidos(rs.getString("apellido_paterno"), rs.getString("apellodo_materno"));
                 builder.telefono(rs.getString("telefono"));
                 builder.direccion(rs.getString("direccion"));
                 builder.multa(rs.getInt("multa"));
@@ -91,7 +91,7 @@ public class UsuarioDAO implements ICRUD{
 
     }
     public ArrayList<Usuario> listaUsuarios() {
-        String qry = "SELECT id_usuario, nombre, apellidos, telefono, direccion, multa, estado_bloqueo FROM usuario";
+        String qry = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, telefono, direccion, multa, estado_bloqueo FROM usuario";
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
              ResultSet rs = stmt.executeQuery()) {
@@ -99,7 +99,8 @@ public class UsuarioDAO implements ICRUD{
                 // Mapeo de los resultados de la consulta a objetos Usuario
                 int idUsuario = rs.getInt("id_usuario");
                 String nombre = rs.getString("nombre");
-                String apellidos = rs.getString("apellidos");
+                String paterno = rs.getString("apellido_paterno");
+                String materno = rs.getString("apellido_materno");
                 String telefono = rs.getString("telefono");
                 String direccion = rs.getString("direccion");
                 int multa = rs.getInt("multa");
@@ -109,7 +110,7 @@ public class UsuarioDAO implements ICRUD{
                 Usuario usuario = new Usuario.Builder()
                         .idUsuario(idUsuario)
                         .nombre(nombre)
-                        .apellidos(apellidos)
+                        .apellidos(paterno, materno)
                         .telefono(telefono)
                         .direccion(direccion)
                         .multa(multa)
