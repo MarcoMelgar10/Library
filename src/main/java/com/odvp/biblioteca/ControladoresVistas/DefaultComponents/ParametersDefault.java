@@ -1,6 +1,8 @@
 package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
 import com.odvp.biblioteca.LibraryApplication;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
@@ -51,9 +53,11 @@ public class ParametersDefault extends VBox implements PropertyChangeListener {
         bodyScroll.setPadding(new Insets(12,0,12,0));
         bodyScroll.setSpacing(12);
         bodyScroll.setPrefSize(200, USE_COMPUTED_SIZE);
-        for(Parent param : params){
-            bodyScroll.getChildren().add(param);
-        }
+        Platform.runLater(() -> {
+            for (Parent param : params) {
+                bodyScroll.getChildren().add(param);
+            }
+        });
         scrollPane.setContent(bodyScroll);
         window.getChildren().addAll(titlePane, scrollPane);
         window.setMinHeight(300);

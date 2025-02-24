@@ -4,6 +4,7 @@ import com.odvp.biblioteca.ControladoresVistas.IModulo;
 import com.odvp.biblioteca.Objetos.CategoryData;
 import com.odvp.biblioteca.Objetos.IDatoVisual;
 import com.odvp.biblioteca.Objetos.LibroCardData;
+import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ModuloLibros extends BorderPane implements IModulo {
         setTop(header);
         setRight(paramsRight);
         setCenter(table);
+
         simularDatos();
     }
 
@@ -33,34 +35,39 @@ public class ModuloLibros extends BorderPane implements IModulo {
      */
 
     public void simularDatos(){
-        List<IDatoVisual> libros= new ArrayList<>();
-        for(int i=0;i<30;i++) {
-            LibroCardData libroData2 = new LibroCardData(
-                    i,
-                    "La transformacion a través del desarrollo de los años 2000",
-                    "Oscar David Valle Pereyra",
-                    10,
-                    2
-            );
-            libros.add(libroData2);
-        }
+        new Thread(new Task<>() {
+            @Override
+            protected Object call() throws Exception {
+                List<IDatoVisual> libros= new ArrayList<>();
+                for(int i=0;i<30;i++) {
+                    LibroCardData libroData2 = new LibroCardData(
+                            i,
+                            "La transformacion a través del desarrollo de los años 2000",
+                            "Oscar David Valle Pereyra",
+                            10,
+                            2
+                    );
+                    libros.add(libroData2);
+                }
 
-        LibroCardData libroData = new LibroCardData(
-                30,
-                "Las aventuras de los programadores junios",
-                "Marco Antonio Melgar Parada",
-                10,
-                0
-        );
-        libros.add(libroData);
-        List<CategoryData> categorias = new ArrayList<>();
+                LibroCardData libroData = new LibroCardData(
+                        30,
+                        "Las aventuras de los programadores junios",
+                        "Marco Antonio Melgar Parada",
+                        10,
+                        0
+                );
+                libros.add(libroData);
+                List<CategoryData> categorias = new ArrayList<>();
 
-        for(int i=0;i<15;i++){
-            CategoryData categoryData = new CategoryData(i,"Categoria " +i,"Categoria ficticia");
-            categorias.add(categoryData);
-        }
-        modelo.setLibrosMostrados(libros);
-        modelo.setCategoriasMostradas(categorias);
-
+                for(int i=0;i<15;i++){
+                    CategoryData categoryData = new CategoryData(i,"Categoria " +i,"Categoria ficticia");
+                    categorias.add(categoryData);
+                }
+                modelo.setLibrosMostrados(libros);
+                modelo.setCategoriasMostradas(categorias);
+                return null;
+            }
+        }).start();
     }
 }
