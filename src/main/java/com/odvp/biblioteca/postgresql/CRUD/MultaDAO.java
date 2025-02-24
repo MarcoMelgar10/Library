@@ -79,17 +79,16 @@ public class MultaDAO implements ICRUD{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return multas;
     }
 
 
     //Ejecutar en la linea principal del programa, para que cada vez que se inicie se actualicen los prestamos acorde a las fechas limites
     public void validarPrestamosVencidos(){
-        qry = "SELECT verificar_prestamos_vencidos();";
+        qry = "SELECT actualizar_prestamos_y_multas()";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
             stmt.execute();
-            System.out.println("Estado del prestamo actualizado");
+            System.out.println("Estado del prestamo y multas actualizado");
         } catch (SQLException e) {
             // Manejo de errores
             System.out.println("Error SQL State: " + e.getSQLState());
