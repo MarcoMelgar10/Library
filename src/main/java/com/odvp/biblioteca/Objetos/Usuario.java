@@ -70,8 +70,8 @@ public class Usuario {
             return this;
         }
 
-        public Builder apellidos(String apellidos) {
-            this.apellidos = apellidos;
+        public Builder apellidos(String paterno, String materno) {
+            this.apellidos = paterno + " " + materno;
             return this;
         }
 
