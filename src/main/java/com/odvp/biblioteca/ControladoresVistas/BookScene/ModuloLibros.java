@@ -4,6 +4,7 @@ import com.odvp.biblioteca.ControladoresVistas.IModulo;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
 import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.LibroCardData;
+import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.scene.layout.BorderPane;
 import java.util.ArrayList;
@@ -46,19 +47,13 @@ public class ModuloLibros extends BorderPane implements IModulo {
             );
             libros.add(libroData2);
         }
-
-        LibroCardData libroData = new LibroCardData(
-                30,
-                "Las aventuras de los programadores junios",
-                "Marco Antonio Melgar Parada",
-                10,
-                0
-        );
-        libros.add(libroData);
         List<CategoryData> categorias = new ArrayList<>();
-
-        for(int i=0;i<15;i++){
-            CategoryData categoryData = new CategoryData(i,"Categoria " +i,"Categoria ficticia");
+        CategoriaDAO categoriaDAO = new CategoriaDAO();
+        for(int i=0;i<categoriaDAO.listaCategorias().size();i++){
+            CategoryData categoryData = new CategoryData(categoriaDAO.listaCategorias().get(i).getId(),
+                    categoriaDAO.listaCategorias().get(i).getNombre(),
+                    categoriaDAO.listaCategorias().get(i).getDescripcion()
+                    );
             categorias.add(categoryData);
         }
         modelo.setLibrosMostrados(libros);

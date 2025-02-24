@@ -1,8 +1,10 @@
 package com.odvp.biblioteca;
+import com.odvp.biblioteca.postgresql.CRUD.MultaDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.swing.*;
 
 /*
     realiza el arranque de la app y carga la ventana con el loggin.
@@ -11,14 +13,14 @@ import javafx.stage.Stage;
 public class LibraryApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Biblioteca");
-        stage.setScene(scene);
-        stage.show();
+            MultaDAO multaDAO = new MultaDAO();
+            multaDAO.validarPrestamosVencidos();
+            FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/login-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            stage.setTitle("Biblioteca");
+            stage.setScene(scene);
+            stage.show();
     }
 
-    public static void main(String[] args) {
-        launch();
-    }
+    public static void main(String[] args) {launch();}
 }

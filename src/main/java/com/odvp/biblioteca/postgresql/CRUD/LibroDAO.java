@@ -101,8 +101,7 @@ public LibroDAO(){
 
 
     public ArrayList<Libro> listaLibros() {
-         qry = "\n" +
-                 "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, l.stock, l.stock_disponible,l.id_autor, l.id_categoria, l.id_sub_categoria, a.nombre FROM libro l JOIN autor a on l.id_autor = a.id_autor";
+         qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, l.stock, l.stock_disponible,l.id_autor, l.id_categoria, l.id_sub_categoria, a.nombre FROM libro l JOIN autor a on l.id_autor = a.id_autor";
         ArrayList<Libro> libros = new ArrayList<>();
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
              ResultSet rs = stmt.executeQuery()) {  // Usamos stmt.executeQuery sin pasarle qry, ya que ya lo definimos antes
