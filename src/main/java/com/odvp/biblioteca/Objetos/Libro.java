@@ -2,6 +2,7 @@ package com.odvp.biblioteca.Objetos;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 /*
     clase que representa libros mediante objetos, usa builder pattern,se usa para visualizar

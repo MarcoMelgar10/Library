@@ -13,7 +13,6 @@ import java.util.ArrayList;
    */
 public class LibroDAO implements ICRUD {
 private  String qry;
-private Libro libro;
 private ConexionDB conexionDB;
 
 public LibroDAO(){
@@ -24,7 +23,6 @@ public LibroDAO(){
     //Inserta nuevos libros en la BD
     @Override
     public void insertar(Object libro) {
-    this.libro = (Libro) libro;
          qry = "call agregar_libro(?, ?, ?, ?, ?,?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
             stmt.setString(1, ((Libro) libro).getTitulo());
@@ -49,7 +47,7 @@ public LibroDAO(){
 
     //Busca y devuelve un libro especifico por titulo
     @Override
-    public Libro visualizar(String titulo) {
+    public Libro visualizar(int id) {
         Libro.Builder builder = new Libro.Builder();
         qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, " +
                 "l.stock, l.stock_disponible, a.nombre AS autor, " +
@@ -58,10 +56,10 @@ public LibroDAO(){
                 "JOIN autor a ON l.id_autor = a.id_autor " +
                 "JOIN categoria c ON l.id_categoria = c.id_categoria " +
                 "JOIN sub_categoria s ON l.id_sub_categoria = s.id_sub_categoria " +
-                "WHERE UPPER(l.titulo) LIKE ?";
+                "WHERE l.id_libro = ?";
 
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
-            pstmt.setString(1, "%" + titulo.toUpperCase() + "%"); // Usar LIKE con comodines
+            pstmt.setInt(1, id); // Usar LIKE con comodines
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -78,7 +76,7 @@ public LibroDAO(){
                 System.out.println("Libro encontrado: " + rs.getString("titulo"));
                 return new Libro(builder);
             } else {
-                System.out.println("No se encontró el libro con título: " + titulo);
+                System.out.println("No se encontró el libro con id: " + id);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -39,12 +39,12 @@ public class SubCategoriaDAO implements ICRUD {
     }
 
     @Override
-    public Object visualizar(String nombre) {
+    public Object visualizar(int id) {
         subCategoryData  = null;
-        qry = "SELECT id_sub_categoria, nombre, descripcion, id_categoria FROM sub_categoria WHERE nombre = ?";
+        qry = "SELECT id_sub_categoria, nombre, descripcion, id_categoria FROM sub_categoria WHERE id_sub_categoria = ?";
 
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
-            pstmt.setString(1, nombre);
+            pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {

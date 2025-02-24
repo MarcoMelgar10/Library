@@ -35,7 +35,7 @@ public class LogDAO implements ICRUD{
     }
 
     @Override
-    public Object visualizar(String nombre) {
+    public Object visualizar(int id) {
         return null;
     }
 

@@ -43,12 +43,12 @@ public AutorDAO(){
     //Devolver el autor que se busca
 
     @Override
-    public Object visualizar(String nombre) {
-        String qry = "SELECT id_autor, nombre, biografia FROM autor WHERE nombre = ?";
+    public Object visualizar(int id) {
+        String qry = "SELECT id_autor, nombre, biografia FROM autor WHERE id_autor = ?";
         Autor autor = null;
 
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, nombre);
+            stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     int idAutor = rs.getInt("id_autor");

@@ -3,11 +3,12 @@ package com.odvp.biblioteca.ControladoresVistas.BookScene;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
-import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.AgregarLibro;
-import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EditarLibro;
-import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EliminarLibro;
-import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.VisualizarLibro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.AgregarLibro.AgregarLibro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EditarLibro.EditarLibro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EliminarLibro.EliminarLibro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.VisualizarLibro.VisualizarLibro;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
+import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.scene.image.Image;
 
 import java.beans.PropertyChangeEvent;
@@ -26,6 +27,7 @@ public class HeaderLibros extends HeaderDefault {
     private final Image imagePorTitulo = new Image(ServicioIconos.LIBRO_POR_TITULO);
 
     private ModeloLibros modelo;
+    private LibroDAO libroDao = new LibroDAO();
 
     public HeaderLibros(ModeloLibros modelo) {
         super("BIBLIOTECA EBEN-EZER");

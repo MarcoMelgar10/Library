@@ -40,7 +40,7 @@ public class MultaDAO implements ICRUD{
     }
 
     @Override
-    public Object visualizar(String descripcion) {
+    public Object visualizar(int id) {
         return null;
     }
 
