@@ -3,9 +3,11 @@ package com.odvp.biblioteca.ControladoresVistas.BookScene;
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
 import com.odvp.biblioteca.Objetos.CategoryData;
 import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.Objetos.Libro;
 import com.odvp.biblioteca.Objetos.LibroCardData;
 import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
+import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,29 +37,29 @@ public class ModuloLibros extends BorderPane implements IModulo {
      */
 
     public void simularDatos(){
-        List<IDatoVisual> libros= new ArrayList<>();
-        LibroDAO libroDAO = new LibroDAO();
-        for(int i=0;i<libroDAO.listaLibros().size();i++) {
-            LibroCardData libroData2 = new LibroCardData(
-                    libroDAO.listaLibros().get(i).getID(),
-                    libroDAO.listaLibros().get(i).getTitulo(),
-                    libroDAO.listaLibros().get(i).getNombreAutor(),
-                    libroDAO.listaLibros().get(i).getStock(),
-                    libroDAO.listaLibros().get(i).getStockDisponible()
-            );
-            libros.add(libroData2);
-        }
-        List<CategoryData> categorias = new ArrayList<>();
-        CategoriaDAO categoriaDAO = new CategoriaDAO();
-        for(int i=0;i<categoriaDAO.listaCategorias().size();i++){
-            CategoryData categoryData = new CategoryData(categoriaDAO.listaCategorias().get(i).getId(),
-                    categoriaDAO.listaCategorias().get(i).getNombre(),
-                    categoriaDAO.listaCategorias().get(i).getDescripcion()
-                    );
-            categorias.add(categoryData);
-        }
-        modelo.setLibrosMostrados(libros);
-        modelo.setCategoriasMostradas(categorias);
+        new Thread(new Task<>() {
 
+            @Override
+            protected Object call() throws Exception {
+                List<IDatoVisual> datoLibros= new ArrayList<>();
+                LibroDAO libroDAO = new LibroDAO();
+                List<Libro> libros = libroDAO.listaLibros();
+                for(Libro libro : libros) {
+                    LibroCardData libroCardData = new LibroCardData(
+                            libro.getID(),
+                            libro.getTitulo(),
+                            libro.getNombreAutor(),
+                            libro.getStock(),
+                            libro.getStockDisponible()
+                    );
+                    datoLibros.add(libroCardData);
+                }
+                CategoriaDAO categoriaDAO = new CategoriaDAO();
+                List<CategoryData> categoriaDatos = categoriaDAO.listaCategorias();
+                modelo.setLibrosMostrados(datoLibros);
+                modelo.setCategoriasMostradas(categoriaDatos);
+                return null;
+            }
+        }).start();
     }
 }

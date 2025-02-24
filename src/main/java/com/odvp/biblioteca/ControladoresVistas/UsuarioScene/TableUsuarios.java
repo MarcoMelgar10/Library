@@ -32,7 +32,6 @@ public class TableUsuarios extends TableDefault {
     public void propertyChange(PropertyChangeEvent evt) {
 
         if(Objects.equals(evt.getPropertyName(), ModeloUsuarios.OBS_USUARIOS_MOSTRADOS)){
-            System.out.println("Recibiendo cambios");
             addCards(modelo.getUsuariosMostrados());
         }
         if(evt.getPropertyName().equals(ModeloUsuarios.OBS_USUARIO_SELECCIONADO)){

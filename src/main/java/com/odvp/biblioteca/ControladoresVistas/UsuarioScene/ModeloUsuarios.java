@@ -30,7 +30,6 @@ public class ModeloUsuarios {
         List<IDatoVisual> oldUsuariosMostrados = List.copyOf(this.usuariosMostrados);
         this.usuariosMostrados = usuarios;
         support.firePropertyChange(OBS_USUARIOS_MOSTRADOS, oldUsuariosMostrados, this.usuariosMostrados);
-        System.out.println("cambio en usuarios");
     }
     public void setUsuarioSeleccionado(IDatoVisual usuarioSeleccionado){
         if(this.usuarioSeleccionado == usuarioSeleccionado) usuarioSeleccionado = null;

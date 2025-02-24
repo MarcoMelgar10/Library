@@ -33,7 +33,6 @@ public class HeaderUsuarios extends HeaderDefault {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(ModeloUsuarios.OBS_USUARIO_SELECCIONADO)){
-            System.out.println(evt.getNewValue());
             if(evt.getOldValue() != null && evt.getNewValue() != null) return;
             deshabilitarBotones(evt.getNewValue() == null);
         }
