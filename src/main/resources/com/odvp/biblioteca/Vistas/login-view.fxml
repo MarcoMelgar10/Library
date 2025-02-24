@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="loginContainer" alignment="CENTER" prefHeight="374.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.LoginController">
+<VBox fx:id="loginContainer" alignment="CENTER" prefHeight="374.0" prefWidth="565.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.odvp.biblioteca.ControladoresVistas.LoginScene.LoginController">
   <padding>
     <Insets bottom="20.0" />
   </padding>

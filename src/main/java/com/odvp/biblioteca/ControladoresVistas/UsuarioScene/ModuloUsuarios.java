@@ -1,9 +1,8 @@
 package com.odvp.biblioteca.ControladoresVistas.UsuarioScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroUsuarios.ManejoUsuarios.ManejadorTableDefault;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroUsuarios.ManejoUsuarios.UsuarioData;
+import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.Objetos.UsuarioData;
 import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;

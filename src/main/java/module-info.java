@@ -17,4 +17,6 @@ module com.odvp.biblioteca {
     exports com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
     opens com.odvp.biblioteca.ControladoresVistas.DefaultComponents to javafx.fxml;
     opens com.odvp.biblioteca.ControladoresVistas.UsuarioScene to javafx.fxml;
+    exports com.odvp.biblioteca.ControladoresVistas.LoginScene;
+    opens com.odvp.biblioteca.ControladoresVistas.LoginScene to javafx.fxml;
 }

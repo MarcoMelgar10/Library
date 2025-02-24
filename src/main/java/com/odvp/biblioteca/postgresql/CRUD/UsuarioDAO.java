@@ -1,13 +1,10 @@
 package com.odvp.biblioteca.postgresql.CRUD;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.Libro;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroUsuario.Usuario;
+import com.odvp.biblioteca.Objetos.Usuario;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class UsuarioDAO implements ICRUD{

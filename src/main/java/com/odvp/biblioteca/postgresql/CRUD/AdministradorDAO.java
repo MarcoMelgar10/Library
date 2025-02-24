@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroAdministrador.Administrador;
+import com.odvp.biblioteca.Objetos.Administrador;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 import org.mindrot.jbcrypt.BCrypt;
 

@@ -1,7 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ParametersDefault;
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoCategorias.CategoryData;
+import com.odvp.biblioteca.Objetos.CategoryData;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;

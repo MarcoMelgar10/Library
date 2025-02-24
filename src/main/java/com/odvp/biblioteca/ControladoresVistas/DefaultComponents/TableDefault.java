@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
-import com.odvp.biblioteca.FuncionesMaestros.MaestroLibros.ManejoLibros.IDatoVisual;
+import com.odvp.biblioteca.Objetos.IDatoVisual;
 import com.odvp.biblioteca.LibraryApplication;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
