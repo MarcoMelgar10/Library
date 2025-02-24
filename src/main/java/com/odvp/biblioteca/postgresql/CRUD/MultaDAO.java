@@ -55,9 +55,8 @@ public class MultaDAO implements ICRUD{
 
     }
 
-
     public ArrayList<Multa> listaMultas() {
-        String qry = "SELECT id_multa, descripcion, monto, fecha_multa, estado, fecha_eliminacion, id_usuario, id_prestamo FROM multa";
+        String qry = "SELECT id_multa, descripcion, monto, fecha_multa, estado, fecha_cancelacion, id_usuario, id_prestamo FROM multa";
         ArrayList<Multa> multas = new ArrayList<>();
 
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
@@ -68,7 +67,7 @@ public class MultaDAO implements ICRUD{
                 int monto = rs.getInt("monto");
                 Date fechaMulta = rs.getDate("fecha_multa");
                 boolean estado = rs.getBoolean("estado");
-                Date fechaEliminacion = rs.getDate("fecha_eliminacion");
+                Date fechaEliminacion = rs.getDate("fecha_cancelacion");
                 int idUsuario = rs.getInt("id_usuario");
                 int idPrestamo = rs.getInt("id_prestamo");
 
