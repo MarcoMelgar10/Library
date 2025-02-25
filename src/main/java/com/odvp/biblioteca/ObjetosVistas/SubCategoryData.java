@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.Objetos;
+package com.odvp.biblioteca.ObjetosVistas;
 
 public class SubCategoryData {
     private String nombre;

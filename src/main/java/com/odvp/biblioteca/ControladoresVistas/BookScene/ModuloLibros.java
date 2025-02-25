@@ -1,10 +1,10 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
-import com.odvp.biblioteca.Objetos.CategoryData;
-import com.odvp.biblioteca.Objetos.IDatoVisual;
-import com.odvp.biblioteca.Objetos.Libro;
-import com.odvp.biblioteca.Objetos.LibroCardData;
+import com.odvp.biblioteca.ObjetosVistas.CategoryData;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.LibroCardData;
+import com.odvp.biblioteca.ObjetosVistas.LibroDTO;
 import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.concurrent.Task;
@@ -43,10 +43,10 @@ public class ModuloLibros extends BorderPane implements IModulo {
             protected Object call() throws Exception {
                 List<IDatoVisual> datoLibros= new ArrayList<>();
                 LibroDAO libroDAO = new LibroDAO();
-                List<Libro> libros = libroDAO.listaLibros();
-                for(Libro libro : libros) {
+                List<LibroDTO> libros = libroDAO.listaLibros();
+                for(LibroDTO libro : libros) {
                     LibroCardData libroCardData = new LibroCardData(
-                            libro.getID(),
+                            libro.getIdLibro(),
                             libro.getTitulo(),
                             libro.getNombreAutor(),
                             libro.getStock(),

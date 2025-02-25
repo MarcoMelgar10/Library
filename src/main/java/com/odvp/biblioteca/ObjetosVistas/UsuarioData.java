@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.Objetos;
+package com.odvp.biblioteca.ObjetosVistas;
 
 import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.scene.image.Image;

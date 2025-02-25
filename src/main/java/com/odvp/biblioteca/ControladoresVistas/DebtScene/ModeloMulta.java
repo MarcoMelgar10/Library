@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.DebtScene;
 
-import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -17,6 +17,10 @@ public class ModeloMulta {
 
     public ModeloMulta(){
         multaMostrada = new ArrayList<>();
+    }
+
+    public static String OBS_MULTA_SELECCIONADA() {
+        return OBS_MULTA_SELECCIONADA;
     }
 
     public void setMultaMostrada(List<IDatoVisual> multaMostrada){

@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.Objetos;
+package com.odvp.biblioteca.ObjetosVistas;
 
 import com.odvp.biblioteca.LibraryApplication;
 import javafx.scene.image.Image;

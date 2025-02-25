@@ -1,9 +1,9 @@
 package com.odvp.biblioteca.ControladoresVistas.DebtScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
-import com.odvp.biblioteca.Objetos.IDatoVisual;
-import com.odvp.biblioteca.Objetos.Multa;
-import com.odvp.biblioteca.Objetos.MultaCardData;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.MultaCardData;
+import com.odvp.biblioteca.ObjetosVistas.MultaDTO;
 import com.odvp.biblioteca.postgresql.CRUD.MultaDAO;
 import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
@@ -33,9 +33,9 @@ public class ModuloMulta extends BorderPane implements IModulo {
             protected Object call() throws Exception {
                 List<IDatoVisual> datoDeudas = new ArrayList<>();
                 MultaDAO multaDAO = new MultaDAO();
-                List<Multa> multas = multaDAO.listaMultas();
-                for (Multa multa : multas) {
-                    datoDeudas.add(new MultaCardData(multa.getIdMulta(), "Jorge", multa.getMonto(),multa.getFechaMulta(), multa.getIdPrestamo()));
+                List<MultaDTO> multas = multaDAO.listaMultas();
+                for (MultaDTO multa : multas) {
+                    datoDeudas.add(new MultaCardData(multa.getIdMulta(), multa.getNombreUsuario(), multa.getMonto(),multa.getFechaMulta(), multa.getIdPrestamo()));
                 }
                modelo.setMultaMostrada(datoDeudas);
                 return null;

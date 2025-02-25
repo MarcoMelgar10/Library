@@ -13,10 +13,11 @@ public class HeaderMultas extends HeaderDefault {
     private ButtonDefault buttonEdit = ButtonDefault.getButtonEdit();
     private ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
     private ButtonDefault buttonView = ButtonDefault.getButtonView();
-    private DefaultSearcher searcher = DefaultSearcher.getDynamicSearcher(ServicioIconos.OPCION_MODULO_DEUDAS);
+    private DefaultSearcher searcher = DefaultSearcher.getSimpleSearcher();
     private ModeloMulta modelo;
+
     public HeaderMultas(ModeloMulta modelo) {
-        super("Biblioteca Eben Ezer");
+        super("Multas");
         this.modelo = modelo;
         this.modelo.addObserver(this);
         addButtons(buttonNew, buttonView, buttonEdit, buttonDelete);
@@ -33,10 +34,9 @@ public class HeaderMultas extends HeaderDefault {
         }
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-            if(evt.getPropertyName().equals(modelo.getMultaMostrada())){
+            if(evt.getPropertyName().equals(ModeloMulta.OBS_MULTA_SELECCIONADA())){
                 if(evt.getOldValue() != null && evt.getNewValue() != null) return;
                 deshabilitarBotones(evt.getNewValue() == null);
             }
         }
-
     }

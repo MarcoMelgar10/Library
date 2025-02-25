@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.Objetos;
+package com.odvp.biblioteca.ObjetosVistas;
 
 //representa los datos que se mostraran de cada categoria
 

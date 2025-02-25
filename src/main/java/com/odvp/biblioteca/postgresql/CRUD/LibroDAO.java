@@ -1,7 +1,9 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 import com.odvp.biblioteca.Objetos.Libro;
+import com.odvp.biblioteca.ObjetosVistas.LibroDTO;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -99,45 +101,44 @@ public LibroDAO(){
 
 
 
-    public ArrayList<Libro> listaLibros() {
-         qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, l.stock, l.stock_disponible,l.id_autor, l.id_categoria, l.id_sub_categoria, a.nombre FROM libro l JOIN autor a on l.id_autor = a.id_autor";
-        ArrayList<Libro> libros = new ArrayList<>();
+    public ArrayList<LibroDTO> listaLibros() {
+        String qry = """
+        SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, l.stock, l.stock_disponible, 
+               a.nombre AS nombre_autor, 
+               c.nombre AS nombre_categoria, 
+               sc.nombre AS nombre_subcategoria 
+        FROM libro l 
+        JOIN autor a ON l.id_autor = a.id_autor 
+        JOIN categoria c ON l.id_categoria = c.id_categoria 
+        JOIN sub_categoria sc ON l.id_sub_categoria = sc.id_sub_categoria
+    """;
+
+        ArrayList<LibroDTO> libros = new ArrayList<>();
+
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
-             ResultSet rs = stmt.executeQuery()) {  // Usamos stmt.executeQuery sin pasarle qry, ya que ya lo definimos antes
+             ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
-                // Mapeo de los resultados de la consulta a objetos Libro
                 int idLibro = rs.getInt("id_libro");
                 String titulo = rs.getString("titulo");
                 String observacion = rs.getString("observacion");
-                LocalDate fechaPublicacion = rs.getDate("fecha_publicacion").toLocalDate();
+                Date fechaPublicacion = rs.getDate("fecha_publicacion");
                 int stock = rs.getInt("stock");
                 int stockDisponible = rs.getInt("stock_disponible");
-                int idAutor = rs.getInt("id_autor");
-                int idCategoria = rs.getInt("id_categoria");
-                int idSubCategoria = rs.getInt("id_sub_categoria");
-                String nombreAutor = rs.getString("nombre");
+                String nombreAutor = rs.getString("nombre_autor");
+                String nombreCategoria = rs.getString("nombre_categoria");
+                String nombreSubCategoria = rs.getString("nombre_subcategoria");
 
-                // Usando el patrón Builder para construir el objeto Libro
-                Libro libro = new Libro.Builder()
-                        .ID(idLibro)
-                        .titulo(titulo)
-                        .observacion(observacion)
-                        .publicacion(fechaPublicacion)
-                        .stock(stock)
-                        .stockDisponible(stockDisponible)
-                        .idAutor(idAutor)
-                        .idCategoria(idCategoria)
-                        .idSubCategoria(idSubCategoria)
-                        .autor(nombreAutor)
-                        .build(); // Llamar a build() para obtener el objeto final
-
-                libros.add(libro);
+                // Crear objeto DTO
+                LibroDTO libroDTO = new LibroDTO(idLibro, titulo, observacion, fechaPublicacion, stock, stockDisponible,
+                        nombreAutor, nombreCategoria, nombreSubCategoria);
+                libros.add(libroDTO);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return libros;
     }
+
 
 }
