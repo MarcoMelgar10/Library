@@ -113,8 +113,8 @@ public AutorDAO(){
     }
 
     //Lista de todos los autores
-    public ArrayList<Autor> obtenerTodosAutores() {
-        String qry = "SELECT id_autor, nombre, biografia FROM autor";
+    public ArrayList<Autor> obtenerAutoresAlfabeticamente() {
+        String qry = "SELECT id_autor, nombre, resena FROM autor order by nombre";
         ArrayList<Autor> autores = new ArrayList<>();
 
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
@@ -123,7 +123,7 @@ public AutorDAO(){
             while (rs.next()) {
                 int idAutor = rs.getInt("id_autor");
                 String nombre = rs.getString("nombre");
-                String biografia = rs.getString("biografia");
+                String biografia = rs.getString("resena");
 
                 Autor autor = new Autor(idAutor, nombre, biografia);
                 autores.add(autor);
@@ -133,5 +133,24 @@ public AutorDAO(){
             System.out.println("Error: " + e.getMessage());
         }
         return autores;
+    }
+
+    public ArrayList<String> nombreColumnas(){
+        String qry = "SELECT column_name FROM information_schema.columns\n" +
+                "        WHERE table_name = 'autor';";
+        ArrayList<String> columnas = new ArrayList<>();
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                String column = rs.getString("column_name");
+                columnas.add(column);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error SQL State: " + e.getSQLState());
+            System.out.println("Error: " + e.getMessage());
+        }
+        return columnas;
     }
 }

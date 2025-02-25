@@ -1,35 +1,26 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EditarLibro;
 
-import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
 import com.odvp.biblioteca.ControladoresVistas.IOperacion;
-import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.Objetos.Libro;
+import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
+import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+import com.odvp.biblioteca.postgresql.CRUD.SubCategoriaDAO;
 
 /*
     crea la ventana para editar un libro
  */
 
-public class EditarLibro implements IOperacion {
+public class EditarLibro {
     private Libro libro;
     private final LibroDAO libroDAO = new LibroDAO();
+    private final AutorDAO autorDAO =  new AutorDAO();
+    private final CategoriaDAO categoriaDAO = new CategoriaDAO();
+    private final SubCategoriaDAO subCategoriaDAO = new SubCategoriaDAO();
     public EditarLibro(Integer libroID){
         this.libro = libroDAO.visualizar(libroID);
-        buildWindow();
+        EditarLibroVentana editarLibro = new EditarLibroVentana(libro,libroDAO ,autorDAO, categoriaDAO, subCategoriaDAO);
     }
 
 
-    @Override
-    public void buildWindow() {
-        try{
-            new EditarLibroVentana(libro);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 }

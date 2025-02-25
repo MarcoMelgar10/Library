@@ -115,5 +115,46 @@ this.subCategoryData = subCategoryData;
         }
         return subCategorias;
     }
+    public ArrayList<SubCategoryData> obtenerSubCategoriasPorCategoria(int categoriaId) {
+        String qry = "SELECT * " +
+                "FROM sub_categoria " +
+                "WHERE id_categoria = '"+ categoriaId +"'";
+        ArrayList<SubCategoryData> subCategorias = new ArrayList<>();
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("id_sub_categoria");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                int idCategoria = rs.getInt("id_categoria");
+                subCategorias.add(new SubCategoryData(id, nombre, descripcion, idCategoria));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subCategorias;
+    }
+
+    public ArrayList<SubCategoryData> obtenerSubCategoriasPorCategoriaAlfabeticamente(int categoriaId) {
+        String qry = "SELECT * " +
+                "FROM sub_categoria " +
+                "WHERE id_categoria = '"+ categoriaId +"' order by nombre";
+        ArrayList<SubCategoryData> subCategorias = new ArrayList<>();
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("id_sub_categoria");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                int idCategoria = rs.getInt("id_categoria");
+                subCategorias.add(new SubCategoryData(id, nombre, descripcion, idCategoria));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subCategorias;
+    }
 
 }

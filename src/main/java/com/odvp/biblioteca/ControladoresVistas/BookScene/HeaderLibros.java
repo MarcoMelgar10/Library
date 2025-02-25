@@ -35,8 +35,8 @@ public class HeaderLibros extends HeaderDefault {
         this.modelo = modelo;
         this.modelo.addObserver(this);
 
-        buttonNew.setOnMouseClicked(e -> new AgregarLibro());
-        buttonView.setOnMouseClicked(e -> new VisualizarLibro(modelo.getLibroSeleccionado().getID()));
+        buttonNew.setOnMouseClicked(e -> new AgregarLibro(modelo));
+        buttonView.setOnMouseClicked(e -> new VisualizarLibro(modelo));
         buttonEdit.setOnMouseClicked(e -> new EditarLibro(modelo.getLibroSeleccionado().getID()));
         buttonDelete.setOnMouseClicked(e -> new EliminarLibro(modelo.getLibroSeleccionado().getID()));
 

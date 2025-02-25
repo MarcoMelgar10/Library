@@ -41,19 +41,8 @@ public class ModuloLibros extends BorderPane implements IModulo {
 
             @Override
             protected Object call() throws Exception {
-                List<IDatoVisual> datoLibros= new ArrayList<>();
                 LibroDAO libroDAO = new LibroDAO();
-                List<Libro> libros = libroDAO.listaLibros();
-                for(Libro libro : libros) {
-                    LibroCardData libroCardData = new LibroCardData(
-                            libro.getID(),
-                            libro.getTitulo(),
-                            libro.getNombreAutor(),
-                            libro.getStock(),
-                            libro.getStockDisponible()
-                    );
-                    datoLibros.add(libroCardData);
-                }
+                List<IDatoVisual> datoLibros = libroDAO.listaLibrosVisual();
                 CategoriaDAO categoriaDAO = new CategoriaDAO();
                 List<CategoryData> categoriaDatos = categoriaDAO.listaCategorias();
                 modelo.setLibrosMostrados(datoLibros);

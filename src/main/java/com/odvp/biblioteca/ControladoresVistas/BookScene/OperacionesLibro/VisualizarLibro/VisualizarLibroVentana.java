@@ -18,7 +18,7 @@ public class VisualizarLibroVentana extends Stage {
 
         setTitle("Visualizar Libro");
 
-        VBox root = new VBox(8);
+        VBox root = new VBox(10);
         root.setAlignment(Pos.TOP_CENTER);
         root.setPadding(new Insets(20));
 
@@ -50,6 +50,10 @@ public class VisualizarLibroVentana extends Stage {
         Label categoriaComboBox = new Label(libro.getNombreCategoria());
         categoriaComboBox.setPrefWidth(150);
 
+        Label subCategoriaLabel = new Label("Categoria:");
+        Label subCategoriaComboBox = new Label(libro.getNombreSubCategoria());
+        categoriaComboBox.setPrefWidth(150);
+
         Label fechaLabel = new Label("Fecha de publicación:");
         Label publicacionDatePicker = new Label(libro.getPublicacion() +"");
         publicacionDatePicker.setPrefWidth(125);
@@ -78,15 +82,16 @@ public class VisualizarLibroVentana extends Stage {
         formGrid.addRow(1, titleLabel, titleField);
         formGrid.addRow(2, autorLabel, autorField);
         formGrid.addRow(3, categoriaLabel, categoriaComboBox);
-        formGrid.addRow(4, fechaLabel, publicacionDatePicker);
-        formGrid.addRow(5, stockLabel, stockSpinner);
-        formGrid.addRow(6, disponibleLabel, disponibleSpinner);
-        formGrid.addRow(7, observacionLabel);
+        formGrid.addRow(4, subCategoriaLabel, subCategoriaComboBox);
+        formGrid.addRow(5, fechaLabel, publicacionDatePicker);
+        formGrid.addRow(6, stockLabel, stockSpinner);
+        formGrid.addRow(7, disponibleLabel, disponibleSpinner);
+        formGrid.addRow(8, observacionLabel);
 
         // Contenedor de botones
-        Button cancelarButton = new Button("Cancelar");
         Button aceptarButton = new Button("Aceptar");
-        HBox buttonsContainer = new HBox(8, cancelarButton, aceptarButton);
+        aceptarButton.setOnAction(e -> close());
+        HBox buttonsContainer = new HBox(8, aceptarButton);
         buttonsContainer.setAlignment(Pos.CENTER);
 
         // Agregar elementos al VBox principal
