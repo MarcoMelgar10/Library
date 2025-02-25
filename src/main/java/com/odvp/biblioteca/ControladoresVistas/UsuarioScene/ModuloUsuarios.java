@@ -1,10 +1,9 @@
 package com.odvp.biblioteca.ControladoresVistas.UsuarioScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
-import com.odvp.biblioteca.Objetos.IDatoVisual;
-import com.odvp.biblioteca.Objetos.Libro;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.Objetos.Usuario;
-import com.odvp.biblioteca.Objetos.UsuarioData;
+import com.odvp.biblioteca.ObjetosVistas.UsuarioData;
 import com.odvp.biblioteca.postgresql.CRUD.UsuarioDAO;
 import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
@@ -20,10 +19,8 @@ public class ModuloUsuarios extends BorderPane implements IModulo {
 
     public ModuloUsuarios(ModeloUsuarios modelo){
         this.modelo = modelo;
-
         header = new HeaderUsuarios(this.modelo);
         table = new TableUsuarios(this.modelo);
-
         setTop(header);
         setCenter(table);
         simularDatos();
@@ -34,13 +31,13 @@ public class ModuloUsuarios extends BorderPane implements IModulo {
         new Thread(new Task<>() {
             @Override
             protected Object call() throws Exception {
-                List<IDatoVisual> datoUsuarios = new ArrayList<>();
+                List<IDatoVisual> datoUsuario= new ArrayList<>();
                 UsuarioDAO usuarioDAO = new UsuarioDAO();
                 List<Usuario> usuarios = usuarioDAO.listaUsuarios();
-                for (Usuario usuario : usuarios) {
-                    datoUsuarios.add(new UsuarioData(usuario.getId(), usuario.getNombre(), usuario.isEstadoBloqueo()));
+                for(Usuario usuario: usuarios){
+                    datoUsuario.add(new UsuarioData(usuario.getId(), usuario.getNombre(), usuario.isEstadoBloqueo()));
                 }
-                modelo.setUsuariosMostrados(datoUsuarios);
+                modelo.setUsuariosMostrados(datoUsuario);
                 return null;
             }
         }).start();

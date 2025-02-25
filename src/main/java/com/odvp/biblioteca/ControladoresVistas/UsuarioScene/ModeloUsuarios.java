@@ -1,7 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.UsuarioScene;
 
-import com.odvp.biblioteca.Objetos.IDatoVisual;
-import com.odvp.biblioteca.Objetos.UsuarioData;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.UsuarioData;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -36,7 +36,6 @@ public class ModeloUsuarios {
         IDatoVisual oldUsuarioSeleccionado = this.usuarioSeleccionado;
         this.usuarioSeleccionado = usuarioSeleccionado;
         support.firePropertyChange(OBS_USUARIO_SELECCIONADO, oldUsuarioSeleccionado,this.usuarioSeleccionado);
-
     }
 
     public UsuarioData getUsuarioSeleccionado() {

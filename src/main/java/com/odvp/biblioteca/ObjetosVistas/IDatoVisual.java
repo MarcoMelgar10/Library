@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.Objetos;
+package com.odvp.biblioteca.ObjetosVistas;
 
 import java.util.List;
 

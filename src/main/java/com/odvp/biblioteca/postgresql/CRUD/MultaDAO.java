@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
 import com.odvp.biblioteca.Objetos.Multa;
+import com.odvp.biblioteca.ObjetosVistas.MultaDTO;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.Date;
@@ -55,25 +56,34 @@ public class MultaDAO implements ICRUD{
 
     }
 
-    public ArrayList<Multa> listaMultas() {
-        String qry = "SELECT id_multa, descripcion, monto, fecha_multa, estado, fecha_cancelacion, id_usuario, id_prestamo FROM multa";
-        ArrayList<Multa> multas = new ArrayList<>();
+    public ArrayList<MultaDTO> listaMultas() {
+        String qry = """
+        SELECT m.id_multa, m.descripcion, m.monto, m.fecha_multa, m.estado, 
+               m.fecha_cancelacion, m.id_prestamo, u.nombre 
+        FROM multa m 
+        JOIN usuario u ON m.id_usuario = u.id_usuario 
+        WHERE m.estado = true
+        ORDER BY m.id_multa ASC
+    """;
+
+        ArrayList<MultaDTO> multas = new ArrayList<>();
 
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
              ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
                 int idMulta = rs.getInt("id_multa");
+                int idPrestamo = rs.getInt("id_prestamo");
                 String descripcion = rs.getString("descripcion");
                 int monto = rs.getInt("monto");
                 Date fechaMulta = rs.getDate("fecha_multa");
                 boolean estado = rs.getBoolean("estado");
                 Date fechaEliminacion = rs.getDate("fecha_cancelacion");
-                int idUsuario = rs.getInt("id_usuario");
-                int idPrestamo = rs.getInt("id_prestamo");
+                String nombreUsuario = rs.getString("nombre"); // Datos de usuario
 
-                // Crear un objeto Multa y agregarlo a la lista
-                Multa multa = new Multa(idMulta, descripcion, monto, fechaMulta, estado, fechaEliminacion, idUsuario, idPrestamo);
-                multas.add(multa);
+                // Crear objeto DTO
+                MultaDTO multaDTO = new MultaDTO(idMulta, descripcion, monto, fechaMulta, estado, fechaEliminacion, nombreUsuario, idPrestamo);
+                multas.add(multaDTO);
             }
         } catch (SQLException e) {
             e.printStackTrace();

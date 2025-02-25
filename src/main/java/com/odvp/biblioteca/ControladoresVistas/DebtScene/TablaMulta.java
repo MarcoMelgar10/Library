@@ -14,9 +14,9 @@ public class TablaMulta extends TableDefault {
     public TablaMulta(ModeloMulta modelo) {
         super(
                 List.of("Estado", "Codigo", "Usuario", "Monto"),
-                List.of(50,100,150,70),
-                List.of(false, false, true, false),
-                List.of(false, false, true, true));
+                List.of(50,50,700,50),
+                List.of(false, false, false, false),
+                List.of(false, false, false, false));
      this.modelo = modelo;
      this.modelo.addObserver(this);
     }

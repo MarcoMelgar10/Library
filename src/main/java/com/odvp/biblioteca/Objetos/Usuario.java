@@ -3,7 +3,8 @@ package com.odvp.biblioteca.Objetos;
 public class Usuario {
     private int id;
     private String nombre;
-    private String apellidos;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private String telefono;
     private String direccion;
     private int multa;
@@ -13,7 +14,8 @@ public class Usuario {
     public Usuario(Builder builder) {
         this.id = builder.idUsuario;
         this.nombre = builder.nombre;
-        this.apellidos = builder.apellidos;
+        this.apellidoPaterno = builder.apellidoPaterno;
+        this.apellidoMaterno = builder.apellidoMaterno;
         this.telefono = builder.telefono;
         this.direccion = builder.direccion;
         this.multa = builder.multa;
@@ -29,9 +31,11 @@ public class Usuario {
         return nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
     }
+
+    public String getApellidoMaterno() {return apellidoMaterno;}
 
     public String getTelefono() {
         return telefono;
@@ -53,7 +57,8 @@ public class Usuario {
     public static class Builder {
         private int idUsuario;
         private String nombre;
-        private String apellidos;
+        private String apellidoPaterno;
+        private String apellidoMaterno;
         private String telefono;
         private String direccion;
         private int multa;
@@ -70,10 +75,15 @@ public class Usuario {
             return this;
         }
 
-        public Builder apellidos(String paterno, String materno) {
-            this.apellidos = paterno + " " + materno;
+        public Builder apellidoPaterno(String apellidoPaterno) {
+            this.apellidoPaterno = apellidoPaterno;
             return this;
         }
+        public Builder apellidoMaterno(String apellidoMaterno){
+            this.apellidoMaterno = apellidoMaterno;
+            return this;
+        }
+
 
         public Builder telefono(String telefono) {
             this.telefono = telefono;

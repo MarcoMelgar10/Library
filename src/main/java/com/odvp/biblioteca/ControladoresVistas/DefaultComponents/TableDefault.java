@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
-import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.LibraryApplication;
 import javafx.application.Platform;
 import javafx.concurrent.Task;

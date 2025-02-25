@@ -1,5 +1,5 @@
 package com.odvp.biblioteca.postgresql.CRUD;
-import com.odvp.biblioteca.Objetos.SubCategoryData;
+import com.odvp.biblioteca.ObjetosVistas.SubCategoryData;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.PreparedStatement;
