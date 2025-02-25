@@ -40,12 +40,12 @@ public class UsuarioDAO implements ICRUD {
     }
 
     @Override
-    public Object visualizar(int id) {
+    public Object visualizar(String nombre) {
         Usuario usuario = null;
         qry = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, telefono, direccion, multa, estado_bloqueo " +
-                "FROM usuario WHER id_usuario = ?";
+                "FROM usuario WHERE UPPER(nombre) LIKE ?";
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
-            pstmt.setInt(1, id); // Buscar con LIKE y sin distinción de mayúsculas/minúsculas
+            pstmt.setString(1, "%" + nombre.toUpperCase() + "%"); // Buscar con LIKE y sin distinción de mayúsculas/minúsculas
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 Usuario.Builder builder = new Usuario.Builder();
@@ -60,7 +60,7 @@ public class UsuarioDAO implements ICRUD {
                 usuario = new Usuario(builder);
                 System.out.println("Usuario encontrado: " + usuario.getNombre());
             } else {
-                System.out.println("No se encontró el usuario con ID: " + id);
+                System.out.println("No se encontró el usuario con nombre: " + nombre);
             }
         } catch (SQLException e) {
             e.printStackTrace();
