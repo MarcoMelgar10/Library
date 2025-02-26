@@ -3,6 +3,7 @@ package com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutor;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
 import com.odvp.biblioteca.Objetos.Libro;
 import com.odvp.biblioteca.LibraryApplication;
+import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +16,9 @@ import javafx.stage.Stage;
 
 public class VisualizarAutor implements IOperacionAutor {
     public Libro libro;
+    private LibroDAO libroDAO = new LibroDAO();
     public VisualizarAutor(Integer idLibro){
+        libro = libroDAO.visualizar(idLibro);
         buildWindow();
     }
     @Override

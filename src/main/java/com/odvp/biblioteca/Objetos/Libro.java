@@ -2,6 +2,7 @@ package com.odvp.biblioteca.Objetos;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 /*
     clase que representa libros mediante objetos, usa builder pattern,se usa para visualizar
@@ -12,7 +13,7 @@ public class Libro {
     private int ID;
     private String titulo;
     private String observacion;
-    private LocalDate publicacion;
+    private Date publicacion;
     private int stock;
     private int stockDisponible;
     private String nombreCategoria;
@@ -29,10 +30,12 @@ public class Libro {
         this.publicacion = builder.publicacion;
         this.stock = builder.stock;
         this.stockDisponible = builder.stockDisponible;
-        nombreCategoria = builder.categoria;
-        nombreAutor = builder.autor;
-        nombreSubCategoria = builder.subCategoria;
-
+        this.nombreCategoria = builder.categoria;
+        this.nombreAutor = builder.autor;
+        this.nombreSubCategoria = builder.subCategoria;
+        this.idAutor = builder.idAutor;
+        this.idCategoria = builder.idCategoria;
+        this.idSubCategoria = builder.idSubCategoria;
     }
 
     public String getNombreSubCategoria() {
@@ -68,10 +71,10 @@ public class Libro {
     }
 
     public Date getPublicacion() {
-        return Date.valueOf(publicacion);
+         return publicacion;
     }
 
-    public void setPublicacion(LocalDate publicacion) {
+    public void setPublicacion(Date publicacion) {
         this.publicacion = publicacion;
     }
 
@@ -135,7 +138,7 @@ public class Libro {
         private int ID;
         private String titulo;
         private String observacion;
-        private LocalDate publicacion;
+        private Date publicacion;
         private int stock;
         private int stockDisponible;
         private String categoria;
@@ -160,7 +163,7 @@ public class Libro {
             return this;
         }
 
-        public Builder publicacion(LocalDate publicacion) {
+        public Builder publicacion(Date publicacion) {
             this.publicacion = publicacion;
             return this;
         }

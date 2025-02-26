@@ -36,12 +36,12 @@ public class CategoriaDAO implements ICRUD{
     }
 
     @Override
-    public Object visualizar(String titulo) {
+    public Object visualizar(int id) {
         CategoryData categoria = null;
         String sql = "SELECT id_categoria, nombre, descripcion FROM categoria WHERE id_categoria = ?";
 
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(sql)) {
-            pstmt.setString(1, titulo);
+            pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 categoria = new CategoryData(
@@ -97,6 +97,25 @@ public class CategoriaDAO implements ICRUD{
 
     public ArrayList<CategoryData> listaCategorias() {
          qry = "SELECT id_categoria, nombre, descripcion FROM categoria";
+        ArrayList<CategoryData> categorias = new ArrayList<>();
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("id_categoria");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+
+                categorias.add(new CategoryData(id, nombre, descripcion));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categorias;
+    }
+
+    public ArrayList<CategoryData> listaCategoriasAlfabeticamente() {
+        qry = "SELECT id_categoria, nombre, descripcion FROM categoria order by nombre";
         ArrayList<CategoryData> categorias = new ArrayList<>();
 
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);

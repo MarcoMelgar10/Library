@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro;
+package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EliminarLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookDeleteController;
 import com.odvp.biblioteca.ControladoresVistas.IOperacion;
@@ -23,16 +23,7 @@ public class EliminarLibro implements IOperacion {
     @Override
     public void buildWindow() {
         try{
-            Stage stage = new Stage();
-            FXMLLoader loader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/BookScene/book-delete.fxml"));
-            Parent root = loader.load();
-            BookDeleteController controller = loader.getController();
-            controller.initComponents(libroId);
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.showAndWait();
+            new EliminarLibroVentana(libroId);
         }catch (Exception e){
             e.printStackTrace();
         }

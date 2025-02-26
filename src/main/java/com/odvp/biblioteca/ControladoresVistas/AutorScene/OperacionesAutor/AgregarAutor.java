@@ -2,6 +2,7 @@ package com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutor;
 
 import com.odvp.biblioteca.Objetos.Autor;
 import com.odvp.biblioteca.LibraryApplication;
+import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 
 public class AgregarAutor implements IOperacionAutor{
     private Autor libro;
+    private LibroDAO libroDAO = new LibroDAO();
 
     public AgregarAutor(){
         buildWindow();

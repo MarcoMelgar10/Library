@@ -39,12 +39,12 @@ public class SubCategoriaDAO implements ICRUD {
     }
 
     @Override
-    public Object visualizar(String nombre) {
+    public Object visualizar(int id) {
         subCategoryData  = null;
-        qry = "SELECT id_sub_categoria, nombre, descripcion, id_categoria FROM sub_categoria WHERE nombre = ?";
+        qry = "SELECT id_sub_categoria, nombre, descripcion, id_categoria FROM sub_categoria WHERE id_sub_categoria = ?";
 
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
-            pstmt.setString(1, nombre);
+            pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
@@ -99,6 +99,47 @@ this.subCategoryData = subCategoryData;
         String qry = "SELECT sc.id_sub_categoria, sc.nombre, sc.descripcion, sc.id_categoria, c.nombre AS categoria " +
                 "FROM sub_categoria sc " +
                 "JOIN categoria c ON sc.id_categoria = c.id_categoria";
+        ArrayList<SubCategoryData> subCategorias = new ArrayList<>();
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("id_sub_categoria");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                int idCategoria = rs.getInt("id_categoria");
+                subCategorias.add(new SubCategoryData(id, nombre, descripcion, idCategoria));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subCategorias;
+    }
+    public ArrayList<SubCategoryData> obtenerSubCategoriasPorCategoria(int categoriaId) {
+        String qry = "SELECT * " +
+                "FROM sub_categoria " +
+                "WHERE id_categoria = '"+ categoriaId +"'";
+        ArrayList<SubCategoryData> subCategorias = new ArrayList<>();
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("id_sub_categoria");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                int idCategoria = rs.getInt("id_categoria");
+                subCategorias.add(new SubCategoryData(id, nombre, descripcion, idCategoria));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return subCategorias;
+    }
+
+    public ArrayList<SubCategoryData> obtenerSubCategoriasPorCategoriaAlfabeticamente(int categoriaId) {
+        String qry = "SELECT * " +
+                "FROM sub_categoria " +
+                "WHERE id_categoria = '"+ categoriaId +"' order by nombre";
         ArrayList<SubCategoryData> subCategorias = new ArrayList<>();
 
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);

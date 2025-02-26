@@ -47,6 +47,7 @@ public class ModeloLibros {
     public void setLibrosMostrados(List<IDatoVisual> libros){
         List<IDatoVisual> oldLibros = List.copyOf(this.librosMostrados);
         librosMostrados = libros;
+        setLibroSeleccionado(null);
         support.firePropertyChange(OBS_LIBROS_MOSTRADOS, oldLibros, this.librosMostrados);
     }
 

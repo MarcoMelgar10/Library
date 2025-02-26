@@ -3,6 +3,7 @@ package com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutor;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.BookOperationController;
 import com.odvp.biblioteca.Objetos.Libro;
 import com.odvp.biblioteca.LibraryApplication;
+import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,22 +19,9 @@ import java.util.Date;
 
 public class EditarAutor implements IOperacionAutor {
     private Libro libro;
-    public EditarAutor(Integer libroID){
-        //reemplazar por metodo que obtenga el libro de la base de datos, esto es solo prueba:
-        Date date;
-        date = new Date(10/10/2001);
-        this.libro = new Libro
-                .Builder()
-                //.idAutor(1)
-                //.idCategoria(1)
-                .titulo("Las aventuras de los programadores junior")
-                .publicacion(LocalDate.now())
-                .observacion("Esta muy bueno")
-                .stock(10)
-                .stockDisponible(10)
-                .ID(1)
-                .build();
-        buildWindow();
+    private final LibroDAO libroDAO = new LibroDAO();
+    public EditarAutor(Integer libroID){;
+        this.libro = libroDAO.visualizar(libroID);
     }
 
 

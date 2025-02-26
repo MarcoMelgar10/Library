@@ -1,19 +1,19 @@
 package com.odvp.biblioteca.postgresql.CRUD;
+import com.odvp.biblioteca.Objetos.IDatoVisual;
 import com.odvp.biblioteca.Objetos.Libro;
+import com.odvp.biblioteca.Objetos.LibroCardData;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla libro.
    */
 public class LibroDAO implements ICRUD {
 private  String qry;
-private Libro libro;
 private ConexionDB conexionDB;
 
 public LibroDAO(){
@@ -24,17 +24,22 @@ public LibroDAO(){
     //Inserta nuevos libros en la BD
     @Override
     public void insertar(Object libro) {
-    this.libro = (Libro) libro;
-         qry = "call agregar_libro(?, ?, ?, ?, ?,?)";
+         qry = "call agregar_libro(?, ?, ?, ?, ?,?,?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, ((Libro) libro).getTitulo());
-            stmt.setString(2, ((Libro) libro).getObservacion());
-            stmt.setDate(3, ((Libro) libro).getPublicacion());
-            stmt.setInt(4, ((Libro) libro).getStock());
-            stmt.setInt(5, ((Libro) libro).getIdAutor());
-            stmt.setInt(6,((Libro) libro).getIdCategoria());
+            Libro libro1 = (Libro) libro;
+            stmt.setString(1, libro1.getTitulo());
+            stmt.setString(2, libro1.getObservacion());
+            if(libro1.getPublicacion() == null){
+                stmt.setNull(3, Types.DATE);
+            }else {
+                stmt.setDate(3, libro1.getPublicacion());
+            }
+            stmt.setInt(4, libro1.getStock());
+            stmt.setInt(5, libro1.getIdAutor());
+            stmt.setInt(6, libro1.getIdCategoria());
+            stmt.setInt(7, libro1.getIdSubCategoria());
             stmt.execute();
-            System.out.println("Información cargada a la base de datos: " + ((Libro) libro).getTitulo());
+            System.out.println("Información cargada a la base de datos: " + libro1.getTitulo());
 
         } catch (SQLException e) {
             // Manejo de errores más detallado
@@ -44,12 +49,28 @@ public LibroDAO(){
         }
     }
 
+    public Integer getNextId(){
+        qry = "SELECT MAX(id_libro) as id_libro FROM libro";
+        int id=0;
+        try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
+            ResultSet rs = pstmt.executeQuery();
 
+            if (rs.next()) {
+                id = rs.getInt("id_libro");
+                return id;
+            } else {
+                System.out.println("No se encontró el libro con id: " + id + 1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
 
 
     //Busca y devuelve un libro especifico por titulo
     @Override
-    public Libro visualizar(String titulo) {
+    public Libro visualizar(int id) {
         Libro.Builder builder = new Libro.Builder();
         qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, " +
                 "l.stock, l.stock_disponible, a.nombre AS autor, " +
@@ -58,18 +79,18 @@ public LibroDAO(){
                 "JOIN autor a ON l.id_autor = a.id_autor " +
                 "JOIN categoria c ON l.id_categoria = c.id_categoria " +
                 "JOIN sub_categoria s ON l.id_sub_categoria = s.id_sub_categoria " +
-                "WHERE UPPER(l.titulo) LIKE ?";
+                "WHERE l.id_libro = ?";
 
         try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
-            pstmt.setString(1, "%" + titulo.toUpperCase() + "%"); // Usar LIKE con comodines
+            pstmt.setInt(1, id); // Usar LIKE con comodines
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 builder.ID(rs.getInt("id_libro"));
                 builder.titulo(rs.getString("titulo"));
                 builder.observacion(rs.getString("observacion"));
-                LocalDate fecha_publicacion = rs.getDate("fecha_publicacion").toLocalDate();
-                builder.publicacion(fecha_publicacion);
+                Date fecha_publicacion = rs.getDate("fecha_publicacion");
+                if(fecha_publicacion != null) builder.publicacion(fecha_publicacion);
                 builder.stock(rs.getInt("stock"));
                 builder.stockDisponible(rs.getInt("stock_disponible"));
                 builder.autor(rs.getString("autor"));
@@ -78,7 +99,7 @@ public LibroDAO(){
                 System.out.println("Libro encontrado: " + rs.getString("titulo"));
                 return new Libro(builder);
             } else {
-                System.out.println("No se encontró el libro con título: " + titulo);
+                System.out.println("No se encontró el libro con id: " + id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -109,7 +130,7 @@ public LibroDAO(){
                 int idLibro = rs.getInt("id_libro");
                 String titulo = rs.getString("titulo");
                 String observacion = rs.getString("observacion");
-                LocalDate fechaPublicacion = rs.getDate("fecha_publicacion").toLocalDate();
+                Date fechaPublicacion = rs.getDate("fecha_publicacion");
                 int stock = rs.getInt("stock");
                 int stockDisponible = rs.getInt("stock_disponible");
                 int idAutor = rs.getInt("id_autor");
@@ -132,6 +153,31 @@ public LibroDAO(){
                         .build(); // Llamar a build() para obtener el objeto final
 
                 libros.add(libro);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return libros;
+    }
+
+    public ArrayList<IDatoVisual> listaLibrosVisual() {
+        qry = "SELECT l.id_libro, l.titulo, l.stock, l.stock_disponible, a.nombre FROM libro l JOIN autor a on l.id_autor = a.id_autor";
+        ArrayList<IDatoVisual> libros = new ArrayList<>();
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {  // Usamos stmt.executeQuery sin pasarle qry, ya que ya lo definimos antes
+            while (rs.next()) {
+                // Mapeo de los resultados de la consulta a objetos Libro
+                int idLibro = rs.getInt("id_libro");
+                String titulo = rs.getString("titulo");
+                int stock = rs.getInt("stock");
+                int stockDisponible = rs.getInt("stock_disponible");
+                String nombreAutor = rs.getString("nombre");
+
+                // Usando el patrón Builder para construir el objeto Libro
+                LibroCardData libroCardData = new LibroCardData(idLibro, titulo, nombreAutor, stock, stockDisponible);
+
+                libros.add(libroCardData);
             }
         } catch (SQLException e) {
             e.printStackTrace();
