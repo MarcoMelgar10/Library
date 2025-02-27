@@ -1,9 +1,9 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.AgregarLibro;
 
 import com.odvp.biblioteca.Objetos.Autor;
-import com.odvp.biblioteca.Objetos.CategoryData;
 import com.odvp.biblioteca.Objetos.Libro;
-import com.odvp.biblioteca.Objetos.SubCategoryData;
+import com.odvp.biblioteca.ObjetosVistas.CategoryData;
+import com.odvp.biblioteca.ObjetosVistas.SubCategoryData;
 import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
 import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;

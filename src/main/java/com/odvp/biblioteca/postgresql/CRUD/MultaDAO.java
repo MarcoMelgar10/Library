@@ -1,6 +1,8 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
 import com.odvp.biblioteca.Objetos.Multa;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.MultaCardData;
 import com.odvp.biblioteca.ObjetosVistas.MultaDTO;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
@@ -9,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /*
@@ -57,7 +60,7 @@ public class MultaDAO implements ICRUD{
     }
 
     public ArrayList<MultaDTO> listaMultas() {
-        String qry = """
+         qry = """
         SELECT m.id_multa, m.descripcion, m.monto, m.fecha_multa, m.estado, 
                m.fecha_cancelacion, m.id_prestamo, u.nombre 
         FROM multa m 
@@ -103,5 +106,50 @@ public class MultaDAO implements ICRUD{
             System.out.println("Error SQL State: " + e.getSQLState());
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    public int getNextId() {
+        qry  = "SELECT MAX(id_multa) from multa ";
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+            while(rs.next()){
+                int maxId = rs.getInt(1);
+                return (maxId > 0) ? maxId + 1 : 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    public List<IDatoVisual> listaMultasVisual() {
+        qry = """
+        SELECT m.id_multa, m.monto, m.fecha_multa, 
+               m.id_prestamo, u.nombre 
+        FROM multa m 
+        JOIN usuario u ON m.id_usuario = u.id_usuario 
+        WHERE m.estado = true
+        ORDER BY m.id_multa ASC
+    """;
+
+        ArrayList<IDatoVisual> multas = new ArrayList<>();
+
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int idMulta = rs.getInt("id_multa");
+                int idPrestamo = rs.getInt("id_prestamo");
+                int monto = rs.getInt("monto");
+                Date fechaMulta = rs.getDate("fecha_multa");
+                String nombreUsuario = rs.getString("nombre"); // Datos de usuario
+                MultaCardData multaCardData = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, idPrestamo);
+                multas.add(multaCardData);
+            }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        return multas;
     }
 }

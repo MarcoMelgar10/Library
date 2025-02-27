@@ -1,7 +1,7 @@
 package com.odvp.biblioteca.postgresql.CRUD;
-import com.odvp.biblioteca.Objetos.IDatoVisual;
 import com.odvp.biblioteca.Objetos.Libro;
-import com.odvp.biblioteca.Objetos.LibroCardData;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.LibroCardData;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.*;
@@ -43,7 +43,6 @@ public LibroDAO(){
 
         } catch (SQLException e) {
             // Manejo de errores más detallado
-            
             System.out.println("Error SQL State: " + e.getSQLState());
             System.out.println("Error: " + e.getMessage());
         }
