@@ -1,7 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.UsuarioScene;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
-import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSearcher;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSimpleSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
 
 import java.beans.PropertyChangeEvent;
@@ -12,7 +12,7 @@ public class HeaderUsuarios extends HeaderDefault {
     private final ButtonDefault buttonView = ButtonDefault.getButtonView();
     private final ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
 
-    private final DefaultSearcher searcher = DefaultSearcher.getSimpleSearcher();
+    private final DefaultSimpleSearcher searcher = new DefaultSimpleSearcher();
     private ModeloUsuarios modelo;
 
     public HeaderUsuarios(ModeloUsuarios modelo) {

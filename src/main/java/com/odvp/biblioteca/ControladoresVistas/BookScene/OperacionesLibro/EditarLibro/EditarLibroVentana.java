@@ -22,6 +22,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -38,7 +39,6 @@ public class EditarLibroVentana extends Stage {
 
     private Button cancelarButton, aceptarButton;
 
-    private Libro libroFinal;
     private final HashMap<String, Integer> autores = new LinkedHashMap<>();
     private final HashMap<String, Integer> categorias = new LinkedHashMap<>();
     private final HashMap<String, Integer> subCategorias = new LinkedHashMap<>();
@@ -71,7 +71,7 @@ public class EditarLibroVentana extends Stage {
         root.setPadding(new Insets(20));
 
         // Título
-        Label titleWindow = new Label("Agregar libro");
+        Label titleWindow = new Label("Editar libro");
         titleWindow.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, javafx.scene.text.FontPosture.ITALIC, 22));
         StackPane titleContainer = new StackPane(titleWindow);
         titleContainer.setPrefHeight(40);
@@ -149,7 +149,7 @@ public class EditarLibroVentana extends Stage {
         aceptarButton = new Button("Aceptar");
         aceptarButton.setOnAction( e-> {
             if(validar()) ejecutar();
-            else System.out.println("Hay datos invalidos");
+            else JOptionPane.showMessageDialog(null, "Hay datos invalidos");
         });
         HBox buttonsContainer = new HBox(8, cancelarButton, aceptarButton);
         buttonsContainer.setAlignment(Pos.CENTER);
@@ -162,7 +162,7 @@ public class EditarLibroVentana extends Stage {
     public void initValues(){
         new Thread(new Task<Void>() {
             @Override
-            protected Void call() throws Exception {
+            protected Void call() {
                 int nextID = libroDAO.getNextId();
                 Platform.runLater(() -> idField.setText( nextID+""));
 
@@ -208,7 +208,7 @@ public class EditarLibroVentana extends Stage {
     }
 
     public boolean validar() {
-        boolean tituloVacio = titleField.getText().isEmpty();
+        boolean tituloVacio = titleField.getText().trim().isEmpty();
         boolean autorValido = autores.get(autorComboBox.getValue()) != null;
         boolean categoriaValida = categorias.get(categoriaComboBox.getValue()) != null;
         boolean subCategoriaValida = subCategorias.get(subCategoriaComboBox.getValue()) != null;
@@ -227,7 +227,8 @@ public class EditarLibroVentana extends Stage {
         }
         String observacion = observacionTextArea.getText();
         int stock = stockSpinner.getValue();
-        Libro libro = new Libro.Builder()
+        Libro libroFinal = new Libro.Builder()
+                .ID(libroInicial.getID())
                 .titulo(titulo)
                 .idCategoria(idCategoria)
                 .idAutor(idAutor)
@@ -237,9 +238,10 @@ public class EditarLibroVentana extends Stage {
                 .idSubCategoria(idSubCategoria)
                 .publicacion(date)
                 .build();
-        libroDAO.insertar(libro);
+        libroDAO.modificar(libroFinal);
         hubieronCambios = true;
         close();
+
     }
 
     public boolean isHubieronCambios() {

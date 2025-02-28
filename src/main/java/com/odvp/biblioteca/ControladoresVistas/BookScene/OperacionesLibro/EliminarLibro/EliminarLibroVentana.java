@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EliminarLibro;
 
 import com.odvp.biblioteca.Objetos.Libro;
+import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,11 +13,17 @@ import javafx.stage.Stage;
 
 public class EliminarLibroVentana extends Stage {
 
-    private Button aceptarButton;
+    private Button aceptarButton, cancelarButton;
+    private PasswordField passwordField;
+    private boolean eliminar = false;
+    private LibroDAO libroDAO;
+    private int ID;
 
-    public EliminarLibroVentana(int libroId) {
+    private final String contra = "odvp";
+    public EliminarLibroVentana(int libroId, LibroDAO libroDAO) {
         setTitle("Eliminar Libro");
-
+        this.libroDAO = libroDAO;
+        this.ID = libroId;
         VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
@@ -38,18 +45,43 @@ public class EliminarLibroVentana extends Stage {
 
         Label passwordPromptLabel = new Label("Para continuar introduce la clave de seguridad:");
 
-        PasswordField passwordField = new PasswordField();
+        passwordField = new PasswordField();
         passwordField.setMaxWidth(200);
         passwordField.setPromptText("Clave");
 
-        aceptarButton = new Button("Confirmar");
 
-        root.getChildren().addAll(titleLabel, separator, alertaLabel, passwordPromptLabel, passwordField, aceptarButton);
+        aceptarButton = new Button("Confirmar");
+        aceptarButton.setOnAction(e-> {
+            if(validar()) ejecutar();
+            else System.out.println("Clave incorrecta");
+        });
+
+        cancelarButton = new Button("Cancelar");
+        cancelarButton.setOnAction(e-> close());
+
+        HBox buttonContainer = new HBox(cancelarButton, aceptarButton);
+        buttonContainer.setSpacing(8);
+        buttonContainer.setAlignment(Pos.CENTER);
+
+        root.getChildren().addAll(titleLabel, separator, alertaLabel, passwordPromptLabel, passwordField, buttonContainer);
 
         Scene scene = new Scene(root);
         setScene(scene);
         centerOnScreen();
         initModality(Modality.APPLICATION_MODAL);
         showAndWait();
+    }
+
+    public boolean isEliminar() {
+        return eliminar;
+    }
+
+    private boolean validar(){
+        return contra.equals(passwordField.getText());
+    }
+    private void ejecutar(){
+        libroDAO.eliminar(ID);
+        eliminar = true;
+        close();
     }
 }

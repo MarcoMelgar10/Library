@@ -23,7 +23,7 @@ public class PrestamoDAO implements  ICRUD{
     }
 
     @Override
-    public Object visualizar(int id) {
+    public Object obtener(int id) {
         return null;
     }
 

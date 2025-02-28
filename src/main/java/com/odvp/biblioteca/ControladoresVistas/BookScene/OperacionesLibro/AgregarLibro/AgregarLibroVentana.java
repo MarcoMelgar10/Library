@@ -198,7 +198,7 @@ public class AgregarLibroVentana extends Stage {
     }
 
     public boolean validar() {
-        boolean tituloVacio = titleField.getText().isEmpty();
+        boolean tituloVacio = titleField.getText().trim().isEmpty();
         boolean autorValido = autores.get(autorComboBox.getValue()) != null;
         boolean categoriaValida = categorias.get(categoriaComboBox.getValue()) != null;
         boolean subCategoriaValida = subCategorias.get(subCategoriaComboBox.getValue()) != null;

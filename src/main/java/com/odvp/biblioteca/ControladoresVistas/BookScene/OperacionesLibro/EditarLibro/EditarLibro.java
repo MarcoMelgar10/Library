@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EditarLibro;
 
-import com.odvp.biblioteca.ControladoresVistas.IOperacion;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
 import com.odvp.biblioteca.Objetos.Libro;
 import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
 import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
@@ -12,14 +12,15 @@ import com.odvp.biblioteca.postgresql.CRUD.SubCategoriaDAO;
  */
 
 public class EditarLibro {
-    private Libro libro;
     private final LibroDAO libroDAO = new LibroDAO();
-    private final AutorDAO autorDAO =  new AutorDAO();
+    private final AutorDAO autorDAO = AutorDAO.getInstance();
     private final CategoriaDAO categoriaDAO = new CategoriaDAO();
-    private final SubCategoriaDAO subCategoriaDAO = new SubCategoriaDAO();
-    public EditarLibro(Integer libroID){
-        this.libro = libroDAO.visualizar(libroID);
+    private final SubCategoriaDAO subCategoriaDAO =  new SubCategoriaDAO();
+    public EditarLibro(ModeloLibros modelo){
+
+        Libro libro = libroDAO.obtener(modelo.getLibroSeleccionado().getID());
         EditarLibroVentana editarLibro = new EditarLibroVentana(libro,libroDAO ,autorDAO, categoriaDAO, subCategoriaDAO);
+        if(editarLibro.isHubieronCambios()) modelo.setLibrosMostrados(libroDAO.listaLibrosVisual());
     }
 
 

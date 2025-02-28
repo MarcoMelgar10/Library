@@ -1,4 +1,5 @@
 package com.odvp.biblioteca.postgresql.CRUD;
+
 import com.odvp.biblioteca.Objetos.Autor;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
@@ -11,39 +12,44 @@ import java.util.ArrayList;
 Clase para realizar las consultas y operaciones en Autor: crear, leer, actualizar, eliminar
  */
 
-public class AutorDAO implements ICRUD{
-private String qry;
-private Autor autor;
-private ConexionDB conexionDB;
-public AutorDAO(){
-    this.conexionDB = ConexionDB.getOrCreate();
-}
+public class AutorDAO implements ICRUD {
+    private String qry;
+    private Autor autor;
+    private static ConexionDB conexionDB;
+    private static AutorDAO instance;
 
+    private AutorDAO() {
+        conexionDB = ConexionDB.getOrCreate();
+    }
 
-//Insertar un nuevo autor
+    public static AutorDAO getInstance(){
+        if(instance == null){
+            instance = new AutorDAO();
+        }
+        return instance;
+    }
+
+    // Insertar un nuevo autor
     @Override
     public void insertar(Object autor) {
-    this.autor = (Autor) autor;
+        this.autor = (Autor) autor;
         qry = "Call agregar_autor(?,?)";
-        try (PreparedStatement stmt =conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, ((Autor) autor).getNombre());
-            stmt.setString(2, ((Autor) autor).getDescripcion());
+        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
+            stmt.setString(1, this.autor.getNombre());
+            stmt.setString(2, this.autor.getDescripcion());
             stmt.execute();
-            //  logger.info("Informacion cargada a la base de datos",evento.getNombre());
         } catch (SQLException e) {
-            // Manejo de error cuando el correo ya existe o cualquier otra excepción
             if (e.getSQLState().equals("P0001")) { // Código SQL para una excepción RAISE EXCEPTION
-                System.out.println("Error: {}"+ e.getMessage());
+                System.out.println("Error: " + e.getMessage());
             } else {
-                //   logger.error("Error mientras se ejecutaba el procedimiento: {}", e.getMessage());
+                System.out.println("Error mientras se ejecutaba el procedimiento: " + e.getMessage());
             }
         }
     }
 
-    //Devolver el autor que se busca
-
+    // Devolver el autor que se busca
     @Override
-    public Object visualizar(int id) {
+    public Object obtener(int id) {
         String qry = "SELECT id_autor, nombre, biografia FROM autor WHERE id_autor = ?";
         Autor autor = null;
 
@@ -66,17 +72,15 @@ public AutorDAO(){
         return autor;
     }
 
-
-
-    //Funcion para modificar autor, pasandole el mismo id pero con los datos modificados
+    // Función para modificar autor, pasándole el mismo id pero con los datos modificados
     @Override
     public void modificar(Object autor) {
-    this.autor = (Autor) autor;
-    qry = "UPDATE autor SET nombre = ?, biografia = ? WHERE id_autor = ?";
+        this.autor = (Autor) autor;
+        qry = "UPDATE autor SET nombre = ?, biografia = ? WHERE id_autor = ?";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setString(1, ((Autor) autor).getNombre());
-            stmt.setString(2, ((Autor) autor).getDescripcion());
-            stmt.setInt(3, ((Autor) autor).getID());
+            stmt.setString(1, this.autor.getNombre());
+            stmt.setString(2, this.autor.getDescripcion());
+            stmt.setInt(3, this.autor.getID());
 
             int filasAfectadas = stmt.executeUpdate();
             if (filasAfectadas > 0) {
@@ -90,11 +94,11 @@ public AutorDAO(){
 
     @Override
     public void eliminar(int id) {
-
+        // Implementar lógica de eliminación si es necesario
     }
 
-    //Busqueda del id del autor para busquedas mas rapidas
-    public int getIdAutor(String nombre){
+    // Búsqueda del id del autor para búsquedas más rápidas
+    public int getIdAutor(String nombre) {
         int id = -1; // Valor por defecto en caso de error
         qry = "SELECT buscar_autor(?)";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
@@ -112,9 +116,9 @@ public AutorDAO(){
         return id;
     }
 
-    //Lista de todos los autores
+    // Lista de todos los autores
     public ArrayList<Autor> obtenerAutoresAlfabeticamente() {
-        String qry = "SELECT id_autor, nombre, resena FROM autor order by nombre";
+        String qry = "SELECT id_autor, nombre, resena FROM autor ORDER BY nombre";
         ArrayList<Autor> autores = new ArrayList<>();
 
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
@@ -133,24 +137,5 @@ public AutorDAO(){
             System.out.println("Error: " + e.getMessage());
         }
         return autores;
-    }
-
-    public ArrayList<String> nombreColumnas(){
-        String qry = "SELECT column_name FROM information_schema.columns\n" +
-                "        WHERE table_name = 'autor';";
-        ArrayList<String> columnas = new ArrayList<>();
-
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                String column = rs.getString("column_name");
-                columnas.add(column);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error SQL State: " + e.getSQLState());
-            System.out.println("Error: " + e.getMessage());
-        }
-        return columnas;
     }
 }

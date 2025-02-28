@@ -20,7 +20,7 @@ public class AdministradorDAO implements ICRUD{
         this.conexionDB = ConexionDB.getOrCreate();
     }
     @Override
-    public Object visualizar(int id) {
+    public Object obtener(int id) {
         return null;
     }
 

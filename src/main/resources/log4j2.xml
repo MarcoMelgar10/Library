@@ -1,12 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <!-- Configura el nivel de log para HikariCP -->
+        <Logger name="com.zaxxer.hikari" level="DEBUG">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- Configura el nivel de log para tu aplicación -->
+        <Root level="INFO">
             <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
