@@ -12,7 +12,7 @@ import java.util.ArrayList;
 Clase para realizar las consultas y operaciones en Autor: crear, leer, actualizar, eliminar
  */
 
-public class AutorDAO {
+public class AutorDAO implements ICRUD {
     private String qry;
     private Autor autor;
     private static ConexionDB conexionDB;
@@ -29,7 +29,8 @@ public class AutorDAO {
         return instance;
     }
 
-    // Insertar un nuevo auto
+    // Insertar un nuevo autor
+    @Override
     public void insertar(Object autor) {
         this.autor = (Autor) autor;
         qry = "Call agregar_autor(?,?)";
@@ -47,7 +48,7 @@ public class AutorDAO {
     }
 
     // Devolver el autor que se busca
-
+    @Override
     public Object obtener(int id) {
         String qry = "SELECT id_autor, nombre, biografia FROM autor WHERE id_autor = ?";
         Autor autor = null;
@@ -72,7 +73,7 @@ public class AutorDAO {
     }
 
     // Función para modificar autor, pasándole el mismo id pero con los datos modificados
-
+    @Override
     public void modificar(Object autor) {
         this.autor = (Autor) autor;
         qry = "UPDATE autor SET nombre = ?, biografia = ? WHERE id_autor = ?";
@@ -91,7 +92,7 @@ public class AutorDAO {
         }
     }
 
-
+    @Override
     public void eliminar(int id) {
         // Implementar lógica de eliminación si es necesario
     }

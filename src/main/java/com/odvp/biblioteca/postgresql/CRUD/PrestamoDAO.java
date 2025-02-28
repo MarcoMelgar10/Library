@@ -2,38 +2,37 @@ package com.odvp.biblioteca.postgresql.CRUD;
 
 import com.odvp.biblioteca.Objetos.Prestamo;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
-import javafx.scene.control.Spinner;
 
 import java.sql.*;
 import java.util.ArrayList;
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla prestamo.
    */
-public class PrestamoDAO{
+public class PrestamoDAO implements  ICRUD{
     private String qry;
     private Prestamo prestamo;
     private ConexionDB conexionDB;
     public PrestamoDAO(){
         this.conexionDB = ConexionDB.getOrCreate();
     }
-
+    @Override
     public void insertar(Object prestamo) {
         this.prestamo = (Prestamo) prestamo;
 
     }
 
-
+    @Override
     public Object obtener(int id) {
         return null;
     }
 
-
+    @Override
     public void modificar(Object prestamo) {
         this.prestamo = (Prestamo) prestamo;
 
     }
 
-
+    @Override
     public void eliminar(int id) {
 
     }
@@ -62,51 +61,6 @@ public class PrestamoDAO{
         }
 
         return prestamos;
-    }
-
-    public String getLibro(int codigoPrestamo) {
-        String qry = "SELECT l.titulo FROM prestamo p JOIN libro l on l.id_libro = p.id_libro WHERE id_prestamo = ?";
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setInt(1, codigoPrestamo); // Mover esto antes de ejecutar la consulta
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) { // Usar if en vez de while
-                    return rs.getString(1);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public int getIdUsuario(int idPrestamo) {
-        String qry = "SELECT id_usuario FROM prestamo WHERE id_prestamo = ?";
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setInt(1, idPrestamo);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    public String getUsuario(int codigoPrestamo) {
-        String qry = "SELECT u.nombre FROM prestamo p JOIN usuario u on u.id_usuario = p.id_usuario WHERE id_prestamo = ?";
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            stmt.setInt(1, codigoPrestamo);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString(1);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }

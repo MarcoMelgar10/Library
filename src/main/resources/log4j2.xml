@@ -6,7 +6,7 @@
     </Appenders>
     <Loggers>
         <!-- Configura el nivel de log para HikariCP -->
-        <Logger name="com.zaxxer.hikari" level="WARN">
+        <Logger name="com.zaxxer.hikari" level="DEBUG">
             <AppenderRef ref="Console"/>
         </Logger>
 

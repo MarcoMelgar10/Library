@@ -1,11 +1,11 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
-import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.IFiltro;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
-import com.odvp.biblioteca.ObjetosVistas.CategoryData;
-import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+import com.odvp.biblioteca.Objetos.CategoryData;
+import com.odvp.biblioteca.Objetos.IDatoVisual;
 import com.odvp.biblioteca.Objetos.Libro;
-import com.odvp.biblioteca.ObjetosVistas.LibroCardData;
+import com.odvp.biblioteca.Objetos.LibroCardData;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.*;
@@ -15,9 +15,9 @@ import java.util.List;
 /*
   Clase para realizar la interacción con la base de datos, para la tabla libro.
  */
-public class LibroDAO {
+public class LibroDAO{
 
-    // Inserta nuevos libros en la BD
+        // Inserta nuevos libros en la BD
     public void insertar(Libro libro) {
         String qry = "CALL agregar_libro(?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
@@ -222,12 +222,6 @@ public class LibroDAO {
             query.append(")");
         }
 
-        if (filtrosSeleccionados != null && !filtrosSeleccionados.isEmpty()) {
-            for (IFiltro filtro : filtrosSeleccionados) {
-                query.append(filtro.getQry());
-            }
-        }
-
         ArrayList<IDatoVisual> libros = new ArrayList<>();
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              Statement stmt = conn.createStatement();
@@ -245,8 +239,8 @@ public class LibroDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(query);
         return libros;
     }
+
 
 }

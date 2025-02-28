@@ -20,7 +20,7 @@ public class EditarLibro {
 
         Libro libro = libroDAO.obtener(modelo.getLibroSeleccionado().getID());
         EditarLibroVentana editarLibro = new EditarLibroVentana(libro,libroDAO ,autorDAO, categoriaDAO, subCategoriaDAO);
-        if(editarLibro.isHubieronCambios()) modelo.anunciarCambio();
+        if(editarLibro.isHubieronCambios()) modelo.setLibrosMostrados(libroDAO.listaLibrosVisual());
     }
 
 

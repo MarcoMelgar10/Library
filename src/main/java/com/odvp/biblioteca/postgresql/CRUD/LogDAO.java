@@ -9,14 +9,14 @@ import java.sql.SQLException;
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla libro.
    */
-public class LogDAO {
+public class LogDAO implements ICRUD{
     private ConexionDB conexionDB;
     private String qry;
     private Log log;
     public LogDAO(){
         this.conexionDB = ConexionDB.getOrCreate();
     }
-
+    @Override
     public void insertar(Object log) {
         this.log = (Log) log;
         qry = "INSERT INTO LOGS (tipo, descripcion, fecha) VALUES(?, ?, ?)";
@@ -34,17 +34,17 @@ public class LogDAO {
         }
     }
 
-
+    @Override
     public Object obtener(int id) {
         return null;
     }
 
-
+    @Override
     public void modificar(Object log) {
         this.log = (Log) log;
     }
 
-
+    @Override
     public void eliminar(int id) {
 
     }

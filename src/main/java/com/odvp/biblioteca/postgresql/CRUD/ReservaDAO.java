@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla reserva.
    */
-public class ReservaDAO{
+public class ReservaDAO implements ICRUD{
     private Reserva reserva;
     private ConexionDB conexionDB;
     private String qry;
@@ -23,7 +23,7 @@ public class ReservaDAO{
         this.conexionDB = ConexionDB.getOrCreate();
     }
 
-
+    @Override
     public void insertar(Object reserva) {
         this.reserva = (Reserva) reserva;
         qry = "CALL agregar_reserva(?,?)";
@@ -38,17 +38,17 @@ public class ReservaDAO{
         }
     }
 
-
+    @Override
     public Object obtener(int id) {
         return null;
     }
 
-
+    @Override
     public void modificar(Object reserva) {
 
     }
 
-
+    @Override
     public void eliminar(int id) {
 
     }

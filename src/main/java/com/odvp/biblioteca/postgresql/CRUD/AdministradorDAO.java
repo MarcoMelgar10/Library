@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla administrador.
    */
-public class AdministradorDAO {
+public class AdministradorDAO implements ICRUD{
     private String qry;
     private ConexionDB conexionDB;
     private Administrador administrador;
@@ -19,19 +19,23 @@ public class AdministradorDAO {
     public AdministradorDAO(){
         this.conexionDB = ConexionDB.getOrCreate();
     }
-
+    @Override
     public Object obtener(int id) {
         return null;
     }
 
+    @Override
     public void modificar(Object administrador) {
 
     }
 
+    @Override
     public void eliminar(int id) {
 
     }
 
+    //Agregar un nuevo administrador
+    @Override
     public void insertar(Object administrador) {
         this.administrador = (Administrador) administrador;
         qry = "CALL agregar_administrador(?,?)";
