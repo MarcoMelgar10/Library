@@ -35,7 +35,6 @@ public class ConexionDB {
     }
 
     public Connection getConexion() throws SQLException {
-        System.out.println("conexion obtenida");
         return dataSource.getConnection(); // Obtiene una conexión del pool
     }
 
