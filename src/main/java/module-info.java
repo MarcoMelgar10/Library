@@ -6,6 +6,7 @@ module com.odvp.biblioteca {
     requires java.smartcardio;
     requires jbcrypt;
     requires org.apache.logging.log4j;
+    requires com.zaxxer.hikari;
     requires java.sql;
 
     opens com.odvp.biblioteca to javafx.fxml;

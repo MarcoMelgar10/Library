@@ -28,8 +28,6 @@ public abstract class TableDefault extends VBox implements PropertyChangeListene
     private List<ColumnConstraints> columnConstraints;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-
-
     public TableDefault(List<String> titulos, List<Integer> ancho, List<Boolean> seExpanden, List<Boolean> centrar) {
         getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
         this.columnConstraints = new ArrayList<>();

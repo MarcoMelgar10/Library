@@ -13,8 +13,6 @@ import javax.swing.*;
 public class LibraryApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-            MultaDAO multaDAO = new MultaDAO();
-            multaDAO.validarPrestamosVencidos();
             FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/login-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setTitle("Biblioteca");

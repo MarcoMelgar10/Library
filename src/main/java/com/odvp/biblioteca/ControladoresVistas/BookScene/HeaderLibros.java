@@ -1,7 +1,8 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
-import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSearcher;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultDynamicSearcher;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSimpleSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.AgregarLibro.AgregarLibro;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EditarLibro.EditarLibro;
@@ -20,54 +21,25 @@ public class HeaderLibros extends HeaderDefault {
     private ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
     private ButtonDefault buttonView = ButtonDefault.getButtonView();
 
-    private DefaultSearcher searcher = DefaultSearcher.getDynamicSearcher(ServicioIconos.LIBRO_POR_AUTOR);
-    private boolean busquedaPorAutor = false;
-
-    private final Image imagePorAutor = new Image(ServicioIconos.LIBRO_POR_AUTOR);
-    private final Image imagePorTitulo = new Image(ServicioIconos.LIBRO_POR_TITULO);
-
+    private SearcherLibro searcher;
     private ModeloLibros modelo;
-    private LibroDAO libroDao = new LibroDAO();
 
     public HeaderLibros(ModeloLibros modelo) {
         super("BIBLIOTECA EBEN-EZER");
 
         this.modelo = modelo;
         this.modelo.addObserver(this);
-
+        searcher = new SearcherLibro(this.modelo);
         buttonNew.setOnMouseClicked(e -> new AgregarLibro(modelo));
         buttonView.setOnMouseClicked(e -> new VisualizarLibro(modelo));
-        buttonEdit.setOnMouseClicked(e -> new EditarLibro(modelo.getLibroSeleccionado().getID()));
-        buttonDelete.setOnMouseClicked(e -> new EliminarLibro(modelo.getLibroSeleccionado().getID()));
+        buttonEdit.setOnMouseClicked(e -> new EditarLibro(modelo));
+        buttonDelete.setOnMouseClicked(e -> new EliminarLibro(modelo));
 
         deshabilitarBotones(true);
         addButtons(buttonNew,buttonView,buttonEdit,buttonDelete);
         setSearcherContainer(searcher);
-        setTipoBusqueda();
-        searcher.getBuscador().getStyleClass().remove("text-field-search");
-        searcher.getButtonSearcher().setOnMouseClicked(e -> {
-            busquedaPorAutor = !busquedaPorAutor;
-            setTipoBusqueda();
-        });
-
     }
 
-    public void setTipoBusqueda(){
-        if(busquedaPorAutor){
-            searcher.setIcon(imagePorAutor);
-            searcher.getButtonSearcher().getStyleClass().add("button-purple");
-            searcher.getButtonSearcher().getStyleClass().remove("button-orange");
-            searcher.getBuscador().getStyleClass().add("text-field-search-purple");
-            searcher.getBuscador().getStyleClass().remove("text-field-search-orange");
-        }
-        else{
-            searcher.setIcon(imagePorTitulo);
-            searcher.getButtonSearcher().getStyleClass().add("button-orange");
-            searcher.getButtonSearcher().getStyleClass().remove("button-purple");
-            searcher.getBuscador().getStyleClass().remove("text-field-search-purple");
-            searcher.getBuscador().getStyleClass().add("text-field-search-orange");
-        }
-    }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(ModeloLibros.OBS_LIBRO_SELECCIONADO)){

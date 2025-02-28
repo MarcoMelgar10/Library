@@ -20,23 +20,26 @@ public class ModuloLibros extends BorderPane implements IModulo {
     private ParametersLibros paramsRight;
     private TableLibros table;
 
+    private ServicioBusquedaLibros busquedaLibros;
+
     public ModuloLibros(ModeloLibros modelo){
         this.modelo = modelo;
         header = new HeaderLibros(this.modelo);
         paramsRight = new ParametersLibros(this.modelo);
         table = new TableLibros(this.modelo);
+        busquedaLibros = new ServicioBusquedaLibros(this.modelo);
 
         setTop(header);
         setRight(paramsRight);
         setCenter(table);
-        simularDatos();
+        cargarDatosIniciales();
     }
 
     /*simularDatos() : esta funcion solo fué creada para simular datos de libros y categorias ficticios
     para probar el funcionamiento de los ScrollPane, cuando se tenga disponible la base de datos debe ser eliminada
      */
 
-    public void simularDatos(){
+    public void cargarDatosIniciales(){
         new Thread(new Task<>() {
 
             @Override

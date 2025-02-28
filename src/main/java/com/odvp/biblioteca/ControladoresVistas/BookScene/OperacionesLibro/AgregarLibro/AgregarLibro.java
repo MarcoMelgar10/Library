@@ -17,15 +17,12 @@ import java.util.List;
 
 public class AgregarLibro{
     private LibroDAO libroDAO = new LibroDAO();
-    private AutorDAO autorDAO = new AutorDAO();
+    private AutorDAO autorDAO = AutorDAO.getInstance();
     private CategoriaDAO categoriaDAO = new CategoriaDAO();
     private SubCategoriaDAO subCategoriaDAO = new SubCategoriaDAO();
 
     public AgregarLibro(ModeloLibros modelo){
         AgregarLibroVentana agregarLibro = new AgregarLibroVentana(libroDAO, autorDAO, categoriaDAO, subCategoriaDAO);
-        if(agregarLibro.isHubieronCambios()){
-            List<IDatoVisual> libros = libroDAO.listaLibrosVisual();
-            modelo.setLibrosMostrados(libros);
-        }
+        if(agregarLibro.isHubieronCambios()) modelo.setLibrosMostrados(libroDAO.listaLibrosVisual());
     }
 }

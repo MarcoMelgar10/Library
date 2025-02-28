@@ -19,6 +19,10 @@ public class ModeloLibros {
     private IDatoVisual libroSeleccionado;
     private List<IDatoVisual> librosMostrados;
     private List<CategoryData> categoriasSeleccionadas;
+    private List<IFiltro> filtrosSeleccionados;
+    private String tipo_de_busqueda;
+    public static final String BUSQUEDA_POR_AUTOR = "BUSQUEDA POR AUTOR";
+    public static final String BUSQUEDA_POR_TITULO = "BUSQUEDA POR TITULO";
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     public static final String OBS_CATEGORIAS_SELECCIONADAS = "OBS_CATEGORIAS_SELECCIONADAS";
@@ -27,10 +31,12 @@ public class ModeloLibros {
     public static final String OBS_TEXTO_BUSCADOR = "OBS_TEXTO_BUSCADOR";
     public static final String OBS_LIBROS_MOSTRADOS = "OBS_LIBROS_MOSTRADOS";
     public static final String OBS_LIBRO_SELECCIONADO = "OBS_LIBRO_SELECCIONADO";
+    public static final String OBS_TIPO_DE_BUSQUEDA = "TIPO DE BUSQUEDA";
 
     public ModeloLibros(){
         categorias = new ArrayList<>();
         categoriasSeleccionadas = new ArrayList<>();
+        filtrosSeleccionados = new ArrayList<>();
         filtros = new ArrayList<>();
         librosMostrados = new ArrayList<>();
         textoBusqueda = "";
@@ -42,6 +48,16 @@ public class ModeloLibros {
         if(selected) categoriasSeleccionadas.add(categoria);
         else categoriasSeleccionadas.remove(categoria);
         support.firePropertyChange(OBS_CATEGORIAS_SELECCIONADAS, oldCategorias, this.categoriasSeleccionadas);
+    }
+
+    public String getTipo_de_busqueda() {
+        return tipo_de_busqueda;
+    }
+
+    public void setTipo_de_busqueda(String tipo_de_busqueda) {
+        String oldTipoBusqueda = this.tipo_de_busqueda;
+        this.tipo_de_busqueda = tipo_de_busqueda;
+        support.firePropertyChange(OBS_TIPO_DE_BUSQUEDA, oldTipoBusqueda, this.tipo_de_busqueda);
     }
 
     public void setLibrosMostrados(List<IDatoVisual> libros){
@@ -97,4 +113,12 @@ public class ModeloLibros {
         return categorias;
     }
 
+
+    public String getTextoBusqueda() {
+        return textoBusqueda;
+    }
+
+    public List<IFiltro> getFiltrosSeleccionados() {
+        return filtrosSeleccionados;
+    }
 }

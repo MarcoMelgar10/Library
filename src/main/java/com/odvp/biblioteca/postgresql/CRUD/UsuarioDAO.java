@@ -37,7 +37,7 @@ public class UsuarioDAO implements ICRUD{
     }
 
     @Override
-    public Object visualizar(int id) {
+    public Object obtener(int id) {
         Usuario usuario = null;
         qry = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, telefono, direccion, multa, estado_bloqueo " +
                 "FROM usuario WHERE id_usuario ?";

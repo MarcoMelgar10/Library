@@ -1,78 +1,64 @@
 package com.odvp.biblioteca.postgresql.CRUD;
+
+import com.odvp.biblioteca.ControladoresVistas.BookScene.IFiltro;
+import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
+import com.odvp.biblioteca.Objetos.CategoryData;
 import com.odvp.biblioteca.Objetos.IDatoVisual;
 import com.odvp.biblioteca.Objetos.Libro;
 import com.odvp.biblioteca.Objetos.LibroCardData;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.List;
 
 /*
-  Clase para realizar la interaccion con la base de datas, para la tabla libro.
-   */
-public class LibroDAO implements ICRUD {
-private  String qry;
-private ConexionDB conexionDB;
+  Clase para realizar la interacción con la base de datos, para la tabla libro.
+ */
+public class LibroDAO{
 
-public LibroDAO(){
-        conexionDB = ConexionDB.getOrCreate();
-    }
-
-
-    //Inserta nuevos libros en la BD
-    @Override
-    public void insertar(Object libro) {
-         qry = "call agregar_libro(?, ?, ?, ?, ?,?,?)";
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
-            Libro libro1 = (Libro) libro;
-            stmt.setString(1, libro1.getTitulo());
-            stmt.setString(2, libro1.getObservacion());
-            if(libro1.getPublicacion() == null){
+        // Inserta nuevos libros en la BD
+    public void insertar(Libro libro) {
+        String qry = "CALL agregar_libro(?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry)) {
+            stmt.setString(1, libro.getTitulo());
+            stmt.setString(2, libro.getObservacion());
+            if (libro.getPublicacion() == null) {
                 stmt.setNull(3, Types.DATE);
-            }else {
-                stmt.setDate(3, libro1.getPublicacion());
+            } else {
+                stmt.setDate(3, libro.getPublicacion());
             }
-            stmt.setInt(4, libro1.getStock());
-            stmt.setInt(5, libro1.getIdAutor());
-            stmt.setInt(6, libro1.getIdCategoria());
-            stmt.setInt(7, libro1.getIdSubCategoria());
+            stmt.setInt(4, libro.getStock());
+            stmt.setInt(5, libro.getIdAutor());
+            stmt.setInt(6, libro.getIdCategoria());
+            stmt.setInt(7, libro.getIdSubCategoria());
             stmt.execute();
-            System.out.println("Información cargada a la base de datos: " + libro1.getTitulo());
-
+            System.out.println("Información cargada a la base de datos: " + libro.getTitulo());
         } catch (SQLException e) {
-            // Manejo de errores más detallado
-            
             System.out.println("Error SQL State: " + e.getSQLState());
             System.out.println("Error: " + e.getMessage());
         }
     }
 
-    public Integer getNextId(){
-        qry = "SELECT MAX(id_libro) as id_libro FROM libro";
-        int id=0;
-        try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
-            ResultSet rs = pstmt.executeQuery();
-
+    // Obtiene el siguiente ID disponible para un libro
+    public Integer getNextId() {
+        String qry = "SELECT MAX(id_libro) AS id_libro FROM libro";
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(qry);
+             ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
-                id = rs.getInt("id_libro");
-                return id;
-            } else {
-                System.out.println("No se encontró el libro con id: " + id + 1);
+                return rs.getInt("id_libro") + 1;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return id;
+        return 0;
     }
 
-
-    //Busca y devuelve un libro especifico por titulo
-    @Override
-    public Libro visualizar(int id) {
-        Libro.Builder builder = new Libro.Builder();
-        qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, " +
+    // Busca y devuelve un libro específico por ID
+    public Libro obtener(int id) {
+        String qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, " +
                 "l.stock, l.stock_disponible, a.nombre AS autor, " +
                 "c.nombre AS categoria, s.nombre AS sub_categoria " +
                 "FROM libro l " +
@@ -80,110 +66,181 @@ public LibroDAO(){
                 "JOIN categoria c ON l.id_categoria = c.id_categoria " +
                 "JOIN sub_categoria s ON l.id_sub_categoria = s.id_sub_categoria " +
                 "WHERE l.id_libro = ?";
-
-        try (PreparedStatement pstmt = conexionDB.getConexion().prepareStatement(qry)) {
-            pstmt.setInt(1, id); // Usar LIKE con comodines
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                builder.ID(rs.getInt("id_libro"));
-                builder.titulo(rs.getString("titulo"));
-                builder.observacion(rs.getString("observacion"));
-                Date fecha_publicacion = rs.getDate("fecha_publicacion");
-                if(fecha_publicacion != null) builder.publicacion(fecha_publicacion);
-                builder.stock(rs.getInt("stock"));
-                builder.stockDisponible(rs.getInt("stock_disponible"));
-                builder.autor(rs.getString("autor"));
-                builder.categoria(rs.getString("categoria"));
-                builder.subCategoria(rs.getString("sub_categoria"));
-                System.out.println("Libro encontrado: " + rs.getString("titulo"));
-                return new Libro(builder);
-            } else {
-                System.out.println("No se encontró el libro con id: " + id);
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(qry)) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Libro.Builder()
+                            .ID(rs.getInt("id_libro"))
+                            .titulo(rs.getString("titulo"))
+                            .observacion(rs.getString("observacion"))
+                            .publicacion(rs.getDate("fecha_publicacion"))
+                            .stock(rs.getInt("stock"))
+                            .stockDisponible(rs.getInt("stock_disponible"))
+                            .autor(rs.getString("autor"))
+                            .categoria(rs.getString("categoria"))
+                            .subCategoria(rs.getString("sub_categoria"))
+                            .build();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return null; // Retornar null si no se encuentra el libro
+        return null;
     }
 
-    @Override
-    public void modificar(Object libro) {
-
+    // Modifica un libro existente
+    public void modificar(Libro libro) {
+        String qry = "UPDATE libro SET titulo = ?, observacion = ?, fecha_publicacion = ?, stock = ?, " +
+                "stock_disponible = ?, id_autor = ?, id_categoria = ?, id_sub_categoria = ? " +
+                "WHERE id_libro = ?";
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry)) {
+            stmt.setString(1, libro.getTitulo());
+            stmt.setString(2, libro.getObservacion());
+            stmt.setDate(3, libro.getPublicacion());
+            stmt.setInt(4, libro.getStock());
+            stmt.setInt(5, libro.getStockDisponible());
+            stmt.setInt(6, libro.getIdAutor());
+            stmt.setInt(7, libro.getIdCategoria());
+            stmt.setInt(8, libro.getIdSubCategoria());
+            stmt.setInt(9, libro.getID());
+            stmt.executeUpdate();
+            System.out.println("Libro actualizado exitosamente.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
+    // Elimina un libro (marcándolo como eliminado)
     public void eliminar(int id) {
-
+        String qry = "UPDATE libro SET d_e_l_e_t_e = 'true' WHERE id_libro = ?";
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            System.out.println("Libro marcado como eliminado.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    // Obtiene los nombres de las columnas de la tabla libro
+    public ArrayList<String> nombreColumnas() {
+        String qry = "SELECT column_name FROM information_schema.columns WHERE table_name = 'libro'";
+        ArrayList<String> columnas = new ArrayList<>();
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                columnas.add(rs.getString("column_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return columnas;
+    }
 
-
+    // Obtiene una lista de todos los libros
     public ArrayList<Libro> listaLibros() {
-         qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, l.stock, l.stock_disponible,l.id_autor, l.id_categoria, l.id_sub_categoria, a.nombre FROM libro l JOIN autor a on l.id_autor = a.id_autor";
+        String qry = "SELECT l.id_libro, l.titulo, l.observacion, l.fecha_publicacion, l.stock, " +
+                "l.stock_disponible, l.id_autor, l.id_categoria, l.id_sub_categoria, a.nombre " +
+                "FROM libro l JOIN autor a ON l.id_autor = a.id_autor";
         ArrayList<Libro> libros = new ArrayList<>();
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
-             ResultSet rs = stmt.executeQuery()) {  // Usamos stmt.executeQuery sin pasarle qry, ya que ya lo definimos antes
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                // Mapeo de los resultados de la consulta a objetos Libro
-                int idLibro = rs.getInt("id_libro");
-                String titulo = rs.getString("titulo");
-                String observacion = rs.getString("observacion");
-                Date fechaPublicacion = rs.getDate("fecha_publicacion");
-                int stock = rs.getInt("stock");
-                int stockDisponible = rs.getInt("stock_disponible");
-                int idAutor = rs.getInt("id_autor");
-                int idCategoria = rs.getInt("id_categoria");
-                int idSubCategoria = rs.getInt("id_sub_categoria");
-                String nombreAutor = rs.getString("nombre");
-
-                // Usando el patrón Builder para construir el objeto Libro
-                Libro libro = new Libro.Builder()
-                        .ID(idLibro)
-                        .titulo(titulo)
-                        .observacion(observacion)
-                        .publicacion(fechaPublicacion)
-                        .stock(stock)
-                        .stockDisponible(stockDisponible)
-                        .idAutor(idAutor)
-                        .idCategoria(idCategoria)
-                        .idSubCategoria(idSubCategoria)
-                        .autor(nombreAutor)
-                        .build(); // Llamar a build() para obtener el objeto final
-
-                libros.add(libro);
+                libros.add(new Libro.Builder()
+                        .ID(rs.getInt("id_libro"))
+                        .titulo(rs.getString("titulo"))
+                        .observacion(rs.getString("observacion"))
+                        .publicacion(rs.getDate("fecha_publicacion"))
+                        .stock(rs.getInt("stock"))
+                        .stockDisponible(rs.getInt("stock_disponible"))
+                        .idAutor(rs.getInt("id_autor"))
+                        .idCategoria(rs.getInt("id_categoria"))
+                        .idSubCategoria(rs.getInt("id_sub_categoria"))
+                        .autor(rs.getString("nombre"))
+                        .build());
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return libros;
     }
 
+    // Obtiene una lista de libros para visualización (sin detalles completos)
     public ArrayList<IDatoVisual> listaLibrosVisual() {
-        qry = "SELECT l.id_libro, l.titulo, l.stock, l.stock_disponible, a.nombre FROM libro l JOIN autor a on l.id_autor = a.id_autor";
+        String qry = "SELECT l.id_libro, l.titulo, l.stock, l.stock_disponible, a.nombre " +
+                "FROM libro l JOIN autor a ON l.id_autor = a.id_autor " +
+                "WHERE l.d_e_l_e_t_e = 'false'";
         ArrayList<IDatoVisual> libros = new ArrayList<>();
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
-             ResultSet rs = stmt.executeQuery()) {  // Usamos stmt.executeQuery sin pasarle qry, ya que ya lo definimos antes
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                // Mapeo de los resultados de la consulta a objetos Libro
-                int idLibro = rs.getInt("id_libro");
-                String titulo = rs.getString("titulo");
-                int stock = rs.getInt("stock");
-                int stockDisponible = rs.getInt("stock_disponible");
-                String nombreAutor = rs.getString("nombre");
-
-                // Usando el patrón Builder para construir el objeto Libro
-                LibroCardData libroCardData = new LibroCardData(idLibro, titulo, nombreAutor, stock, stockDisponible);
-
-                libros.add(libroCardData);
+                libros.add(new LibroCardData(
+                        rs.getInt("id_libro"),
+                        rs.getString("titulo"),
+                        rs.getString("nombre"),
+                        rs.getInt("stock"),
+                        rs.getInt("stock_disponible")
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return libros;
     }
+
+    // Obtiene una lista de libros con filtros aplicados
+    public ArrayList<IDatoVisual> listaLibrosVisualParametrizada(String textoBusqueda, List<CategoryData> categoriasSeleccionadas, List<IFiltro> filtrosSeleccionados, String tipoBusqueda) {
+        StringBuilder query = new StringBuilder(
+                "SELECT l.id_libro, l.titulo, l.stock, l.stock_disponible, a.nombre " +
+                        "FROM libro l JOIN autor a ON l.id_autor = a.id_autor " +
+                        "WHERE l.d_e_l_e_t_e = 'false'"
+        );
+
+        // Agregar condición de búsqueda por título o autor
+        if (textoBusqueda != null && !textoBusqueda.isEmpty()) {
+            if (ModeloLibros.BUSQUEDA_POR_TITULO.equals(tipoBusqueda)) {
+                query.append(" AND l.titulo ILIKE '%").append(textoBusqueda.replace("'", "''")).append("%'");
+            } else if (ModeloLibros.BUSQUEDA_POR_AUTOR.equals(tipoBusqueda)) {
+                query.append(" AND a.nombre ILIKE '%").append(textoBusqueda.replace("'", "''")).append("%'");
+            }
+        }
+
+        // Agregar filtro de categorías
+        if (categoriasSeleccionadas != null && !categoriasSeleccionadas.isEmpty()) {
+            query.append(" AND l.id_categoria IN (");
+            for (CategoryData categoria : categoriasSeleccionadas) {
+                query.append(categoria.getId()).append(",");
+            }
+            query.deleteCharAt(query.length() - 1); // Eliminar la última coma
+            query.append(")");
+        }
+
+        ArrayList<IDatoVisual> libros = new ArrayList<>();
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query.toString())) {
+
+            while (rs.next()) {
+                libros.add(new LibroCardData(
+                        rs.getInt("id_libro"),
+                        rs.getString("titulo"),
+                        rs.getString("nombre"),
+                        rs.getInt("stock"),
+                        rs.getInt("stock_disponible")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return libros;
+    }
+
 
 }

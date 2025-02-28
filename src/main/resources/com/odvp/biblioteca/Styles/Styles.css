@@ -98,6 +98,12 @@
     -fx-scale-y: 1.01;
     -fx-cursor: hand;
 }
+.text-field-search:focused {
+    -fx-border-color: #cccccc; /* Cambia 'red' al color que desees */
+    -fx-border-radius: 3px;
+    -fx-focus-color: #cccccc; /* Elimina el brillo azul */
+    -fx-faint-focus-color: transparent; /* Elimina el brillo de fondo */
+}
 .text-field-search-orange:focused {
     -fx-border-color: #bd894f; /* Cambia 'red' al color que desees */
     -fx-border-radius: 3px;
@@ -108,11 +114,5 @@
     -fx-border-color: #856dbb; /* Cambia 'red' al color que desees */
     -fx-border-radius: 3px;
     -fx-focus-color: #856dbb; /* Elimina el brillo azul */
-    -fx-faint-focus-color: transparent; /* Elimina el brillo de fondo */
-}
-.text-field-search:focused {
-    -fx-border-color: #cccccc; /* Cambia 'red' al color que desees */
-    -fx-border-radius: 3px;
-    -fx-focus-color: #cccccc; /* Elimina el brillo azul */
     -fx-faint-focus-color: transparent; /* Elimina el brillo de fondo */
 }
