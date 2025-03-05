@@ -1,5 +1,9 @@
 package com.odvp.biblioteca.ControladoresVistas.DebtScene;
 
+import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Agregar.AgregarMulta;
+import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Editar.EditarMulta;
+import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Eliminar.EliminarMulta;
+import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Visualizar.VisualizarMulta;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
@@ -23,7 +27,10 @@ public class HeaderMultas extends HeaderDefault {
         addButtons(buttonNew, buttonView, buttonEdit, buttonDelete);
         deshabilitarBotones(true);
         setSearcherContainer(searcher);
-
+        buttonNew.setOnMouseClicked(e -> new AgregarMulta(modelo));
+        buttonDelete.setOnMouseClicked(e -> new EliminarMulta(modelo));
+        buttonView.setOnMouseClicked(e -> new VisualizarMulta(modelo));
+        buttonEdit.setOnMouseClicked(e -> new EditarMulta(modelo));
     }
 
         @Override

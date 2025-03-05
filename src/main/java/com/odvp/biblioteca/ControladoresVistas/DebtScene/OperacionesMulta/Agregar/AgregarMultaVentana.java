@@ -20,7 +20,7 @@ public class AgregarMultaVentana extends Stage {
 
     private Spinner<Integer> montoSpinner, codigoPrestamoSpinner;
     private TextField descripcionField;
-    private Label codigoLabel, usaurioLabel, libroLabel;
+    private Label codigoLabel, usuarioLabel, libroLabel;
     private Button cancelarButton, aceptarButton;
     private Multa multa;
     private final MultaDAO multaDao;
@@ -63,22 +63,27 @@ public class AgregarMultaVentana extends Stage {
         this.codigoLabel = new Label("");
         this.codigoLabel.setPrefWidth(50);
 
-        Label descripcionLabel = new Label("Descripcion");
+        Label descripcionLabel = new Label("Descripcion:");
         descripcionField = new TextField();
 
-        Label codigoPrestamoLabel = new Label("Codigo Prestamo");
+        Label codigoPrestamoLabel = new Label("Codigo Prestamo:");
         codigoPrestamoSpinner = new Spinner<>(1, 1000, 1);
         codigoPrestamoSpinner.setEditable(true);
         codigoPrestamoSpinner.setPrefWidth(70);
+        codigoPrestamoSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) { // Permite solo números
+                codigoPrestamoSpinner.getEditor().setText(oldValue);
+            }
+        });
+
+        Label nombreUsuario = new Label("Usuario:");
+        usuarioLabel = new Label("");
+        usuarioLabel.setPrefWidth(100);
 
 
-        Label nombreUsuario = new Label("Usuario");
-        usaurioLabel = new Label("");
-        usaurioLabel.setPrefWidth(100);
-
-        Label nombreLibro = new Label("Libro");
+        Label nombreLibro = new Label("Libro:");
         libroLabel = new Label("");
-        libroLabel.setPrefWidth(100);
+        libroLabel.setPrefWidth(200);
 
         Label montoLabel = new Label("Monto:");
         montoSpinner = new Spinner<>(1, 1000, 1);
@@ -96,7 +101,7 @@ public class AgregarMultaVentana extends Stage {
         formGrid.addRow(0, codigoLabel, this.codigoLabel);
         formGrid.addRow(1, descripcionLabel,descripcionField);
         formGrid.addRow(2, codigoPrestamoLabel, codigoPrestamoSpinner);
-        formGrid.addRow(3, nombreUsuario, usaurioLabel);
+        formGrid.addRow(3, nombreUsuario, usuarioLabel);
         formGrid.addRow(4, nombreLibro, libroLabel);
         formGrid.addRow(5, montoLabel, montoSpinner);
 
@@ -108,13 +113,14 @@ public class AgregarMultaVentana extends Stage {
             if(validar()) ejecutar();
             else System.out.println("Hay datos invalidos");
         });
-        HBox buttonsContainer = new HBox(8, cancelarButton, aceptarButton);
-        buttonsContainer.setAlignment(Pos.CENTER);
+        HBox buttonsContainer = new HBox(10, cancelarButton, aceptarButton);
+        VBox.setMargin(buttonsContainer, new Insets(30, 0, 0, 0));
+        buttonsContainer.setAlignment(Pos.BASELINE_CENTER);
 
         // Agregar elementos al VBox principal
         root.getChildren().addAll(titleContainer, separator, formGrid, buttonsContainer);
 
-        return new Scene(root, 330, 550);
+        return new Scene(root, 350, 350);
     }
 
     public void initValues(){
@@ -123,17 +129,17 @@ public class AgregarMultaVentana extends Stage {
             protected Void call() throws Exception {
                  nextID = multaDao.getNextId();
 
-                Platform.runLater(() -> codigoLabel.setText(nextID + ""));
-                Platform.runLater(() -> {
+                Platform.runLater(() -> codigoLabel.setText(String.valueOf(nextID)));
 
-                    String usuarioName = prestamoDAO.getUsuario(codigoPrestamoSpinner.getValue());
-                    usaurioLabel.setText(usuarioName);
+                codigoPrestamoSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+                    if (newValue != null) { // Asegurar que el valor no es nulo
+                        String usuarioName = prestamoDAO.getUsuario(newValue.intValue());
+                        String tituloLibro = prestamoDAO.getLibro(codigoPrestamoSpinner.getValue());
+                        Platform.runLater(() -> usuarioLabel.setText(usuarioName));
+                        Platform.runLater(() -> libroLabel.setText(tituloLibro));
+                    }
                 });
 
-                Platform.runLater(() -> {
-                    String tituloLibro = prestamoDAO.getLibro(codigoPrestamoSpinner.getValue());
-                    libroLabel.setText(tituloLibro);
-                });
         return null;
             }
         }).start();

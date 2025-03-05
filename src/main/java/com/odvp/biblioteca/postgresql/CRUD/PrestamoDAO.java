@@ -64,7 +64,7 @@ public class PrestamoDAO implements  ICRUD{
         return prestamos;
     }
 
-    public String getUsuario(int codigoPrestamo) {
+    public String getLibro(int codigoPrestamo) {
         String qry = "SELECT l.titulo FROM prestamo p JOIN libro l on l.id_libro = p.id_libro WHERE id_prestamo = ?";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
             stmt.setInt(1, codigoPrestamo); // Mover esto antes de ejecutar la consulta
@@ -94,7 +94,7 @@ public class PrestamoDAO implements  ICRUD{
         return -1;
     }
 
-    public String getLibro(int codigoPrestamo) {
+    public String getUsuario(int codigoPrestamo) {
         String qry = "SELECT u.nombre FROM prestamo p JOIN usuario u on u.id_usuario = p.id_usuario WHERE id_prestamo = ?";
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
             stmt.setInt(1, codigoPrestamo);
