@@ -5,7 +5,7 @@ import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Editar
 import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Eliminar.EliminarMulta;
 import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Visualizar.VisualizarMulta;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
-import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSearcher;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSimpleSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
 import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.ModeloUsuarios;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
@@ -17,7 +17,7 @@ public class HeaderMultas extends HeaderDefault {
     private ButtonDefault buttonEdit = ButtonDefault.getButtonEdit();
     private ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
     private ButtonDefault buttonView = ButtonDefault.getButtonView();
-    private DefaultSearcher searcher = DefaultSearcher.getSimpleSearcher();
+    private DefaultSimpleSearcher searcher = new DefaultSimpleSearcher();
     private ModeloMulta modelo;
 
     public HeaderMultas(ModeloMulta modelo) {

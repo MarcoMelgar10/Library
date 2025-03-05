@@ -11,7 +11,7 @@ public class HeaderDeudas extends HeaderDefault {
     private ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
     private ButtonDefault buttonView = ButtonDefault.getButtonView();
     //private DefaultSimpleSearcher searcher = DefaultSimpleSearcher.getDynamicSearcher(ServicioIconos.OPCION_MODULO_DEUDAS);
-    public HeaderDeudas(ModeloDeuda modelo) {
+    public HeaderDeudas(ModeloMulta modelo) {
         super("Biblioteca Eben Ezer");
 
     }

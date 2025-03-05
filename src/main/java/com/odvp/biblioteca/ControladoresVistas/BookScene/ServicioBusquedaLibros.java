@@ -1,8 +1,8 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
-import com.odvp.biblioteca.Objetos.CategoryData;
-import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.CategoryData;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 
 import java.beans.PropertyChangeEvent;

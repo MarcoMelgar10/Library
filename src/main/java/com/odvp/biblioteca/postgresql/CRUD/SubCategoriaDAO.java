@@ -39,7 +39,7 @@ public class SubCategoriaDAO implements ICRUD {
     }
 
     @Override
-    public Object visualizar(int id) {
+    public Object obtener(int id) {
         subCategoryData  = null;
         qry = "SELECT id_sub_categoria, nombre, descripcion, id_categoria FROM sub_categoria WHERE id_sub_categoria = ?";
 

@@ -194,7 +194,7 @@ public class LibroDAO {
         }
         return libros;
     }
-/*
+
     // Obtiene una lista de libros con filtros aplicados
     public ArrayList<IDatoVisual> listaLibrosVisualParametrizada(String textoBusqueda, List<CategoryData> categoriasSeleccionadas, List<IFiltro> filtrosSeleccionados, String tipoBusqueda) {
         StringBuilder query = new StringBuilder(
@@ -247,6 +247,6 @@ public class LibroDAO {
         }
         System.out.println(query);
         return libros;
-    }*/
-}
+    }
 
+}

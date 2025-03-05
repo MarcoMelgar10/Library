@@ -36,7 +36,7 @@ public class CategoriaDAO implements ICRUD{
     }
 
     @Override
-    public Object visualizar(int id) {
+    public Object obtener(int id) {
         CategoryData categoria = null;
         String sql = "SELECT id_categoria, nombre, descripcion FROM categoria WHERE id_categoria = ?";
 
