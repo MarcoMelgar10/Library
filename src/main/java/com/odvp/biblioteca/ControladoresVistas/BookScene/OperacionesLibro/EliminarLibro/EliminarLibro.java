@@ -11,6 +11,6 @@ public class EliminarLibro {
     private final LibroDAO libroDAO = new LibroDAO();
     public EliminarLibro(ModeloLibros modeloLibros){
         EliminarLibroVentana eliminarLibroVentana = new EliminarLibroVentana(modeloLibros.getLibroSeleccionado().getID(), libroDAO);
-        if(eliminarLibroVentana.isEliminar()) modeloLibros.setLibrosMostrados(libroDAO.listaLibrosVisual());
+        if(eliminarLibroVentana.isEliminar()) modeloLibros.anunciarCambio();
     }
 }

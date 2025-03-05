@@ -20,6 +20,6 @@ public class AgregarLibro{
 
     public AgregarLibro(ModeloLibros modelo){
         AgregarLibroVentana agregarLibro = new AgregarLibroVentana(libroDAO, autorDAO, categoriaDAO, subCategoriaDAO);
-        if(agregarLibro.isHubieronCambios()) modelo.setLibrosMostrados(libroDAO.listaLibrosVisual());
+        if(agregarLibro.isHubieronCambios()) modelo.anunciarCambio();
     }
 }

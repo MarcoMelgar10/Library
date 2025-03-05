@@ -23,7 +23,7 @@ public class ModuloUsuarios extends BorderPane implements IModulo {
         table = new TableUsuarios(this.modelo);
         setTop(header);
         setCenter(table);
-        simularDatos();
+        //simularDatos();
     }
 
 

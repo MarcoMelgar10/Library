@@ -5,18 +5,19 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.w3c.dom.Text;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.UnaryOperator;
+import java.util.regex.Pattern;
 
 public class ParametersDefault extends VBox implements PropertyChangeListener {
 
@@ -67,56 +68,109 @@ public class ParametersDefault extends VBox implements PropertyChangeListener {
         return bodyScroll;
     }
 
-    public static CheckBox createSimpleParam(String text){
-        CheckBox simpleParam = new CheckBox(text);
-        simpleParam.setStyle("-fx-font-style: italic;");
-        simpleParam.setPadding(new Insets(0,0,0,6));
-        return simpleParam;
-    }
-
-    public static VBox createDataParam(String text){
-        VBox dateContainer = new VBox();
-        CheckBox parametroFecha = new CheckBox(text);
-        parametroFecha.setStyle("-fx-font-style: italic;");
-        StackPane dateFilterPane = new StackPane(parametroFecha);
-        dateFilterPane.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-        StackPane.setMargin(parametroFecha, new Insets(0, 0, 0, 6));
-
-        GridPane gridFecha = new GridPane();
-        gridFecha.setDisable(true);
-        gridFecha.setPadding(new Insets(3, 0, 0, 30));
-        parametroFecha.setOnAction(event -> gridFecha.setDisable(!parametroFecha.isSelected()));
-
-        Label desdeLabel = new Label("Desde");
-        desdeLabel.setStyle("-fx-font-size: 10;");
-        GridPane.setColumnIndex(desdeLabel, 0);
-        GridPane.setRowIndex(desdeLabel, 0);
-
-        TextField fieldDesdeFecha = new TextField();
-        fieldDesdeFecha.setPrefSize(50, 6);
-        fieldDesdeFecha.setScaleY(0.7);
-        GridPane.setColumnIndex(fieldDesdeFecha, 1);
-        GridPane.setRowIndex(fieldDesdeFecha, 0);
-
-        Label hastaLabel = new Label("Hasta");
-        hastaLabel.setStyle("-fx-font-size: 10;");
-        GridPane.setColumnIndex(hastaLabel, 0);
-        GridPane.setRowIndex(hastaLabel, 1);
-
-        TextField fieldHastaFecha = new TextField("2025");
-        fieldHastaFecha.setPrefSize(50, 6);
-        fieldHastaFecha.setScaleY(0.7);
-        GridPane.setColumnIndex(fieldHastaFecha, 1);
-        GridPane.setRowIndex(fieldHastaFecha, 1);
-
-        gridFecha.getChildren().addAll(desdeLabel, fieldDesdeFecha, hastaLabel, fieldHastaFecha);
-
-        dateContainer.getChildren().addAll(dateFilterPane, gridFecha);
-        return dateContainer;
-    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
+    }
+
+    protected class SimpleParam{
+        private CheckBox checkBox;
+        private String name;
+        public SimpleParam(String name){
+            this.name = name;
+            CheckBox simpleParam = new CheckBox(this.name);
+            simpleParam.setStyle("-fx-font-style: italic;");
+            simpleParam.setPadding(new Insets(0,0,0,6));
+            this.checkBox = simpleParam;
+        }
+
+        public CheckBox getCheckBox() {
+            return checkBox;
+        }
+    }
+
+    protected class DateParam{
+        private CheckBox checkBox;
+        private FiltroFecha filtro;
+        private TextField inputFechaInicial, inputFechaFinal;
+        private VBox contenedor;
+        private GridPane gridFechas;
+
+        public DateParam(FiltroFecha filtroFecha){
+            this.filtro = filtroFecha;
+            init();
+        }
+
+        private void init(){
+            VBox dateContainer = new VBox();
+            CheckBox parametroFecha = new CheckBox(filtro.getNombre());
+            parametroFecha.setStyle("-fx-font-style: italic;");
+            StackPane dateFilterPane = new StackPane(parametroFecha);
+            dateFilterPane.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            StackPane.setMargin(parametroFecha, new Insets(0, 0, 0, 6));
+
+            GridPane gridFecha = new GridPane();
+            gridFecha.setDisable(true);
+            gridFecha.setPadding(new Insets(3, 0, 0, 30));
+            parametroFecha.setOnAction(event -> gridFecha.setDisable(!parametroFecha.isSelected()));
+
+            Label desdeLabel = new Label("Desde");
+            desdeLabel.setStyle("-fx-font-size: 10;");
+            GridPane.setColumnIndex(desdeLabel, 0);
+            GridPane.setRowIndex(desdeLabel, 0);
+
+
+            TextField fieldDesdeFecha = new TextField();
+            fieldDesdeFecha.setPrefSize(50, 6);
+            fieldDesdeFecha.setScaleY(0.7);
+            GridPane.setColumnIndex(fieldDesdeFecha, 1);
+            GridPane.setRowIndex(fieldDesdeFecha, 0);
+
+            Label hastaLabel = new Label("Hasta");
+            hastaLabel.setStyle("-fx-font-size: 10;");
+            GridPane.setColumnIndex(hastaLabel, 0);
+            GridPane.setRowIndex(hastaLabel, 1);
+
+            TextField fieldHastaFecha = new TextField();
+            fieldHastaFecha.setPrefSize(50, 6);
+            fieldHastaFecha.setScaleY(0.7);
+            GridPane.setColumnIndex(fieldHastaFecha, 1);
+            GridPane.setRowIndex(fieldHastaFecha, 1);
+
+            gridFecha.getChildren().addAll(desdeLabel, fieldDesdeFecha, hastaLabel, fieldHastaFecha);
+
+            dateContainer.getChildren().addAll(dateFilterPane, gridFecha);
+
+            this.contenedor = dateContainer;
+            this.inputFechaInicial = fieldDesdeFecha;
+            this.inputFechaFinal = fieldHastaFecha;
+            this.checkBox = parametroFecha;
+            this.gridFechas = gridFecha;
+        }
+
+        public FiltroFecha getFiltro() {
+            return filtro;
+        }
+
+        public TextField getInputFechaFinal() {
+            return inputFechaFinal;
+        }
+
+        public TextField getInputFechaInicial() {
+            return inputFechaInicial;
+        }
+
+        public GridPane getGridFechas() {
+            return gridFechas;
+        }
+
+        public VBox getContenedor() {
+            return contenedor;
+        }
+
+        public CheckBox getCheckBox() {
+            return checkBox;
+        }
     }
 }
