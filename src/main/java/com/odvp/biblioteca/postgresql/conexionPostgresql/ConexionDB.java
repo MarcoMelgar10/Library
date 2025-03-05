@@ -2,14 +2,19 @@ package com.odvp.biblioteca.postgresql.conexionPostgresql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
 public class ConexionDB {
-    private static ConexionDB instancia;
+    private static volatile ConexionDB instancia;
     private final HikariDataSource dataSource;
+
+    private static Logger logger = LogManager.getRootLogger();
 
     private ConexionDB() {
         HikariConfig config = new HikariConfig();
@@ -25,11 +30,16 @@ public class ConexionDB {
         config.setConnectionTimeout(5000); // 5s de timeout para obtener una conexión
 
         this.dataSource = new HikariDataSource(config);
+        logger.info("Conexion con la base de datos creada");
     }
 
     public static ConexionDB getOrCreate() {
         if (instancia == null) {
-            instancia = new ConexionDB();
+            synchronized (ConexionDB.class) {
+                if (instancia == null) {
+                    instancia = new ConexionDB();
+                }
+            }
         }
         return instancia;
     }

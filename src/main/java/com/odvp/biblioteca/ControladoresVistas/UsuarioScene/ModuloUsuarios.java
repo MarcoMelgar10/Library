@@ -17,7 +17,7 @@ public class ModuloUsuarios extends BorderPane implements IModulo {
         servicioBusquedaUsuarios= new ServicioBusquedaUsuarios(modelo);
         setTop(header);
         setCenter(table);
-        simularDatos();
+        //simularDatos();
     }
 
 

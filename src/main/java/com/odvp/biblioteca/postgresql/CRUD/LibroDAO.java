@@ -1,6 +1,6 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
-import com.odvp.biblioteca.ControladoresVistas.BookScene.IFiltro;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
 import com.odvp.biblioteca.Objetos.CategoryData;
 import com.odvp.biblioteca.Objetos.IDatoVisual;
@@ -222,6 +222,12 @@ public class LibroDAO{
             query.append(")");
         }
 
+        if (filtrosSeleccionados != null && !filtrosSeleccionados.isEmpty()) {
+            for (IFiltro filtro : filtrosSeleccionados) {
+                query.append(filtro.getQry());
+            }
+        }
+
         ArrayList<IDatoVisual> libros = new ArrayList<>();
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              Statement stmt = conn.createStatement();
@@ -239,6 +245,7 @@ public class LibroDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        System.out.println(query);
         return libros;
     }
 
