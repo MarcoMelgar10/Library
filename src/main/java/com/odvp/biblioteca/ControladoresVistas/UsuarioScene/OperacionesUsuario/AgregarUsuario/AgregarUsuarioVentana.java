@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class AgregarUsuarioVentana extends Stage {
+public class AgregarUsuarioVentana extends Stage {/*
 
     private TextField nombreField, apellidoPaternoField, apellidoMaternoField, telefonoField, direccionField;
     private Label idContenido, bloqueadoContenido;
@@ -32,7 +32,7 @@ public class AgregarUsuarioVentana extends Stage {
 
     private boolean hubieronCambios = false;
 
-    public AgregarUsuarioVentana(ModeloUsuarios, usuario,) {
+    public AgregarUsuarioVentana(UsuarioDAO usuarioDAO, Usuario usuario) {
         this.usuarioDAO = usuarioDAO;
         setTitle("Agregar Usuario");
         Scene scene = buildScene();
@@ -192,6 +192,6 @@ public class AgregarUsuarioVentana extends Stage {
 
     public boolean isHubieronCambios() {
         return hubieronCambios;
-    }
+    }*/
 }
 
