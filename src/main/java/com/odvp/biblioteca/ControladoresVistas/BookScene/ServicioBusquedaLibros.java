@@ -1,13 +1,9 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
 import com.odvp.biblioteca.Objetos.CategoryData;
 import com.odvp.biblioteca.Objetos.IDatoVisual;
-import com.odvp.biblioteca.Objetos.Libro;
-import com.odvp.biblioteca.Objetos.LibroCardData;
-import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
-import com.odvp.biblioteca.postgresql.CRUD.SubCategoriaDAO;
-import javafx.application.Platform;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -20,8 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ServicioBusquedaLibros implements PropertyChangeListener {
         private final LibroDAO libroDAO = new LibroDAO();  // DAO para acceder a la BD
-        private final CategoriaDAO categoriaDAO = new CategoriaDAO();
-        private final SubCategoriaDAO subCategoriaDAO = new SubCategoriaDAO();
         private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         private ScheduledFuture<?> scheduledTask;
         private ModeloLibros modelo;
@@ -50,6 +44,8 @@ public class ServicioBusquedaLibros implements PropertyChangeListener {
 
             List<IDatoVisual> libros = libroDAO.listaLibrosVisualParametrizada(textoBusqueda,categoriasSeleccionadas,filtrosSeleccionados,tipoBusqueda);
             modelo.setLibrosMostrados(libros);
+
+
         }
 
 
@@ -63,6 +59,7 @@ public class ServicioBusquedaLibros implements PropertyChangeListener {
                     || evt.getPropertyName().equals(ModeloLibros.OBS_TEXTO_BUSCADOR)
                     || evt.getPropertyName().equals(ModeloLibros.OBS_TIPO_DE_BUSQUEDA)
                     || evt.getPropertyName().equals(ModeloLibros.OBS_FILTROS_SELECCIONADOS)
+                    || evt.getPropertyName().equals(ModeloLibros.OBS_CAMBIO_GENERICO)
             ){
                 iniciarBusquedaConRetraso();
             }

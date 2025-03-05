@@ -1,5 +1,8 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.FiltroBasico;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.FiltroFecha;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
 import com.odvp.biblioteca.Objetos.CategoryData;
 import com.odvp.biblioteca.Objetos.IDatoVisual;
@@ -45,11 +48,10 @@ public class ModuloLibros extends BorderPane implements IModulo {
             @Override
             protected Object call() throws Exception {
                 LibroDAO libroDAO = new LibroDAO();
-                List<IDatoVisual> datoLibros = libroDAO.listaLibrosVisual();
                 CategoriaDAO categoriaDAO = new CategoriaDAO();
-                List<CategoryData> categoriaDatos = categoriaDAO.listaCategorias();
-                modelo.setLibrosMostrados(datoLibros);
-                modelo.setCategoriasMostradas(categoriaDatos);
+                modelo.setLibrosMostrados(libroDAO.listaLibrosVisual());
+                modelo.setCategoriasMostradas(categoriaDAO.listaCategorias());
+                modelo.setFiltrosMostrados(ServicioFiltros.obtenerFiltrosPredeterminados());
                 return null;
             }
         }).start();

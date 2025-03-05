@@ -26,7 +26,7 @@ public class ModuloUsuarios extends BorderPane implements IModulo {
 
         setTop(header);
         setCenter(table);
-        simularDatos();
+        //simularDatos();
     }
 
 

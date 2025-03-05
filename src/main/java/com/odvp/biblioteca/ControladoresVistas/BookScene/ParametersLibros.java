@@ -1,5 +1,8 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.FiltroBasico;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.FiltroFecha;
+import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ParametersDefault;
 import com.odvp.biblioteca.Objetos.CategoryData;
 import javafx.application.Platform;
@@ -8,14 +11,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 
 import java.beans.PropertyChangeEvent;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParametersLibros extends ParametersDefault {
-
-    private final CheckBox PARAM_UNIDADES_DISPONIBLES = ParametersDefault.createSimpleParam("Hay unidades disponibles");
-    private final CheckBox PARAM_TIENE_OBSERVACION = ParametersDefault.createSimpleParam("Tiene observaciones");
-    private final VBox PARAM_ANO_PUBLICACION = ParametersDefault.createDataParam("Año de publicacion");
 
     private VBox ventanaCategorias, ventanaFiltros;
 
@@ -25,13 +26,11 @@ public class ParametersLibros extends ParametersDefault {
     public ParametersLibros(ModeloLibros modelo){
         this.modelo = modelo;
         this.modelo.addObserver(this);
+
         List<Parent> categorias = new ArrayList<>();
         ventanaCategorias = addSubWindow("Categorias",categorias);
 
         List<Parent> filtros = new ArrayList<>();
-        filtros.add(PARAM_UNIDADES_DISPONIBLES);
-        filtros.add(PARAM_TIENE_OBSERVACION);
-        filtros.add(PARAM_ANO_PUBLICACION);
 
         ventanaFiltros = addSubWindow("Filtros", filtros);
     }
@@ -42,9 +41,47 @@ public class ParametersLibros extends ParametersDefault {
             Platform.runLater(() -> {
                 ventanaCategorias.getChildren().clear();
                 for(CategoryData categoria : modelo.getCategoriasMostradas()){
-                    CheckBox checkBox = createSimpleParam(categoria.getNombre());
+                    SimpleParam simpleParam = new SimpleParam(categoria.getNombre());
+                    CheckBox checkBox = simpleParam.getCheckBox();
                     checkBox.setOnAction( e -> modelo.setCategoriaSelected(categoria, checkBox.isSelected()));
                     ventanaCategorias.getChildren().add(checkBox);
+                }
+            });
+        }
+
+        if(evt.getPropertyName().equals(ModeloLibros.OBS_FILTROS_MOSTRADOS)){
+            Platform.runLater(() -> {
+                ventanaFiltros.getChildren().clear();
+                for(IFiltro filtro : modelo.getFiltros()){
+                    if(filtro instanceof  FiltroBasico){
+                        SimpleParam simpleParam = new SimpleParam(filtro.getNombre());
+                        CheckBox checkBox = simpleParam.getCheckBox();
+                        checkBox.setOnAction( e -> modelo.setFiltroSelected(filtro, checkBox.isSelected()));
+                        ventanaFiltros.getChildren().add(checkBox);
+                    }
+                    else if(filtro instanceof FiltroFecha){
+                        DateParam dateParam = new DateParam((FiltroFecha) filtro);
+                        VBox contenedor = dateParam.getContenedor();
+                        CheckBox checkBox = dateParam.getCheckBox();
+                        dateParam.getInputFechaInicial().textProperty().addListener((observable, oldValue, newValue) -> {
+                            Date date = null;
+                            if(!newValue.isEmpty() && newValue.matches("\\d*"))  date = Date.valueOf(LocalDate.of(Integer.parseInt(newValue), 1, 1));
+                            ((FiltroFecha) filtro).setFechaInicial(date);
+                            modelo.anunciarCambio();
+                        });
+                        dateParam.getInputFechaFinal().textProperty().addListener((observable, oldValue, newValue) -> {
+                            Date date = null;
+                            if(!newValue.isEmpty() && newValue.matches("\\d*"))  date = Date.valueOf(LocalDate.of(Integer.parseInt(newValue), 1, 1));
+                            ((FiltroFecha) filtro).setFechaFinal(date);
+                            modelo.anunciarCambio();
+                        });
+                        checkBox.setOnAction( e ->{
+                            dateParam.getGridFechas().setDisable(!checkBox.isSelected());
+                            modelo.setFiltroSelected(filtro, checkBox.isSelected());
+                        });
+                        ventanaFiltros.getChildren().add(contenedor);
+                    }
+
                 }
             });
         }
