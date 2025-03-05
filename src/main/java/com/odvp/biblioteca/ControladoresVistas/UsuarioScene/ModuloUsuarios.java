@@ -14,7 +14,6 @@ import java.util.List;
 public class ModuloUsuarios extends BorderPane implements IModulo {
     private HeaderUsuarios header;
     private TableUsuarios table;
-
     private ModeloUsuarios modelo;
 
     public ModuloUsuarios(ModeloUsuarios modelo){
@@ -23,7 +22,7 @@ public class ModuloUsuarios extends BorderPane implements IModulo {
         table = new TableUsuarios(this.modelo);
         setTop(header);
         setCenter(table);
-        //simularDatos();
+        simularDatos();
     }
 
 

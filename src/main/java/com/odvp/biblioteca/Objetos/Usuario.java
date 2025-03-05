@@ -7,7 +7,6 @@ public class Usuario {
     private String apellidoMaterno;
     private String telefono;
     private String direccion;
-    private int multa;
     private boolean estadoBloqueo;
 
 
@@ -18,7 +17,6 @@ public class Usuario {
         this.apellidoMaterno = builder.apellidoMaterno;
         this.telefono = builder.telefono;
         this.direccion = builder.direccion;
-        this.multa = builder.multa;
         this.estadoBloqueo = builder.estadoBloqueo;
     }
 
@@ -45,10 +43,6 @@ public class Usuario {
         return direccion;
     }
 
-    public int getMulta() {
-        return multa;
-    }
-
     public boolean isEstadoBloqueo() {
         return estadoBloqueo;
     }
@@ -61,7 +55,6 @@ public class Usuario {
         private String apellidoMaterno;
         private String telefono;
         private String direccion;
-        private int multa;
         private boolean estadoBloqueo;
 
         // Métodos de configuración para cada campo
@@ -95,10 +88,6 @@ public class Usuario {
             return this;
         }
 
-        public Builder multa(int multa) {
-            this.multa = multa;
-            return this;
-        }
 
         public Builder estadoBloqueo(boolean estadoBloqueo) {
             this.estadoBloqueo = estadoBloqueo;

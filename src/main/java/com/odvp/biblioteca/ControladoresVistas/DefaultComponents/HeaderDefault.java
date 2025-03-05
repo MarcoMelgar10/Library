@@ -56,6 +56,7 @@ public class HeaderDefault extends HBox implements PropertyChangeListener {
         HBox.setMargin(buttonContainer, new Insets(0, 20, 0, 0));
         // Agregar elementos a la caja principal
         this.getChildren().addAll(titleLabel, spacer, buttonContainer);
+        setButtonsAction();
     }
 
 
@@ -86,6 +87,9 @@ public class HeaderDefault extends HBox implements PropertyChangeListener {
         for(ButtonDefault button : botones){
             button.desactivar(deshabilitar);
         }
+    }
+    public void setButtonsAction(){
+
     }
 
     @Override

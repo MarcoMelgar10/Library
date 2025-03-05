@@ -9,31 +9,31 @@ import java.util.ArrayList;
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla prestamo.
    */
-public class PrestamoDAO implements  ICRUD{
+public class PrestamoDAO{
     private String qry;
     private Prestamo prestamo;
     private ConexionDB conexionDB;
     public PrestamoDAO(){
         this.conexionDB = ConexionDB.getOrCreate();
     }
-    @Override
+
     public void insertar(Object prestamo) {
         this.prestamo = (Prestamo) prestamo;
 
     }
 
-    @Override
+
     public Object obtener(int id) {
         return null;
     }
 
-    @Override
+
     public void modificar(Object prestamo) {
         this.prestamo = (Prestamo) prestamo;
 
     }
 
-    @Override
+
     public void eliminar(int id) {
 
     }
