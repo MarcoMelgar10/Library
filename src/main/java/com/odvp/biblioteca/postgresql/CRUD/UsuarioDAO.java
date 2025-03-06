@@ -1,11 +1,10 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 import com.odvp.biblioteca.Objetos.Usuario;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.UsuarioData;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 
@@ -15,21 +14,39 @@ import java.util.ArrayList;
 public class UsuarioDAO{
 
     public void insertar(Usuario usuario) {
-        String qry = "CALL agregar_usuario(?,?,?,?,?)";
+        String qry = "INSERT INTO usuario(id_usuario, nombre, apellido_paterno, apellido_materno, telefono, direccion, estado_bloqueo) VALUES (?,?,?,?,?,?,?)";
         try(Connection conn = ConexionDB.getOrCreate().getConexion();
             PreparedStatement stmt = conn.prepareStatement(qry)){
-            stmt.setString(1, usuario.getNombre());
-            stmt.setString(2, usuario.getApellidoPaterno());
-            stmt.setString(3, usuario.getApellidoMaterno());
-            stmt.setString(4, usuario.getTelefono());
-            stmt.setString(5, usuario.getDireccion());
+            stmt.setInt(1, usuario.getId());
+            stmt.setString(2, usuario.getNombre());
+            stmt.setString(3, usuario.getApellidoPaterno());
+            stmt.setString(4, usuario.getApellidoMaterno());
+            stmt.setString(5, usuario.getTelefono());
+            stmt.setString(6, usuario.getDireccion());
+            stmt.setBoolean(7, false);
             stmt.executeQuery();
             System.out.println("Usuario agregado");
         }catch (SQLException e){
-            System.out.println(e.getSQLState());
-            System.out.println(e.getMessage());
+            System.out.println("No se pudo agregar usuario");
         }
 
+    }
+
+    public Integer getNextId(){
+        String qry = "SELECT MAX(id_usuario) AS max_usuario from usuario";
+        int maxId;
+        try(Connection conn = ConexionDB.getOrCreate().getConexion();
+            PreparedStatement ps = conn.prepareStatement(qry);
+            ResultSet rs = ps.executeQuery()){
+            if(rs.next()){
+                maxId = rs.getInt("max_usuario");
+                return maxId +1;
+            }
+
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -93,9 +110,9 @@ public class UsuarioDAO{
         }
 
     }
-    public ArrayList<Usuario> listaUsuarios() {
-        String qry = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, telefono, direccion, estado_bloqueo FROM usuario";
-        ArrayList<Usuario> usuarios = new ArrayList<>();
+    public ArrayList<IDatoVisual> listaUsuarios() {
+        String qry = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, telefono, direccion, estado_bloqueo FROM usuario WHERE D_E_L_E_T_E = false";
+        ArrayList<IDatoVisual> usuarios = new ArrayList<>();
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement pstm = conn.prepareStatement(qry);
              ResultSet rs = pstm.executeQuery()){
@@ -106,20 +123,11 @@ public class UsuarioDAO{
                 String nombre = rs.getString("nombre");
                 String paterno = rs.getString("apellido_paterno");
                 String materno = rs.getString("apellido_materno");
-                String telefono = rs.getString("telefono");
-                String direccion = rs.getString("direccion");
                 boolean estadoBloqueo = rs.getBoolean("estado_bloqueo");
 
                 // Usando el patrón Builder para construir el objeto Usuario
-                Usuario usuario = new Usuario.Builder()
-                        .idUsuario(idUsuario)
-                        .nombre(nombre)
-                        .apellidoPaterno(paterno)
-                        .apellidoMaterno(materno)
-                        .telefono(telefono)
-                        .direccion(direccion)
-                        .estadoBloqueo(estadoBloqueo)
-                        .build(); // Llamar a build() para obtener el objeto final
+                UsuarioData usuario = new UsuarioData(idUsuario, nombre + " " + paterno + " " + materno,estadoBloqueo);
+
 
                 usuarios.add(usuario);
             }
@@ -129,6 +137,40 @@ public class UsuarioDAO{
 
         return usuarios;
     }
+
+    public ArrayList<IDatoVisual> listaUsuariosParametrizado(String textoBusqueda) {
+        String qry = "SELECT id_usuario, CONCAT(nombre, ' ', apellido_paterno, ' ', apellido_materno) as nombre_completo, telefono, direccion, estado_bloqueo FROM usuario WHERE D_E_L_E_T_E = false";
+        ArrayList<IDatoVisual> usuarios = new ArrayList<>();
+
+        if (textoBusqueda != null && !textoBusqueda.isEmpty()) {
+            qry += " AND CONCAT(nombre, ' ', apellido_paterno, ' ', apellido_materno) ILIKE ?";
+        }
+
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement pstm = conn.prepareStatement(qry)) {
+
+            if (textoBusqueda != null && !textoBusqueda.isEmpty()) {
+                String parametroBusqueda = "%" + textoBusqueda + "%";
+                pstm.setString(1, parametroBusqueda);
+            }
+
+            try (ResultSet rs = pstm.executeQuery()) {
+                while (rs.next()) {
+                    int idUsuario = rs.getInt("id_usuario");
+                    String nombre = rs.getString("nombre_completo");
+                    boolean estadoBloqueo = rs.getBoolean("estado_bloqueo");
+
+                    UsuarioData usuario = new UsuarioData(idUsuario, nombre,estadoBloqueo);
+
+                    usuarios.add(usuario);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
+    }
+
 
 
     public void eliminar(int id) {
