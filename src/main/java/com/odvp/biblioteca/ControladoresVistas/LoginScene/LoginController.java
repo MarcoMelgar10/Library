@@ -39,6 +39,7 @@ public class LoginController{
         }catch (Exception e){
             System.out.println("No se pudo cargar de escena");
             e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

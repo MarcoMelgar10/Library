@@ -10,7 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla multa.
    */
@@ -127,7 +126,6 @@ public class MultaDAO{
             e.printStackTrace();
         }
         return multas;
-
     }
 
     public int getNextId() {
