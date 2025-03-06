@@ -1,25 +1,23 @@
-package com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.AgregarUsuario;
+package com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.EditarUsuario;
 
-import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.ModeloUsuarios;
-import com.odvp.biblioteca.Objetos.*;
-import com.odvp.biblioteca.postgresql.CRUD.*;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
+import com.odvp.biblioteca.Objetos.Usuario;
+import com.odvp.biblioteca.postgresql.CRUD.UsuarioDAO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-public class AgregarUsuarioVentana extends Stage {
+public class EditarUsuarioVentana extends Stage {
 
     private TextField nombreField, apellidoPaternoField, apellidoMaternoField, telefonoField, direccionField, idField;
     private Button cancelarButton, aceptarButton;
@@ -27,7 +25,7 @@ public class AgregarUsuarioVentana extends Stage {
 
     private boolean hubieronCambios = false;
 
-    public AgregarUsuarioVentana(UsuarioDAO usuarioDAO) {
+    public EditarUsuarioVentana(UsuarioDAO usuarioDAO) {
         this.DAO = usuarioDAO;
         setTitle("Agregar Usuario");
         Scene scene = buildScene();

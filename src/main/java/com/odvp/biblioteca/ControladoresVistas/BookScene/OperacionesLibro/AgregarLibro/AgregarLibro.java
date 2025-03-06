@@ -17,7 +17,7 @@ import java.util.List;
 
 public class AgregarLibro{
     private LibroDAO libroDAO = new LibroDAO();
-    private AutorDAO autorDAO = AutorDAO.getInstance();
+    private AutorDAO autorDAO = new AutorDAO();
     private CategoriaDAO categoriaDAO = new CategoriaDAO();
     private SubCategoriaDAO subCategoriaDAO = new SubCategoriaDAO();
 

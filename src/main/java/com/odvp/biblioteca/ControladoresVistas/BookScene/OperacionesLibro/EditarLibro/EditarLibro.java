@@ -13,7 +13,7 @@ import com.odvp.biblioteca.postgresql.CRUD.SubCategoriaDAO;
 
 public class EditarLibro {
     private final LibroDAO libroDAO = new LibroDAO();
-    private final AutorDAO autorDAO = AutorDAO.getInstance();
+    private final AutorDAO autorDAO = new AutorDAO();
     private final CategoriaDAO categoriaDAO = new CategoriaDAO();
     private final SubCategoriaDAO subCategoriaDAO =  new SubCategoriaDAO();
     public EditarLibro(ModeloLibros modelo){
