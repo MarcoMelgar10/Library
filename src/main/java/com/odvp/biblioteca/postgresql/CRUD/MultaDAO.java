@@ -34,9 +34,6 @@ public class MultaDAO{
 
     }
 
-    public Object visualizar(int id) {
-        return null;
-    }
     public void modificar(Multa multa) {
 
 

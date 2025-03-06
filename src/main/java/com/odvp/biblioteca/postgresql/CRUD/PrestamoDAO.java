@@ -10,41 +10,21 @@ import java.util.ArrayList;
   Clase para realizar la interaccion con la base de datas, para la tabla prestamo.
    */
 public class PrestamoDAO{
-    private String qry;
-    private Prestamo prestamo;
-    private ConexionDB conexionDB;
-    public PrestamoDAO(){
-        this.conexionDB = ConexionDB.getOrCreate();
-    }
 
-    public void insertar(Object prestamo) {
-        this.prestamo = (Prestamo) prestamo;
-
-    }
-
-
-    public Object obtener(int id) {
-        return null;
-    }
-
-
-    public void modificar(Object prestamo) {
-        this.prestamo = (Prestamo) prestamo;
-
-    }
 
 
     public void eliminar(int id) {
 
     }
     public ArrayList<Prestamo> listaPrestamos() {
-        qry = "SELECT p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, u.nombre AS usuario, l.titulo AS libro, p.estado " +
+        String qry = "SELECT p.fecha_prestamo, p.fecha_vencimiento, p.fecha_devolucion, u.nombre AS usuario, l.titulo AS libro, p.estado " +
                 "FROM prestamo p " +
                 "JOIN usuario u ON p.id_usuario = u.id_usuario " +
                 "JOIN libro l ON p.id_libro = l.id_libro";
         ArrayList<Prestamo> prestamos = new ArrayList<>();
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry);
-             ResultSet rs = stmt.executeQuery()) {
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement ps = conn.prepareStatement(qry);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Date fechaPrestamo = rs.getDate("fecha_prestamo");
                 Date fechaVencimiento = rs.getDate("fecha_vencimiento");
@@ -66,7 +46,8 @@ public class PrestamoDAO{
 
     public String getLibro(int codigoPrestamo) {
         String qry = "SELECT l.titulo FROM prestamo p JOIN libro l on l.id_libro = p.id_libro WHERE id_prestamo = ?";
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry)) {
             stmt.setInt(1, codigoPrestamo); // Mover esto antes de ejecutar la consulta
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) { // Usar if en vez de while
@@ -81,7 +62,8 @@ public class PrestamoDAO{
 
     public int getIdUsuario(int idPrestamo) {
         String qry = "SELECT id_usuario FROM prestamo WHERE id_prestamo = ?";
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+                PreparedStatement stmt = conn.prepareStatement(qry)) {
             stmt.setInt(1, idPrestamo);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -96,7 +78,8 @@ public class PrestamoDAO{
 
     public String getUsuario(int codigoPrestamo) {
         String qry = "SELECT u.nombre FROM prestamo p JOIN usuario u on u.id_usuario = p.id_usuario WHERE id_prestamo = ?";
-        try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+                PreparedStatement stmt = conn.prepareStatement(qry)) {
             stmt.setInt(1, codigoPrestamo);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
