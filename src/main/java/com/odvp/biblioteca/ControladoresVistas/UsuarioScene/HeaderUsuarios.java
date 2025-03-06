@@ -4,6 +4,9 @@ import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSimpleSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
 import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.AgregarUsuario.AgregarUsuario;
+import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.EditarUsuario.EditarUsuario;
+import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.EliminarUsuario.EliminarUsuario;
+import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.VisualizarUsuario.VisualizarUsuario;
 
 import java.beans.PropertyChangeEvent;
 
@@ -22,8 +25,10 @@ public class HeaderUsuarios extends HeaderDefault {
         this.modelo.addObserver(this);
         searcher = new SearcherUsuario(modelo);
         buttonNew.setOnMouseClicked(e-> new AgregarUsuario(modelo));
+        buttonEdit.setOnMouseClicked(e -> new EditarUsuario(modelo));
+        buttonView.setOnMouseClicked(e->new VisualizarUsuario(modelo));
+        buttonDelete.setOnMouseClicked(e->new EliminarUsuario(modelo));
         addButtons(buttonNew, buttonView, buttonEdit, buttonDelete);
-        deshabilitarBotones(true);
         setSearcherContainer(searcher);
 
 
@@ -31,6 +36,7 @@ public class HeaderUsuarios extends HeaderDefault {
 
     @Override
     public void deshabilitarBotones(boolean deshabilitar){
+
         buttonEdit.desactivar(deshabilitar);
         buttonView.desactivar(deshabilitar);
         buttonDelete.desactivar(deshabilitar);

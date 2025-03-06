@@ -3,6 +3,7 @@ package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.Edita
 import com.odvp.biblioteca.Objetos.Autor;
 import com.odvp.biblioteca.ObjetosVistas.CategoryData;
 import com.odvp.biblioteca.Objetos.Libro;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.ObjetosVistas.SubCategoryData;
 import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
 import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
@@ -166,8 +167,8 @@ public class EditarLibroVentana extends Stage {
                 int nextID = libroDAO.getNextId();
                 Platform.runLater(() -> idField.setText( nextID+""));
 
-                for (Autor autor : autorDAO.obtenerAutoresAlfabeticamente()) {
-                    String nombre = autor.getNombre();
+                for (IDatoVisual autor : autorDAO.obtenerAutoresAlfabeticamente()) {
+                    String nombre = ((Autor)autor).getNombre();
                     int id = autor.getID();
 
                     Platform.runLater(() -> {

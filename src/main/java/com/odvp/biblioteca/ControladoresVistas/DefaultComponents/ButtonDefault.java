@@ -19,26 +19,25 @@ public class ButtonDefault extends StackPane {
         setPrefWidth(50);
         setAlignment(Pos.CENTER);
         String urlIcon = "";
-        String styleclass = "";
-
-        switch (tipo){
-            case BUTTON_NEW:
+        String styleclass = switch (tipo) {
+            case BUTTON_NEW -> {
                 urlIcon = ServicioIconos.AGREGAR_BUTTON;
-                styleclass = "button-yellow";
-                break;
-            case BUTTON_EDIT:
+                yield "button-yellow";
+            }
+            case BUTTON_EDIT -> {
                 urlIcon = ServicioIconos.EDITAR_BUTTON;
-                styleclass = "button-blue";
-                break;
-            case BUTTON_DELETE:
+                yield "button-blue";
+            }
+            case BUTTON_DELETE -> {
                 urlIcon = ServicioIconos.ELIMINAR_BUTTON;
-                styleclass = "button-red";
-                break;
-            case BUTTON_VIEW:
+                yield "button-red";
+            }
+            case BUTTON_VIEW -> {
                 urlIcon = ServicioIconos.VISUALIZAR_BUTTON;
-                styleclass = "button-green";
-                break;
-        }
+                yield "button-green";
+            }
+            default -> "";
+        };
 
         ImageView imageView = new ImageView(new Image(urlIcon));
         imageView.setFitHeight(16);

@@ -1,8 +1,7 @@
-package com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.EditarUsuario;
+package com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EditarUsuario;
 
 import com.odvp.biblioteca.Objetos.Usuario;
 import com.odvp.biblioteca.postgresql.CRUD.UsuarioDAO;
-import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

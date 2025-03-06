@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -89,8 +90,11 @@ public class AgregarUsuarioVentana extends Stage {
         cancelarButton.setOnAction( e -> close());
         aceptarButton = new Button("Aceptar");
         aceptarButton.setOnAction( e-> {
-            if(validar()) ejecutar();
-            else System.out.println("Hay datos invalidos");
+            if(validar()){
+                if(validarExistenciaDeUsuario()) ejecutar();
+                else JOptionPane.showMessageDialog(null,"El ci '" + idField.getText() + "' ya está en uso");
+            }
+            else JOptionPane.showMessageDialog(null,"Hay datos invalidos");
         });
         HBox buttonsContainer = new HBox(8, cancelarButton, aceptarButton);
         buttonsContainer.setAlignment(Pos.CENTER);
@@ -100,19 +104,10 @@ public class AgregarUsuarioVentana extends Stage {
 
         return new Scene(root);
     }
-    /*
-    public void initValues(){
-        Task<Integer> task = new Task<>() {
-            @Override
-            protected Integer call() throws Exception {
-                return DAO.getNextId();
-            }
-        };
-        task.setOnSucceeded(event ->
-                idContenido.setText(String.valueOf(task.getValue()))
-        );
-        new Thread(task).start();
-    }*/
+
+    public boolean validarExistenciaDeUsuario(){
+        return DAO.obtener(Integer.parseInt(idField.getText())) == null;
+    }
 
     public boolean validar() {
         boolean ciValido = idField.getText().trim().matches("^\\d{7,8}$");

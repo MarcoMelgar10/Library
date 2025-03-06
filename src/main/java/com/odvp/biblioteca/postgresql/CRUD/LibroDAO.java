@@ -245,7 +245,7 @@ public class LibroDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(query);
+
         return libros;
     }
 

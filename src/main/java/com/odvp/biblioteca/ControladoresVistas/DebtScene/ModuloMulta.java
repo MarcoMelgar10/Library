@@ -24,7 +24,7 @@ public class ModuloMulta extends BorderPane implements IModulo {
         table = new TablaMulta(modelo);
         setTop(header);
         setCenter(table);
-        simularDatos();
+        //simularDatos();
     }
 
     private void simularDatos() {

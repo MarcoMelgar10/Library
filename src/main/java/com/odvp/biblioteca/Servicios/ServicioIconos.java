@@ -20,5 +20,8 @@ public class ServicioIconos {
     public static final String USUARIO_DISPONIBLE = LibraryApplication.class.getResource("Icons/UsuariosResources/usuario.png").toExternalForm();
     public static final String USUARIO_NO_DISPONIBLE = LibraryApplication.class.getResource("Icons/UsuariosResources/usuario-bloqueado.png").toExternalForm();
 
+    public static final String AUTOR_ICONO = LibraryApplication.class.getResource("Icons/AutoresResources/editor.png").toExternalForm();
+
+
     public static final String MULTA_ACTIVA = LibraryApplication.class.getResource("Icons/DebtResources/debt.png").toExternalForm();
 }
