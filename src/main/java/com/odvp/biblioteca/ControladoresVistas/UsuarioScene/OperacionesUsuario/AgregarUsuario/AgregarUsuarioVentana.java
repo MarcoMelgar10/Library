@@ -22,21 +22,18 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class AgregarUsuarioVentana extends Stage {/*
+public class AgregarUsuarioVentana extends Stage {
 
-    private TextField nombreField, apellidoPaternoField, apellidoMaternoField, telefonoField, direccionField;
-    private Label idContenido, bloqueadoContenido;
+    private TextField nombreField, apellidoPaternoField, apellidoMaternoField, telefonoField, direccionField, idField;
     private Button cancelarButton, aceptarButton;
-    private Libro libro;
-    private UsuarioDAO usuarioDAO;
+    private UsuarioDAO DAO;
 
     private boolean hubieronCambios = false;
 
-    public AgregarUsuarioVentana(UsuarioDAO usuarioDAO, Usuario usuario) {
-        this.usuarioDAO = usuarioDAO;
+    public AgregarUsuarioVentana(UsuarioDAO usuarioDAO) {
+        this.DAO = usuarioDAO;
         setTitle("Agregar Usuario");
         Scene scene = buildScene();
-        initValues();
         setScene(scene);
         centerOnScreen();
         initModality(Modality.APPLICATION_MODAL);
@@ -61,9 +58,8 @@ public class AgregarUsuarioVentana extends Stage {/*
         formGrid.setHgap(10);
         formGrid.setVgap(10);
 
-        Label idLabel = new Label("ID:");
-        idContenido = new Label("");
-        idContenido.setPrefWidth(50);
+        Label idLabel = new Label("CI:");
+        idField = new TextField();
 
         Label nombreLabel = new Label("Nombre:");
         nombreField = new TextField();
@@ -78,21 +74,16 @@ public class AgregarUsuarioVentana extends Stage {/*
         Label telefonoLabel = new Label("Telefono:");
         telefonoField = new TextField();
 
-        Label direccion = new Label("Dirección:");
+        Label direccionLabel = new Label("Dirección:");
         direccionField = new TextField();
 
-        Label bloqueadoLabel = new Label("Estado bloqueo:");
-        bloqueadoContenido = new Label();
-
         // Agregar elementos al GridPane
-        formGrid.addRow(0, idLabel, idContenido);
-        formGrid.addRow(1, titleLabel, titleField);
-        formGrid.addRow(2, autorLabel, autorComboBox);
-        formGrid.addRow(3, categoriaLabel, categoriaComboBox);
-        formGrid.addRow(4, subCategoriaLabel, subCategoriaComboBox);
-        formGrid.addRow(5, fechaLabel, publicacionDatePicker);
-        formGrid.addRow(6, stockLabel, stockSpinner);
-        formGrid.addRow(7, observacionLabel);
+        formGrid.addRow(0, idLabel, idField);
+        formGrid.addRow(1, nombreLabel, nombreField);
+        formGrid.addRow(2, apellidoPaternoLabel, apellidoPaternoField);
+        formGrid.addRow(3, apellidoMaternoLabel, apellidoMaternoField);
+        formGrid.addRow(4, telefonoLabel, telefonoField);
+        formGrid.addRow(5, direccionLabel, direccionField);
 
         // Contenedor de botones
         cancelarButton = new Button("Cancelar");
@@ -106,92 +97,56 @@ public class AgregarUsuarioVentana extends Stage {/*
         buttonsContainer.setAlignment(Pos.CENTER);
 
         // Agregar elementos al VBox principal
-        root.getChildren().addAll(titleContainer, separator, formGrid, scrollPane, buttonsContainer);
+        root.getChildren().addAll(titleContainer, separator, formGrid, buttonsContainer);
 
         return new Scene(root, 330, 550);
     }
-
+    /*
     public void initValues(){
-        new Thread(new Task<Void>() {
+        Task<Integer> task = new Task<>() {
             @Override
-            protected Void call() throws Exception {
-                int nextID = libroDAO.getNextId();
-                Platform.runLater(() -> idField.setText( nextID+""));
-
-                for (Autor autor : autorDAO.obtenerAutoresAlfabeticamente()) {
-                    String nombre = autor.getNombre();
-                    int id = autor.getID();
-
-                    Platform.runLater(() -> {
-                        autorComboBox.getItems().add(nombre);
-                        autores.put(nombre, id);
-                    });
-                }
-                for (CategoryData categoryData : categoriaDAO.listaCategoriasAlfabeticamente()) {
-                    String nombre = categoryData.getNombre();
-                    int id = categoryData.getId();
-
-                    Platform.runLater(() -> {
-                        categoriaComboBox.getItems().add(nombre);
-                        categorias.put(nombre, id);
-                    });
-                }
-                categoriaComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-                    int categoriaId = categorias.get(newValue);
-                    subCategorias.clear();
-                    subCategoriaComboBox.getItems().clear();
-                    List<SubCategoryData> subCategoriasData = subCategoriaDAO.obtenerSubCategoriasPorCategoriaAlfabeticamente(categoriaId);
-                    Platform.runLater(() -> {
-                        for(SubCategoryData subCategoryData : subCategoriasData){
-                            int id = subCategoryData.getId();
-                            String nombre = subCategoryData.getNombre();
-                            subCategorias.put(nombre, id);
-                            subCategoriaComboBox.getItems().add(nombre);
-                        }
-                    });
-                });
-                return null;
+            protected Integer call() throws Exception {
+                return DAO.getNextId();
             }
-        }).start();
-    }
+        };
+        task.setOnSucceeded(event ->
+                idContenido.setText(String.valueOf(task.getValue()))
+        );
+        new Thread(task).start();
+    }*/
 
     public boolean validar() {
-        boolean tituloVacio = titleField.getText().trim().isEmpty();
-        boolean autorValido = autores.get(autorComboBox.getValue()) != null;
-        boolean categoriaValida = categorias.get(categoriaComboBox.getValue()) != null;
-        boolean subCategoriaValida = subCategorias.get(subCategoriaComboBox.getValue()) != null;
-        boolean stockNoNulo = stockSpinner.getValue() != null;
-        return !tituloVacio && autorValido && categoriaValida && stockNoNulo && subCategoriaValida;
+        boolean ciValido = idField.getText().trim().matches("^\\d{7,8}$");
+        boolean nombreVacio = nombreField.getText().trim().isEmpty();
+        boolean apellidoPaternoVacio = apellidoPaternoField.getText().trim().isEmpty();
+        boolean apellidoMaternoVacio = apellidoMaternoField.getText().trim().isEmpty();
+        boolean telefonoVacio = telefonoField.getText().trim().isEmpty();
+        boolean direccionVacio = direccionField.getText().trim().isEmpty();
+        return ciValido && !nombreVacio && !apellidoPaternoVacio && !apellidoMaternoVacio && !telefonoVacio && !direccionVacio;
     }
 
     public void ejecutar(){
-        String titulo = titleField.getText();
-        int idAutor = autores.get(autorComboBox.getValue());
-        int idCategoria = categorias.get(categoriaComboBox.getValue());
-        int idSubCategoria = subCategorias.get(subCategoriaComboBox.getValue());
-        Date date = null;
-        if(publicacionDatePicker.getValue() != null){
-            date = Date.valueOf(publicacionDatePicker.getValue());
-        }
-        String observacion = observacionTextArea.getText();
-        int stock = stockSpinner.getValue();
-        Libro libro = new Libro.Builder()
-                .titulo(titulo)
-                .idCategoria(idCategoria)
-                .idAutor(idAutor)
-                .stock(stock)
-                .stockDisponible(stock)
-                .observacion(observacion)
-                .idSubCategoria(idSubCategoria)
-                .publicacion(date)
+        int id = Integer.parseInt(idField.getText().trim());
+        String nombre = nombreField.getText();
+        String apellidoPaterno = apellidoPaternoField.getText();
+        String apellidoMaterno = apellidoMaternoField.getText();
+        String telefono = telefonoField.getText();
+        String direccion = direccionField.getText();
+        Usuario nuevoUsuario = new Usuario.Builder()
+                .idUsuario(id)
+                .nombre(nombre)
+                .apellidoPaterno(apellidoPaterno)
+                .apellidoMaterno(apellidoMaterno)
+                .telefono(telefono)
+                .direccion(direccion)
                 .build();
-        libroDAO.insertar(libro);
+        DAO.insertar(nuevoUsuario);
         hubieronCambios = true;
         close();
     }
 
     public boolean isHubieronCambios() {
         return hubieronCambios;
-    }*/
+    }
 }
 

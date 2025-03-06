@@ -7,13 +7,12 @@ import java.util.List;
 
 public class UsuarioData implements IDatoVisual {
     private final int id;
-    private final String nombre;
+    private final String nombre_completo;
     private final Image legenda;
 
     public UsuarioData(int id, String nombre, boolean bloqueado) {
         this.id = id;
-        this.nombre = nombre;
-        String nameIcon;
+        this.nombre_completo = nombre;
         if(bloqueado) this.legenda = new Image(ServicioIconos.USUARIO_NO_DISPONIBLE);
         else this.legenda = new Image(ServicioIconos.USUARIO_DISPONIBLE);
     }
@@ -23,7 +22,7 @@ public class UsuarioData implements IDatoVisual {
     }
 
     public String getNombre() {
-        return nombre;
+        return nombre_completo;
     }
 
     public Image getLegenda() {
@@ -37,6 +36,6 @@ public class UsuarioData implements IDatoVisual {
 
     @Override
     public List<Object> getDatos() {
-        return List.of(legenda,id, nombre);
+        return List.of(legenda,id, nombre_completo);
     }
 }

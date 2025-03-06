@@ -13,22 +13,20 @@ public class HeaderUsuarios extends HeaderDefault {
     private final ButtonDefault buttonView = ButtonDefault.getButtonView();
     private final ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
 
-    private final DefaultSimpleSearcher searcher = new DefaultSimpleSearcher();
+    private final SearcherUsuario searcher;
     private ModeloUsuarios modelo;
 
     public HeaderUsuarios(ModeloUsuarios modelo) {
         super("USUARIOS");
         this.modelo = modelo;
         this.modelo.addObserver(this);
+        searcher = new SearcherUsuario(modelo);
+        buttonNew.setOnMouseClicked(e-> new AgregarUsuario(modelo));
         addButtons(buttonNew, buttonView, buttonEdit, buttonDelete);
         deshabilitarBotones(true);
         setSearcherContainer(searcher);
 
 
-    }
-    @Override
-    public void setButtonsAction(){
-        buttonNew.setOnMouseClicked(e-> new AgregarUsuario(modelo));
     }
 
     @Override

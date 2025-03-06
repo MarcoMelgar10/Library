@@ -30,6 +30,10 @@ public class HeaderLibros extends HeaderDefault {
         this.modelo = modelo;
         this.modelo.addObserver(this);
         searcher = new SearcherLibro(this.modelo);
+        buttonNew.setOnMouseClicked(e -> new AgregarLibro(modelo));
+        buttonView.setOnMouseClicked(e -> new VisualizarLibro(modelo));
+        buttonEdit.setOnMouseClicked(e -> new EditarLibro(modelo));
+        buttonDelete.setOnMouseClicked(e -> new EliminarLibro(modelo));
 
         deshabilitarBotones(true);
         addButtons(buttonNew,buttonView,buttonEdit,buttonDelete);
@@ -49,21 +53,10 @@ public class HeaderLibros extends HeaderDefault {
     }
 
     @Override
-    public void setButtonsAction(){
-        buttonNew.setOnMouseClicked(e -> new AgregarLibro(modelo));
-        buttonView.setOnMouseClicked(e -> new VisualizarLibro(modelo));
-        buttonEdit.setOnMouseClicked(e -> new EditarLibro(modelo));
-        buttonDelete.setOnMouseClicked(e -> new EliminarLibro(modelo));
-    }
-
-    @Override
     public void deshabilitarBotones(boolean deshabilitar){
         buttonEdit.desactivar(deshabilitar);
         buttonView.desactivar(deshabilitar);
         buttonDelete.desactivar(deshabilitar);
     }
-
-
-
 
 }

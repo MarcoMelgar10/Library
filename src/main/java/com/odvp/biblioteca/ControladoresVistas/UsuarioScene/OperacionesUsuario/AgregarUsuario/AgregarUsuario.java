@@ -13,8 +13,7 @@ public class AgregarUsuario {
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     public AgregarUsuario(ModeloUsuarios modelo){
-        Usuario usuario = usuarioDAO.obtener(modelo.getUsuarioSeleccionado().getID());
-        //AgregarUsuarioVentana agregarLibro = new AgregarUsuarioVentana(,usuarioDAO);
-        //if(agregarLibro.isHubieronCambios()) modelo.anunciarCambio();
+        AgregarUsuarioVentana agregarLibro = new AgregarUsuarioVentana(usuarioDAO);
+        if(agregarLibro.isHubieronCambios()) modelo.anunciarCambio();
     }
 }

@@ -9,9 +9,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class DefaultSimpleSearcher extends HBox {
 
-    private TextField buscador;
+    protected TextField buscador;
 
     public DefaultSimpleSearcher(){
         getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
@@ -20,10 +24,12 @@ public class DefaultSimpleSearcher extends HBox {
         buscador.scaleYProperty().setValue(1.05);
         buscador.getStyleClass().add("text-field-search");
         setAlignment(Pos.CENTER);
-
         getChildren().addAll(buscador);
+        setBuscadorAction();
     }
     public TextField getBuscador() {
         return buscador;
     }
+    public void setBuscadorAction(){}
+
 }
