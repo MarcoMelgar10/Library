@@ -24,4 +24,8 @@ public class ServicioIconos {
 
 
     public static final String MULTA_ACTIVA = LibraryApplication.class.getResource("Icons/DebtResources/debt.png").toExternalForm();
+
+    public static final String LOGIN_CONFIGURADOR = LibraryApplication.class.getResource("Icons/LoginResources/configurador.png").toExternalForm();
+    public static final String LOGIN_INICIO = LibraryApplication.class.getResource("Icons/LoginResources/inicio.png").toExternalForm();
+
 }

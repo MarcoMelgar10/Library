@@ -1,4 +1,5 @@
 package com.odvp.biblioteca;
+import com.odvp.biblioteca.ControladoresVistas.LoginScene.LoginScene;
 import com.odvp.biblioteca.postgresql.CRUD.MultaDAO;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 import javafx.application.Application;
@@ -18,8 +19,7 @@ public class LibraryApplication extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         new Thread(ConexionDB::getOrCreate).start();
-        FXMLLoader fxmlLoader = new FXMLLoader(LibraryApplication.class.getResource("Vistas/login-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(new LoginScene());
         stage.setTitle("Biblioteca");
         stage.setScene(scene);
         stage.show();
