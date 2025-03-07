@@ -1,6 +1,9 @@
 package com.odvp.biblioteca.ControladoresVistas.AutorScene;
 
 import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.AgregarAutor.AgregarAutor;
+import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EditarAutor.EditarAutor;
+import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EliminarUsuario.EliminarAutor;
+import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.VisualizarUsuario.VisualizarAutor;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
 
@@ -21,6 +24,9 @@ public class HeaderAutores extends HeaderDefault {
         this.modelo = modelo;
         this.modelo.addObserver(this);
         agregarButton.setOnMouseClicked(e -> new AgregarAutor(this.modelo));
+        editarButton.setOnMouseClicked(e -> new EditarAutor(this.modelo));
+        visualizarButton.setOnMouseClicked(e -> new VisualizarAutor(this.modelo));
+        eliminarButton.setOnMouseClicked(e -> new EliminarAutor(this.modelo));
         addButtons(agregarButton, visualizarButton, editarButton, eliminarButton);
 
     }

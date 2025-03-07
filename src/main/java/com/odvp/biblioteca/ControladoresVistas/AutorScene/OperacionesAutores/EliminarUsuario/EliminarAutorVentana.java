@@ -1,5 +1,6 @@
 package com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EliminarUsuario;
 
+import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
 import com.odvp.biblioteca.postgresql.CRUD.UsuarioDAO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,33 +15,33 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class EliminarUsuarioVentana extends Stage {
+public class EliminarAutorVentana extends Stage {
 
     private Button aceptarButton, cancelarButton;
     private PasswordField passwordField;
     private boolean eliminar = false;
-    private UsuarioDAO usuarioDAO;
+    private AutorDAO autorDAO;
     private int ID;
 
     private final String contra = "odvp";
-    public EliminarUsuarioVentana(int usuarioId, UsuarioDAO usuarioDAO) {
-        setTitle("Eliminar Usuario");
-        this.usuarioDAO = usuarioDAO;
+    public EliminarAutorVentana(int usuarioId, AutorDAO autorDAO) {
+        setTitle("Eliminar Autor");
+        this.autorDAO = autorDAO;
         this.ID = usuarioId;
         VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
         root.setPrefSize(332, 290);
 
-        Label titleLabel = new Label("Eliminar Usuario");
+        Label titleLabel = new Label("Eliminar Autor");
         titleLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, javafx.scene.text.FontPosture.ITALIC, 16));
 
         Separator separator = new Separator();
         separator.setPrefWidth(200);
 
         Label alertaLabel = new Label("Mensaje de alerta");
-        alertaLabel.setText("¿Estás seguro que deseas dar de baja el usuario con el ID: " +
-                ID + " ? EL usuario dejará de estar disponible para prestamos");
+        alertaLabel.setText("¿Estás seguro que deseas dar de baja el autor con el ID: " +
+                ID + " ? EL autor dejará de estar disponible para registrar libros");
         alertaLabel.setWrapText(true);
         alertaLabel.setAlignment(Pos.CENTER);
         alertaLabel.setPrefWidth(280);
@@ -83,7 +84,7 @@ public class EliminarUsuarioVentana extends Stage {
         return contra.equals(passwordField.getText());
     }
     private void ejecutar(){
-        usuarioDAO.eliminar(ID);
+        autorDAO.eliminar(ID);
         eliminar = true;
         close();
     }

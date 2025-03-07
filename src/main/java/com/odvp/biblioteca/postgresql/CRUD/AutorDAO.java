@@ -34,7 +34,7 @@ public class AutorDAO {
     // Devolver el autor que se busca
 
     public Autor obtener(int id) {
-        String qry = "SELECT id_autor, nombre, biografia FROM autor WHERE id_autor = ?";
+        String qry = "SELECT id_autor, nombre, resena FROM autor WHERE id_autor = ?";
         Autor autor = null;
 
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
@@ -44,7 +44,7 @@ public class AutorDAO {
                 if (rs.next()) {
                     int idAutor = rs.getInt("id_autor");
                     String nombreAutor = rs.getString("nombre");
-                    String biografia = rs.getString("biografia");
+                    String biografia = rs.getString("resena");
                     autor = new Autor(idAutor, nombreAutor, biografia);
                 }
             }
@@ -57,20 +57,29 @@ public class AutorDAO {
     // Función para modificar autor, pasándole el mismo id pero con los datos modificados
 
     public void modificar(Autor autor) {
-        String  qry = "UPDATE autor SET nombre = ?, biografia = ? WHERE id_autor = ?";
+        String  qry = "UPDATE autor SET nombre = ?, resena = ? WHERE id_autor = ?";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement stmt = conn.prepareStatement(qry)) {
             stmt.setString(1, autor.getNombre());
             stmt.setString(2, autor.getDescripcion());
             stmt.setInt(3, autor.getID());
-            stmt.execute();
+            stmt.executeUpdate();
+            System.out.println("Se modifico el autor");
         } catch (SQLException e) {
            e.printStackTrace();
         }
     }
 
     public void eliminar(int id) {
-        // Implementar lógica de eliminación si es necesario
+        String qry = "UPDATE autor SET D_E_L_E_T_E = true where id_autor = ?";
+        try(Connection conn = ConexionDB.getOrCreate().getConexion();
+        PreparedStatement ps = conn.prepareStatement(qry)){
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+
     }
 
 
