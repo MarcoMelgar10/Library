@@ -52,7 +52,7 @@ public class EliminarLibroVentana extends Stage {
 
         aceptarButton = new Button("Confirmar");
         aceptarButton.setOnAction(e-> {
-            if(validar()) ejecutar();
+            if(validarContra()) ejecutar();
             else System.out.println("Clave incorrecta");
         });
 
@@ -76,7 +76,7 @@ public class EliminarLibroVentana extends Stage {
         return eliminar;
     }
 
-    private boolean validar(){
+    private boolean validarContra(){
         return contra.equals(passwordField.getText());
     }
     private void ejecutar(){

@@ -7,14 +7,15 @@ import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.A
 import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.EditarUsuario.EditarUsuario;
 import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.EliminarUsuario.EliminarUsuario;
 import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.VisualizarUsuario.VisualizarUsuario;
+import com.odvp.biblioteca.Servicios.ServicioBotones;
 
 import java.beans.PropertyChangeEvent;
 
 public class HeaderUsuarios extends HeaderDefault {
-    private final ButtonDefault buttonNew = ButtonDefault.getButtonNew();
-    private final ButtonDefault buttonEdit = ButtonDefault.getButtonEdit();
-    private final ButtonDefault buttonView = ButtonDefault.getButtonView();
-    private final ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
+    private final ButtonDefault buttonNew = ServicioBotones.createBotonAgregar();
+    private final ButtonDefault buttonEdit = ServicioBotones.createButtonEditar();
+    private final ButtonDefault buttonView = ServicioBotones.createButtonVisualizar();
+    private final ButtonDefault buttonDelete = ServicioBotones.createButtonEliminar();
 
     private final SearcherUsuario searcher;
     private ModeloUsuarios modelo;

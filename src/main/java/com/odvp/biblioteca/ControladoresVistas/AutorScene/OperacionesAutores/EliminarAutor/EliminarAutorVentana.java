@@ -1,7 +1,6 @@
-package com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EliminarUsuario;
+package com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EliminarAutor;
 
 import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
-import com.odvp.biblioteca.postgresql.CRUD.UsuarioDAO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

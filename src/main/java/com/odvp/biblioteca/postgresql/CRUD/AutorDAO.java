@@ -70,6 +70,24 @@ public class AutorDAO {
         }
     }
 
+    public Integer getNroLibrosConAutor(int id){
+        String qry = "Select COUNT(id_libro) as nroLibros from libro where id_autor = ?";
+        int nroLibros = 0;
+        try(Connection conn = ConexionDB.getOrCreate().getConexion();
+        PreparedStatement ps = conn.prepareStatement(qry)){
+            ps.setInt(1, id);
+            try(ResultSet rs = ps.executeQuery()){
+                if(rs.next()){
+                    nroLibros = rs.getInt("nroLibros");
+                    return nroLibros;
+                }
+            }
+        }catch (SQLException exception){
+            exception.printStackTrace();
+        }
+        return null;
+    }
+
     public void eliminar(int id) {
         String qry = "UPDATE autor SET D_E_L_E_T_E = true where id_autor = ?";
         try(Connection conn = ConexionDB.getOrCreate().getConexion();

@@ -2,20 +2,21 @@ package com.odvp.biblioteca.ControladoresVistas.AutorScene;
 
 import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.AgregarAutor.AgregarAutor;
 import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EditarAutor.EditarAutor;
-import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EliminarUsuario.EliminarAutor;
+import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.EliminarAutor.EliminarAutor;
 import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.VisualizarUsuario.VisualizarAutor;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
+import com.odvp.biblioteca.Servicios.ServicioBotones;
 
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
 public class HeaderAutores extends HeaderDefault {
 
-    private final ButtonDefault agregarButton = ButtonDefault.getButtonNew();
-    private final ButtonDefault editarButton = ButtonDefault.getButtonEdit();
-    private final ButtonDefault visualizarButton = ButtonDefault.getButtonView();
-    private final ButtonDefault eliminarButton = ButtonDefault.getButtonDelete();
+    private final ButtonDefault agregarButton = ServicioBotones.createBotonAgregar();
+    private final ButtonDefault editarButton = ServicioBotones.createButtonEditar();
+    private final ButtonDefault visualizarButton = ServicioBotones.createButtonVisualizar();
+    private final ButtonDefault eliminarButton = ServicioBotones.createButtonEliminar();
+
 
     private ModeloAutores modelo;
 
