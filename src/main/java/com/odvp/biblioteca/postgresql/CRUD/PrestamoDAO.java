@@ -54,8 +54,8 @@ public class PrestamoDAO{
                 String estado = rs.getString("estado");
 
                 // Crear un nuevo objeto Prestamo y agregarlo a la lista
-                Prestamo prestamo = new Prestamo(fechaPrestamo, fechaVencimiento, fechaDevolucion, usuario, libro, estado);
-                prestamos.add(prestamo);
+             //   Prestamo prestamo = new Prestamo(fechaPrestamo, fechaVencimiento, fechaDevolucion, usuario, libro, estado);
+             //   prestamos.add(prestamo);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,7 +69,7 @@ public class PrestamoDAO{
         try (PreparedStatement stmt = conexionDB.getConexion().prepareStatement(qry)) {
             stmt.setInt(1, codigoPrestamo); // Mover esto antes de ejecutar la consulta
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) { // Usar if en vez de while
+                if (rs.next()) {
                     return rs.getString(1);
                 }
             }

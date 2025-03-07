@@ -10,21 +10,21 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /*
   Clase para realizar la interaccion con la base de datas, para la tabla multa.
    */
-public class MultaDAO{
+public class MultaDAO {
 
     public void insertar(Multa multa) {
-        String qry = "CALL agregar_multa(?,?,?,?)";
+        String qry = "CALL agregar_multa(?,?,?)";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement stmt = conn.prepareStatement(qry)) {
             stmt.setString(1, multa.getDescripcion());
             stmt.setInt(2, multa.getMonto());
             stmt.setInt(3, multa.getIdPrestamo());
-            stmt.setInt(4, multa.getIdUsuario());
             stmt.execute();
-            System.out.println("Prestamo agregato");
+            System.out.println("multa agregada");
         } catch (SQLException e) {
             // Manejo de errores
             System.out.println("Error SQL State: " + e.getSQLState());
@@ -33,31 +33,77 @@ public class MultaDAO{
 
     }
 
-    public Object visualizar(int id) {
+    /*
+    estado = false, significa "Cancelada", al contrario "Activa"
+     */
+    public void modificar(Multa multa) {
+        String qry = "UPDATE multa SET descripcion = ?, monto =?, fecha_multa= ?, estado = ? WHERE id_multa = ?";
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement ps = conn.prepareStatement(qry)) {
+            ps.setString(1, multa.getDescripcion());
+            ps.setInt(2, multa.getMonto());
+            ps.setDate(3, multa.getFechaMulta());
+            ps.setBoolean(4, multa.isEstado());
+            ps.setInt(5, multa.getIdMulta());
+            ps.execute();
+            System.out.println("Multa actualizada: " + multa.getIdMulta());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public Multa obtener(int id) {
+        String qry = "SELECT * FROM MULTA WHERE id_multa = ?";
+
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement ps = conn.prepareStatement(qry)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) { // Usa if en lugar de while, porque esperamos solo una multa
+                    String descripcion = rs.getString("descripcion");
+                    int monto = rs.getInt("monto");
+                    Date fechaMulta = rs.getDate("fecha_multa");
+                    boolean estado = rs.getBoolean("estado");
+                    Date fechaCancelacion = rs.getDate("fecha_cancelacion");
+                    boolean D_E_L_E_T_E = rs.getBoolean("D_E_L_E_T_E"); // Mejor cambiar el nombre en la BD
+                    int idPrestamo = rs.getInt("id_prestamo");
+
+                    System.out.println("Multa encontrada");
+                    return new Multa(id, descripcion, monto, fechaMulta, estado, fechaCancelacion, D_E_L_E_T_E, idPrestamo);
+
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage()); // Para ver más detalles del error
+            System.out.println(e.getSQLState()); // Para ver más detalles del error
+        }
+
+        System.out.println("No se encontró la multa con ID: " + id);
         return null;
     }
-    public void modificar(Multa multa) {
 
-
-    }
     public void eliminar(int id) {
 
     }
 
+
     public ArrayList<MultaDTO> listaMultas() {
         String qry = """
-        SELECT m.id_multa, m.descripcion, m.monto, m.fecha_multa, m.estado, 
-               m.fecha_cancelacion, m.id_prestamo, u.nombre 
-        FROM multa m 
-        JOIN usuario u ON m.id_usuario = u.id_usuario 
-        WHERE m.estado = true
-        ORDER BY m.id_multa ASC
-    """;
+                    SELECT m.id_multa, m.descripcion, m.monto, m.fecha_multa, m.estado, 
+                           m.fecha_cancelacion, m.id_prestamo, u.nombre, u.apellido_paterno, u.apellido_materno
+                    FROM multa m 
+                    JOIN prestamo p ON p.id_prestamo = m.id_prestamo
+                    JOIN usuario u ON p.id_usuario = u.id_usuario 
+                    ORDER BY m.id_multa ASC
+                """;
 
         ArrayList<MultaDTO> multas = new ArrayList<>();
 
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
-                PreparedStatement stmt = conn.prepareStatement(qry);
+             PreparedStatement stmt = conn.prepareStatement(qry);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
@@ -69,6 +115,10 @@ public class MultaDAO{
                 boolean estado = rs.getBoolean("estado");
                 Date fechaEliminacion = rs.getDate("fecha_cancelacion");
                 String nombreUsuario = rs.getString("nombre"); // Datos de usuario
+                nombreUsuario += " ";
+                nombreUsuario += rs.getString("apellido_paterno");
+                nombreUsuario += " ";
+                nombreUsuario += rs.getString("apellido_materno");
 
                 // Crear objeto DTO
                 MultaDTO multaDTO = new MultaDTO(idMulta, descripcion, monto, fechaMulta, estado, fechaEliminacion, nombreUsuario, idPrestamo);
@@ -82,10 +132,10 @@ public class MultaDAO{
 
 
     //Ejecutar en la linea principal del programa, para que cada vez que se inicie se actualicen los prestamos acorde a las fechas limites
-    public void validarPrestamosVencidos(){
-       String qry = "SELECT actualizar_prestamos_y_multas()";
+    public void validarPrestamosVencidos() {
+        String qry = "SELECT actualizar_prestamos_y_multas()";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
-                PreparedStatement stmt = conn.prepareStatement(qry)) {
+             PreparedStatement stmt = conn.prepareStatement(qry)) {
             stmt.execute();
             System.out.println("Estado del prestamo y multas actualizado");
         } catch (SQLException e) {
@@ -97,28 +147,29 @@ public class MultaDAO{
 
     public List<IDatoVisual> listaMultasVisual() {
         String qry = """
-        SELECT m.id_multa, m.monto, m.fecha_multa, m.id_prestamo, u.nombre 
-        FROM multa m 
-        JOIN usuario u ON m.id_usuario = u.id_usuario 
-        WHERE m.estado = true
-        ORDER BY m.id_multa ASC
-    """;
+                    SELECT m.id_multa, m.monto, m.fecha_multa, m.estado, m.id_prestamo, u.nombre 
+                    FROM multa m 
+                    JOIN prestamo p on p.id_prestamo = m.id_prestamo
+                    JOIN usuario u ON p.id_usuario = u.id_usuario 
+                    ORDER BY m.id_multa ASC
+                """;
 
         ArrayList<IDatoVisual> multas = new ArrayList<>();
 
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
-                PreparedStatement stmt =conn.prepareStatement(qry);
+             PreparedStatement stmt = conn.prepareStatement(qry);
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 int idMulta = rs.getInt("id_multa");
                 int idPrestamo = rs.getInt("id_prestamo");
                 int monto = rs.getInt("monto");
+                boolean estado = rs.getBoolean("estado");
                 Date fechaMulta = rs.getDate("fecha_multa");
                 String nombreUsuario = rs.getString("nombre"); // Datos de usuario
 
 
-                MultaCardData multa = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, idPrestamo);
+                MultaCardData multa = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, estado, idPrestamo);
 
                 multas.add(multa);
             }
@@ -126,13 +177,14 @@ public class MultaDAO{
             e.printStackTrace();
         }
         return multas;
+
     }
 
     public int getNextId() {
         String qry = "Select MAX(id_multa) from multa";
         int idMulta = 0;
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
-                PreparedStatement stmt = conn.prepareStatement(qry);
+             PreparedStatement stmt = conn.prepareStatement(qry);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 idMulta = rs.getInt(1);
@@ -143,5 +195,53 @@ public class MultaDAO{
             e.printStackTrace();
         }
         return idMulta;
+    }
+
+    public void cancelarMulta(int idMulta) {
+        String qry = "UPDATE multa SET estado = false WHERE id_multa = ?";
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement st = conn.prepareStatement(qry)) {
+            st.setInt(1, idMulta);
+            st.execute();
+            System.out.println("Multa cancelada");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public List<IDatoVisual> listaMultasVisual(String textoBusqueda) {
+        String qry = """
+                    SELECT m.id_multa, m.monto, m.fecha_multa, m.estado, m.id_prestamo, u.nombre 
+                    FROM multa m 
+                    JOIN prestamo p ON p.id_prestamo = m.id_prestamo
+                    JOIN usuario u ON p.id_usuario = u.id_usuario 
+                    WHERE u.nombre = ?
+                    ORDER BY m.id_multa ASC
+                """;
+
+        ArrayList<IDatoVisual> multas = new ArrayList<>();
+
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry)) {
+
+            stmt.setString(1, textoBusqueda); // Corrección: Se mueve fuera del try-with-resources
+            try (ResultSet rs = stmt.executeQuery()) { // Se añade un nuevo try-with-resources para el ResultSet
+                while (rs.next()) {
+                    int idMulta = rs.getInt("id_multa");
+                    int idPrestamo = rs.getInt("id_prestamo");
+                    int monto = rs.getInt("monto");
+                    boolean estado = rs.getBoolean("estado");
+                    Date fechaMulta = rs.getDate("fecha_multa");
+                    String nombreUsuario = rs.getString("nombre");
+
+                    MultaCardData multa = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, estado, idPrestamo);
+                    multas.add(multa);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return multas;
     }
 }
