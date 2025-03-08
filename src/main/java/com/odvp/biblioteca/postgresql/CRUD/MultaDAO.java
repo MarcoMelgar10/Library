@@ -166,7 +166,12 @@ public class MultaDAO {
                 int monto = rs.getInt("monto");
                 boolean estado = rs.getBoolean("estado");
                 Date fechaMulta = rs.getDate("fecha_multa");
-                String nombreUsuario = rs.getString("nombre"); // Datos de usuario
+                String nombreUsuario = rs.getString("nombre");
+                nombreUsuario += " ";
+                nombreUsuario += rs.getString("apellido_paterno");
+                nombreUsuario += " ";
+                nombreUsuario += rs.getString("apellido_materno");
+                System.out.println("Se ejecuta");
 
 
                 MultaCardData multa = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, estado, idPrestamo);
@@ -209,31 +214,42 @@ public class MultaDAO {
         }
 
     }
-
     public List<IDatoVisual> listaMultasVisual(String textoBusqueda) {
         String qry = """
-                    SELECT m.id_multa, m.monto, m.fecha_multa, m.estado, m.id_prestamo, u.nombre 
-                    FROM multa m 
-                    JOIN prestamo p ON p.id_prestamo = m.id_prestamo
-                    JOIN usuario u ON p.id_usuario = u.id_usuario 
-                    WHERE u.nombre = ?
-                    ORDER BY m.id_multa ASC
-                """;
+            SELECT m.id_multa, m.monto, m.fecha_multa, m.estado, m.id_prestamo,
+                   u.apellido_paterno, u.apellido_materno, u.nombre 
+            FROM multa m 
+            JOIN prestamo p ON p.id_prestamo = m.id_prestamo
+            JOIN usuario u ON p.id_usuario = u.id_usuario 
+            WHERE unaccent(CONCAT(u.nombre, ' ', u.apellido_paterno, ' ', u.apellido_materno)) ILIKE unaccent(?)
+               OR unaccent(CONCAT(u.apellido_paterno, ' ', u.apellido_materno)) ILIKE unaccent(?)
+            ORDER BY m.id_multa ASC
+        """;
 
         ArrayList<IDatoVisual> multas = new ArrayList<>();
 
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement stmt = conn.prepareStatement(qry)) {
 
-            stmt.setString(1, textoBusqueda); // Corrección: Se mueve fuera del try-with-resources
-            try (ResultSet rs = stmt.executeQuery()) { // Se añade un nuevo try-with-resources para el ResultSet
+            String filtro = "%" + textoBusqueda + "%"; // Permitir coincidencias parciales
+
+            stmt.setString(1, filtro); // Buscar por nombre completo sin tildes
+            stmt.setString(2, filtro); // Buscar por apellidos sin tildes
+
+            try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int idMulta = rs.getInt("id_multa");
                     int idPrestamo = rs.getInt("id_prestamo");
                     int monto = rs.getInt("monto");
                     boolean estado = rs.getBoolean("estado");
                     Date fechaMulta = rs.getDate("fecha_multa");
-                    String nombreUsuario = rs.getString("nombre");
+
+                    // Concatenar nombre y apellidos
+                    String nombreUsuario = rs.getString("nombre") + " " +
+                            rs.getString("apellido_paterno") + " " +
+                            rs.getString("apellido_materno");
+
+                    System.out.println("Se ejecuta");
 
                     MultaCardData multa = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, estado, idPrestamo);
                     multas.add(multa);
@@ -244,4 +260,8 @@ public class MultaDAO {
         }
         return multas;
     }
+
+
+
+
 }

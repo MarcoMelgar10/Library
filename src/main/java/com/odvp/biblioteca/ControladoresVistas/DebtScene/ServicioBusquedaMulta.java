@@ -1,10 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.DebtScene;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
-import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
-import com.odvp.biblioteca.ObjetosVistas.CategoryData;
 import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
-import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import com.odvp.biblioteca.postgresql.CRUD.MultaDAO;
 
 import java.beans.PropertyChangeEvent;
@@ -25,7 +22,6 @@ public class ServicioBusquedaMulta implements PropertyChangeListener {
 
     public ServicioBusquedaMulta(ModeloMulta modelo) {
         this.modelo = modelo;
-        support.addPropertyChangeListener(this);
         this.modelo.addObserver(this);
     }
 
@@ -51,9 +47,7 @@ public class ServicioBusquedaMulta implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals(ModeloLibros.OBS_CAMBIO_GENERICO)
-        ){
-            iniciarBusquedaConRetraso();
-        }
+        if(evt.getPropertyName().equals(ModeloMulta.OBS_CAMBIO_TEXTO)
+        ){iniciarBusquedaConRetraso();}
     }
 }

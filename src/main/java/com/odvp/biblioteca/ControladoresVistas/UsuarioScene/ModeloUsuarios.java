@@ -12,9 +12,8 @@ public class ModeloUsuarios {
     private String textoBusqueda;
     private IDatoVisual usuarioSeleccionado;
     private List<IDatoVisual> usuariosMostrados;
-
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
-    public static final String OBS_CAMBIO_GENERICO = "CAMBIO GENERICO";
+    public static final String OBS_CAMBIO_GENERICO = "CAMBIO_GENERICO";
     public static final String OBS_TEXTO_BUSCADOR = "OBS_TEXTO_BUSCADOR";
     public static final String OBS_USUARIOS_MOSTRADOS = "OBS_USUARIOS_MOSTRADOS";
     public static final String OBS_USUARIO_SELECCIONADO = "OBS_USUARIO_SELECCIONADO";

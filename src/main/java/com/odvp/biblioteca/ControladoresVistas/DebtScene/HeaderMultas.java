@@ -5,11 +5,8 @@ import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Editar
 import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Eliminar.EliminarMulta;
 import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Visualizar.VisualizarMulta;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
-import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSimpleSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
-import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.ModeloUsuarios;
-import com.odvp.biblioteca.Servicios.ServicioIconos;
-import javafx.scene.control.Button;
+
 
 import java.beans.PropertyChangeEvent;
 
@@ -18,17 +15,15 @@ public class HeaderMultas extends HeaderDefault {
     private ButtonDefault buttonEdit = ButtonDefault.getButtonEdit();
     private ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
     private ButtonDefault buttonView = ButtonDefault.getButtonView();
-    private SearcherMulta searcher = new SearcherMulta();
+    private SearcherMulta searcher;
     private ModeloMulta modelo;
 
     public HeaderMultas(ModeloMulta modelo) {
         super("Multas");
         this.modelo = modelo;
+        searcher = new SearcherMulta(this.modelo);
+        searcher.getBuscador().setPromptText("Usuario");
         this.modelo.addObserver(this);
-      /*  Button cancelarMultaButton = new Button("$");
-        cancelarMultaButton.setPrefWidth(50);
-        cancelarMultaButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;");
-      */
         addButtons(buttonNew, buttonView, buttonEdit, buttonDelete);
         deshabilitarBotones(true);
         setSearcherContainer(searcher);

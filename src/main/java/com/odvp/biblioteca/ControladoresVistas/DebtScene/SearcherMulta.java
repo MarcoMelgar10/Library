@@ -11,7 +11,7 @@ public class SearcherMulta extends DefaultSimpleSearcher {
     public SearcherMulta(ModeloMulta modelo){
         super();
         this.modelo = modelo;
-        modelo.addObserver((PropertyChangeListener) this);
+        modelo.addObserver(this);
     }
 
 

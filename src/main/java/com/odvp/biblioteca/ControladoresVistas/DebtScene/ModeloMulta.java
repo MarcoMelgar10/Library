@@ -12,6 +12,7 @@ import static com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros.OBS
 import static com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros.OBS_TEXTO_BUSCADOR;
 
 public class ModeloMulta {
+    public static final String OBS_CAMBIO_TEXTO = "CAMBIO_TEXTO";
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
     private IDatoVisual multaSeleccionada;
     private List<IDatoVisual> multaMostrada;
@@ -58,10 +59,14 @@ public class ModeloMulta {
     public void setTextoBusqueda(String textoBusqueda){
         String oldTexto = this.textoBusqueda;
         this.textoBusqueda = textoBusqueda;
-        support.firePropertyChange(OBS_TEXTO_BUSCADOR, oldTexto, this.textoBusqueda);
+        support.firePropertyChange(OBS_CAMBIO_TEXTO, oldTexto, this.textoBusqueda);
     }
 
     public String getTextoBusqueda() {
         return textoBusqueda;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
     }
 }
