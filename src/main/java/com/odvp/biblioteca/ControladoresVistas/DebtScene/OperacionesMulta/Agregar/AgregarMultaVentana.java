@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Agregar;
 
 import com.odvp.biblioteca.Objetos.Multa;
+import com.odvp.biblioteca.Servicios.ServicioIconos;
 import com.odvp.biblioteca.postgresql.CRUD.*;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -8,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -34,6 +36,8 @@ public class AgregarMultaVentana extends Stage {
         prestamoDAO = new PrestamoDAO();
         setTitle("Agregar multa");
         Scene scene = buildScene();
+        Image icon = new Image(ServicioIconos.OPCION_MODULO_DEUDAS);
+        this.getIcons().add(icon);
         initValues();
         setScene(scene);
         centerOnScreen();
@@ -134,7 +138,7 @@ public class AgregarMultaVentana extends Stage {
                 codigoPrestamoSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
                     if (newValue != null) { // Asegurar que el valor no es nulo
                         String usuarioName = prestamoDAO.getUsuario(newValue.intValue());
-                        String tituloLibro = prestamoDAO.getLibro(codigoPrestamoSpinner.getValue());
+                        String tituloLibro = prestamoDAO.getLibro(newValue.intValue());
                         Platform.runLater(() -> usuarioLabel.setText(usuarioName));
                         Platform.runLater(() -> libroLabel.setText(tituloLibro));
                     }
@@ -155,7 +159,7 @@ public class AgregarMultaVentana extends Stage {
         int idPrestamo = codigoPrestamoSpinner.getValue();
         int monto = montoSpinner.getValue();
         String descripcion = descripcionField.getText().isEmpty() ? "" : descripcionField.getText();
-        multa = new Multa(nextID, descripcion, monto, null, true, null, prestamoDAO.getIdUsuario(idPrestamo), idPrestamo);
+        multa = new Multa(nextID, descripcion, monto, null, true, null, true,  idPrestamo);
         multaDao.insertar(multa);
         hubieronCambios = true;
         close();

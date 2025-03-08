@@ -1,6 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas.DebtScene;
 
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
+import com.odvp.biblioteca.Objetos.Multa;
 import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.ObjetosVistas.MultaCardData;
 import com.odvp.biblioteca.ObjetosVistas.MultaDTO;
@@ -22,6 +23,7 @@ public class ModuloMulta extends BorderPane implements IModulo {
         this.modelo = modelo;
         header = new HeaderMultas(modelo);
         table = new TablaMulta(modelo);
+        ServicioBusquedaMulta busquedaMulta = new ServicioBusquedaMulta(modelo);
         setTop(header);
         setCenter(table);
         simularDatos();
@@ -35,7 +37,7 @@ public class ModuloMulta extends BorderPane implements IModulo {
                 MultaDAO multaDAO = new MultaDAO();
                 List<MultaDTO> multas = multaDAO.listaMultas();
                 for (MultaDTO multa : multas) {
-                    datoDeudas.add(new MultaCardData(multa.getIdMulta(), multa.getNombreUsuario(), multa.getMonto(),multa.getFechaMulta(), multa.getIdPrestamo()));
+                    datoDeudas.add(new MultaCardData(multa.getIdMulta(), multa.getNombreUsuario(), multa.getMonto(),multa.getFechaMulta(), multa.isEstado(), multa.getIdPrestamo()));
                 }
                modelo.setMultaMostrada(datoDeudas);
                 return null;
