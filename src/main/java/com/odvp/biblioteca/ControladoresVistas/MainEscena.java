@@ -1,5 +1,7 @@
 package com.odvp.biblioteca.ControladoresVistas;
 
+import com.odvp.biblioteca.ControladoresVistas.AutorScene.ModeloAutores;
+import com.odvp.biblioteca.ControladoresVistas.AutorScene.ModuloAutores;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModuloLibros;
 import com.odvp.biblioteca.ControladoresVistas.DebtScene.ModeloMulta;
@@ -26,11 +28,12 @@ public class MainEscena extends BorderPane{
     ModeloLibros modeloLibros = new ModeloLibros();
     ModeloUsuarios modeloUsuarios = new ModeloUsuarios();
     ModeloMulta modeloMulta = new ModeloMulta();
+    ModeloAutores modeloAutores = new ModeloAutores();
     
     VBox panelOpciones;
 
     OpcionButton opcionLibros = new OpcionButton("Libros",new ModuloLibros(modeloLibros),ServicioIconos.OPCION_MODULO_LIBROS);
-    OpcionButton opcionAutores = new OpcionButton("Autores",null,ServicioIconos.OPCION_MODULO_AUTORES);
+    OpcionButton opcionAutores = new OpcionButton("Autores",new ModuloAutores(modeloAutores),ServicioIconos.OPCION_MODULO_AUTORES);
     OpcionButton opcionPrestamos = new OpcionButton("Prestamos", null, ServicioIconos.OPCION_MODULO_PRESTAMOS);
     OpcionButton opcionReservas = new OpcionButton("Reservas", null, ServicioIconos.OPCION_MODULO_RESERVAS);
     OpcionButton opcionDeudas = new OpcionButton("Multas", new ModuloMulta(modeloMulta), ServicioIconos.OPCION_MODULO_DEUDAS);

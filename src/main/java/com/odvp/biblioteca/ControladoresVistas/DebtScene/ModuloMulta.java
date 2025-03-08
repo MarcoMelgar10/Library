@@ -26,7 +26,7 @@ public class ModuloMulta extends BorderPane implements IModulo {
         ServicioBusquedaMulta busquedaMulta = new ServicioBusquedaMulta(modelo);
         setTop(header);
         setCenter(table);
-        simularDatos();
+        //simularDatos();
     }
 
     private void simularDatos() {

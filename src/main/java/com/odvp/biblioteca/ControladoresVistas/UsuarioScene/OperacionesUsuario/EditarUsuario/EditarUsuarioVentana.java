@@ -2,6 +2,7 @@ package com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.
 
 import com.odvp.biblioteca.Objetos.Usuario;
 import com.odvp.biblioteca.postgresql.CRUD.UsuarioDAO;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,18 +18,22 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+
 public class EditarUsuarioVentana extends Stage {
 
     private TextField nombreField, apellidoPaternoField, apellidoMaternoField, telefonoField, direccionField, idField;
     private Button cancelarButton, aceptarButton;
     private UsuarioDAO DAO;
-
+    private Usuario usuario;
     private boolean hubieronCambios = false;
 
-    public EditarUsuarioVentana(UsuarioDAO usuarioDAO) {
+    public EditarUsuarioVentana(UsuarioDAO usuarioDAO, Usuario usuario) {
+        this.usuario = usuario;
         this.DAO = usuarioDAO;
-        setTitle("Agregar Usuario");
+        setTitle("Modificar Usuario");
         Scene scene = buildScene();
+        initValues();
         setScene(scene);
         centerOnScreen();
         initModality(Modality.APPLICATION_MODAL);
@@ -43,7 +48,7 @@ public class EditarUsuarioVentana extends Stage {
         root.setSpacing(40);
 
         // Título
-        Label titleWindow = new Label("Agregar Usuario");
+        Label titleWindow = new Label("Modificar Usuario");
         titleWindow.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, javafx.scene.text.FontPosture.ITALIC, 22));
         StackPane titleContainer = new StackPane(titleWindow);
         titleContainer.setPrefHeight(40);
@@ -87,8 +92,13 @@ public class EditarUsuarioVentana extends Stage {
         cancelarButton.setOnAction( e -> close());
         aceptarButton = new Button("Aceptar");
         aceptarButton.setOnAction( e-> {
-            if(validar()) ejecutar();
-            else System.out.println("Hay datos invalidos");
+            if(validar()){
+                if(validarExistenciaDeUsuario()) ejecutar();
+                else JOptionPane.showMessageDialog(null,"El ci '" + idField.getText() + "' ya está en uso");
+
+            }
+            else JOptionPane.showMessageDialog(null,"Hay datos invalidos");
+
         });
         HBox buttonsContainer = new HBox(8, cancelarButton, aceptarButton);
         buttonsContainer.setAlignment(Pos.CENTER);
@@ -98,19 +108,22 @@ public class EditarUsuarioVentana extends Stage {
 
         return new Scene(root);
     }
-    /*
+
     public void initValues(){
-        Task<Integer> task = new Task<>() {
-            @Override
-            protected Integer call() throws Exception {
-                return DAO.getNextId();
-            }
-        };
-        task.setOnSucceeded(event ->
-                idContenido.setText(String.valueOf(task.getValue()))
-        );
-        new Thread(task).start();
-    }*/
+        idField.setText(Integer.toString(usuario.getId()));
+        nombreField.setText(usuario.getNombre());
+        apellidoPaternoField.setText(usuario.getApellidoPaterno());
+        apellidoMaternoField.setText(usuario.getApellidoMaterno());
+        telefonoField.setText(usuario.getTelefono());
+        direccionField.setText(usuario.getDireccion());
+    }
+
+    public boolean validarExistenciaDeUsuario(){
+        if(usuario.getId() == Integer.parseInt(idField.getText())){
+            return true;
+        }
+        return DAO.obtener(Integer.parseInt(idField.getText())) == null;
+    }
 
     public boolean validar() {
         boolean ciValido = idField.getText().trim().matches("^\\d{7,8}$");
@@ -137,7 +150,7 @@ public class EditarUsuarioVentana extends Stage {
                 .telefono(telefono)
                 .direccion(direccion)
                 .build();
-        DAO.insertar(nuevoUsuario);
+        DAO.modificar(nuevoUsuario);
         hubieronCambios = true;
         close();
     }
