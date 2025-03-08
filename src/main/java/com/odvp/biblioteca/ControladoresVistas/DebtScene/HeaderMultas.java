@@ -5,25 +5,24 @@ import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Editar
 import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Eliminar.EliminarMulta;
 import com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Visualizar.VisualizarMulta;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.ButtonDefault;
-import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.DefaultSimpleSearcher;
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.HeaderDefault;
-import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.ModeloUsuarios;
-import com.odvp.biblioteca.Servicios.ServicioBotones;
-import com.odvp.biblioteca.Servicios.ServicioIconos;
+
 
 import java.beans.PropertyChangeEvent;
 
 public class HeaderMultas extends HeaderDefault {
-    private final ButtonDefault buttonNew = ServicioBotones.createBotonAgregar();
-    private final ButtonDefault buttonEdit = ServicioBotones.createButtonEditar();
-    private final ButtonDefault buttonView = ServicioBotones.createButtonVisualizar();
-    private final ButtonDefault buttonDelete = ServicioBotones.createButtonEliminar();
-    private DefaultSimpleSearcher searcher = new DefaultSimpleSearcher();
+    private ButtonDefault buttonNew = ButtonDefault.getButtonNew();
+    private ButtonDefault buttonEdit = ButtonDefault.getButtonEdit();
+    private ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
+    private ButtonDefault buttonView = ButtonDefault.getButtonView();
+    private SearcherMulta searcher;
     private ModeloMulta modelo;
 
     public HeaderMultas(ModeloMulta modelo) {
         super("Multas");
         this.modelo = modelo;
+        searcher = new SearcherMulta(this.modelo);
+        searcher.getBuscador().setPromptText("Usuario");
         this.modelo.addObserver(this);
         addButtons(buttonNew, buttonView, buttonEdit, buttonDelete);
         deshabilitarBotones(true);

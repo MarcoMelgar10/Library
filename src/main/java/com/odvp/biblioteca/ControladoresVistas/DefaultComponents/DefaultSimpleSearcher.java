@@ -13,7 +13,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class DefaultSimpleSearcher extends HBox {
+public class DefaultSimpleSearcher extends HBox implements PropertyChangeListener {
 
     protected TextField buscador;
 
@@ -32,4 +32,8 @@ public class DefaultSimpleSearcher extends HBox {
     }
     public void setBuscadorAction(){}
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+    }
 }
