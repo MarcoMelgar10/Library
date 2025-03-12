@@ -15,9 +15,9 @@ import java.util.List;
 /*
   Clase para realizar la interacción con la base de datos, para la tabla libro.
  */
-public class LibroDAO {
+public class LibroDAO{
 
-    // Inserta nuevos libros en la BD
+        // Inserta nuevos libros en la BD
     public void insertar(Libro libro) {
         String qry = "CALL agregar_libro(?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
@@ -248,5 +248,6 @@ public class LibroDAO {
 
         return libros;
     }
+
 
 }

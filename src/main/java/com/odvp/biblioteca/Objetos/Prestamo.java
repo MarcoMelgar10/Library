@@ -6,17 +6,17 @@ public class Prestamo {
     private Date fecha;
     private Date fecha_vencimiento;
     private Date fecha_devolucion;
-    private String usuario;
-    private String libro;
+    private int idUsuario;
+    private int idLibro;
     private String estado;
 
     // Constructor
-    public Prestamo(Date fecha, Date fecha_vencimiento, Date fecha_devolucion, String usuario, String libro, String estado) {
+    public Prestamo(Date fecha, Date fecha_vencimiento, Date fecha_devolucion, int idUsuario, int idLibro, String estado) {
         this.fecha = fecha;
         this.fecha_vencimiento = fecha_vencimiento;
         this.fecha_devolucion = fecha_devolucion;
-        this.usuario = usuario;
-        this.libro = libro;
+        this.idUsuario = idUsuario;
+        this.idLibro = idLibro;
         this.estado = estado;
     }
 
@@ -45,20 +45,20 @@ public class Prestamo {
         this.fecha_devolucion = fecha_devolucion;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public String getLibro() {
-        return libro;
+    public int getIdLibro() {
+        return idLibro;
     }
 
-    public void setLibro(String libro) {
-        this.libro = libro;
+    public void setIdLibro(int idLibro) {
+        this.idLibro = idLibro;
     }
 
     public String getEstado() {
@@ -75,8 +75,8 @@ public class Prestamo {
                 "fecha=" + fecha +
                 ", fecha_vencimiento=" + fecha_vencimiento +
                 ", fecha_devolucion=" + fecha_devolucion +
-                ", usuario='" + usuario + '\'' +
-                ", libro='" + libro + '\'' +
+                ", usuario='" + idUsuario + '\'' +
+                ", libro='" + idLibro + '\'' +
                 ", estado='" + estado + '\'' +
                 '}';
     }

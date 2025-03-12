@@ -3,7 +3,6 @@ package com.odvp.biblioteca.ControladoresVistas.DebtScene;
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
 import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.ObjetosVistas.MultaCardData;
-import com.odvp.biblioteca.ObjetosVistas.MultaDTO;
 import com.odvp.biblioteca.postgresql.CRUD.MultaDAO;
 import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
@@ -22,9 +21,10 @@ public class ModuloMulta extends BorderPane implements IModulo {
         this.modelo = modelo;
         header = new HeaderMultas(modelo);
         table = new TablaMulta(modelo);
+        ServicioBusquedaMulta busquedaMulta = new ServicioBusquedaMulta(modelo);
         setTop(header);
         setCenter(table);
-        //simularDatos();
+        simularDatos();
     }
 
     @Override
@@ -34,9 +34,9 @@ public class ModuloMulta extends BorderPane implements IModulo {
             protected Object call() throws Exception {
                 List<IDatoVisual> datoDeudas = new ArrayList<>();
                 MultaDAO multaDAO = new MultaDAO();
-                List<MultaDTO> multas = multaDAO.listaMultas();
-                for (MultaDTO multa : multas) {
-                    datoDeudas.add(new MultaCardData(multa.getIdMulta(), multa.getNombreUsuario(), multa.getMonto(),multa.getFechaMulta(), multa.getIdPrestamo()));
+                List<MultaCardData> multas = multaDAO.listaMultas();
+                for (MultaCardData multa : multas) {
+                    datoDeudas.add(new MultaCardData(multa.getID(), multa.getNombreUsuario(), multa.getMonto(),multa.getFecha(), multa.isEstado(), multa.getId_prestamo()));
                 }
                modelo.setMultaMostrada(datoDeudas);
                 return null;

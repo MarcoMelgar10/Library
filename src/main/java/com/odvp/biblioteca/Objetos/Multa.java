@@ -9,20 +9,28 @@ public class Multa {
     private int monto;
     private Date fechaMulta;
     private boolean estado;
-    private Date fechaEliminacion;
-    private int idUsuario;
+    private Date fechaCancelacion;
     private int idPrestamo;
+    private boolean D_E_L_E_T_E;
 
     // Constructor
-    public Multa(int idMulta, String descripcion, int monto, Date fechaMulta, boolean estado, Date fechaEliminacion, int idUsuario, int idPrestamo) {
+    public Multa(int idMulta, String descripcion, int monto, Date fechaMulta, boolean estado, Date fechaCancelacion, boolean D_E_L_E_T_E, int idPrestamo) {
         this.idMulta = idMulta;
         this.descripcion = descripcion;
         this.monto = monto;
         this.fechaMulta = fechaMulta;
         this.estado = estado;
-        this.fechaEliminacion = fechaEliminacion;
-        this.idUsuario = idUsuario;
+        this.fechaCancelacion = fechaCancelacion;
         this.idPrestamo = idPrestamo;
+        this.D_E_L_E_T_E = D_E_L_E_T_E;
+    }
+
+    public boolean isD_E_L_E_T_E() {
+        return D_E_L_E_T_E;
+    }
+
+    public void setD_E_L_E_T_E(boolean d_E_L_E_T_E) {
+        D_E_L_E_T_E = d_E_L_E_T_E;
     }
 
     // Getters y Setters
@@ -66,21 +74,14 @@ public class Multa {
         this.estado = estado;
     }
 
-    public Date getFechaEliminacion() {
-        return fechaEliminacion;
+    public Date getFechaCancelacion() {
+        return fechaCancelacion;
     }
 
-    public void setFechaEliminacion(Date fechaEliminacion) {
-        this.fechaEliminacion = fechaEliminacion;
+    public void setFechaCancelacion(Date fechaCancelacion) {
+        this.fechaCancelacion = fechaCancelacion;
     }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
 
     public int getIdPrestamo() {
         return idPrestamo;
@@ -98,9 +99,9 @@ public class Multa {
                 ", monto=" + monto +
                 ", fechaMulta=" + fechaMulta +
                 ", estado=" + estado +
-                ", fechaEliminacion=" + fechaEliminacion +
-                ", idUsuario=" + idUsuario +
+                ", fechaEliminacion=" + fechaCancelacion +
                 ", idPrestamo=" + idPrestamo +
-                '}';
+                ", D_E_L_E_T_E= " + D_E_L_E_T_E
+                +                 '}';
     }
 }

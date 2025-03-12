@@ -14,14 +14,12 @@ public class TablaMulta extends TableDefault {
     public TablaMulta(ModeloMulta modelo) {
         super(
                 List.of("Estado", "Codigo", "Usuario", "Monto"),
-                List.of(50,50,700,50),
+                List.of(50,70,500,50),
                 List.of(false, false, false, false),
-                List.of(false, false, false, false));
+                List.of(false, true, false, false));
      this.modelo = modelo;
      this.modelo.addObserver(this);
     }
-
-
     @Override
     public void setCardsAction() {
         for(Card card : getCards()){

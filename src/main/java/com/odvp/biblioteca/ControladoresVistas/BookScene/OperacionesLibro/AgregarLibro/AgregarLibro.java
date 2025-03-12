@@ -1,11 +1,13 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.AgregarLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
-import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+
+import com.odvp.biblioteca.Objetos.Libro;
 import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
 import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import com.odvp.biblioteca.postgresql.CRUD.SubCategoriaDAO;
+
 import java.util.List;
 
 /*

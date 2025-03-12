@@ -1,7 +1,6 @@
-package com.odvp.biblioteca.ControladoresVistas.DebtScene.OperacionesMulta.Eliminar;
+package com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.EliminarUsuario;
 
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
-import com.odvp.biblioteca.postgresql.CRUD.MultaDAO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,32 +14,33 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class EliminarMultaVentana extends Stage {
+public class EliminarLibroVentana extends Stage {
 
     private Button aceptarButton, cancelarButton;
     private PasswordField passwordField;
     private boolean eliminar = false;
-    private MultaDAO multaDAO;
+    private LibroDAO libroDAO;
     private int ID;
-    private final String contra = "odvp";
 
-    public EliminarMultaVentana(int multaId, MultaDAO multaDAO) {
-        setTitle("Eliminar");
-        this.multaDAO = multaDAO;
-        this.ID = multaId;
+    private final String contra = "odvp";
+    public EliminarLibroVentana(int libroId, LibroDAO libroDAO) {
+        setTitle("Eliminar Libro");
+        this.libroDAO = libroDAO;
+        this.ID = libroId;
         VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
         root.setPrefSize(332, 290);
 
-        Label titleLabel = new Label("Eliminar Multa");
+        Label titleLabel = new Label("Eliminar libro");
         titleLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, javafx.scene.text.FontPosture.ITALIC, 16));
 
         Separator separator = new Separator();
         separator.setPrefWidth(200);
 
         Label alertaLabel = new Label("Mensaje de alerta");
-        alertaLabel.setText("¿Estás seguro que deseas dar de baja la multa con el ID: " + multaId );
+        alertaLabel.setText("¿Estás seguro que deseas dar de baja el libro con el ID: " +
+                libroId + " ? EL libro dejará de estar disponible para prestamos");
         alertaLabel.setWrapText(true);
         alertaLabel.setAlignment(Pos.CENTER);
         alertaLabel.setPrefWidth(280);
@@ -83,7 +83,7 @@ public class EliminarMultaVentana extends Stage {
         return contra.equals(passwordField.getText());
     }
     private void ejecutar(){
-        multaDAO.eliminar(ID);
+        libroDAO.eliminar(ID);
         eliminar = true;
         close();
     }
