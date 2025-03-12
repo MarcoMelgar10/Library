@@ -1,9 +1,9 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
-import com.odvp.biblioteca.ObjetosVistas.CategoryData;
-import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
-import com.odvp.biblioteca.ObjetosVistas.LibroCardData;
+import com.odvp.biblioteca.Objetos.CategoryData;
+import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.Objetos.LibroCardData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,8 +71,8 @@ public class ModeloLibros {
     public void setLibrosMostrados(List<IDatoVisual> libros){
         List<IDatoVisual> oldLibros = List.copyOf(this.librosMostrados);
         librosMostrados = libros;
-        setLibroSeleccionado(null);
         support.firePropertyChange(OBS_LIBROS_MOSTRADOS, oldLibros, this.librosMostrados);
+        setLibroSeleccionado(null);
     }
 
     public void setCategoriasMostradas(List<CategoryData> categorias){

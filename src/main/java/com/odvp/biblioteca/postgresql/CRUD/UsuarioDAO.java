@@ -27,33 +27,17 @@ public class UsuarioDAO{
             stmt.executeQuery();
             System.out.println("Usuario agregado");
         }catch (SQLException e){
-            System.out.println("No se pudo agregar usuario");
+            e.printStackTrace();
         }
 
     }
 
-    public Integer getNextId(){
-        String qry = "SELECT MAX(id_usuario) AS max_usuario from usuario";
-        int maxId;
-        try(Connection conn = ConexionDB.getOrCreate().getConexion();
-            PreparedStatement ps = conn.prepareStatement(qry);
-            ResultSet rs = ps.executeQuery()){
-            if(rs.next()){
-                maxId = rs.getInt("max_usuario");
-                return maxId +1;
-            }
-
-        }catch (SQLException exception){
-            exception.printStackTrace();
-        }
-        return null;
-    }
 
 
     public Usuario obtener(int id) {
 
         String qry = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, telefono, direccion, estado_bloqueo " +
-                "FROM usuario WHERE id_usuario ?";
+                "FROM usuario WHERE id_usuario = ?";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
             PreparedStatement pstmt = conn.prepareStatement(qry)) {
             pstmt.setInt(1, id); // Buscar con LIKE y sin distinción de mayúsculas/minúsculas
@@ -174,8 +158,15 @@ public class UsuarioDAO{
 
 
     public void eliminar(int id) {
-
-
+        String qry = "UPDATE usuario SET d_e_l_e_t_e = 'true' WHERE id_usuario = ?";
+        try(Connection conn = ConexionDB.getOrCreate().getConexion();
+            PreparedStatement stm = conn.prepareStatement(qry)){
+            stm.setInt(1,id);
+            stm.executeUpdate();
+            System.out.println("Usuario dado de baja correctamente");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public void bloquearUsuario(int idUsuario){

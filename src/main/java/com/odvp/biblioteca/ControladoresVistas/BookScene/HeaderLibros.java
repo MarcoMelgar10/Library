@@ -8,6 +8,7 @@ import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.Agrega
 import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EditarLibro.EditarLibro;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EliminarLibro.EliminarLibro;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.VisualizarLibro.VisualizarLibro;
+import com.odvp.biblioteca.Servicios.ServicioBotones;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import javafx.scene.image.Image;
@@ -16,10 +17,10 @@ import java.beans.PropertyChangeEvent;
 
 public class HeaderLibros extends HeaderDefault {
 
-    private ButtonDefault buttonNew = ButtonDefault.getButtonNew();
-    private ButtonDefault buttonEdit = ButtonDefault.getButtonEdit();
-    private ButtonDefault buttonDelete = ButtonDefault.getButtonDelete();
-    private ButtonDefault buttonView = ButtonDefault.getButtonView();
+    private final ButtonDefault buttonNew = ServicioBotones.createBotonAgregar();
+    private final ButtonDefault buttonEdit = ServicioBotones.createButtonEditar();
+    private final ButtonDefault buttonView = ServicioBotones.createButtonVisualizar();
+    private final ButtonDefault buttonDelete = ServicioBotones.createButtonEliminar();
 
     private SearcherLibro searcher;
     private ModeloLibros modelo;

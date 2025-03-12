@@ -1,43 +1,47 @@
-package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.EliminarLibro;
+package com.odvp.biblioteca.ControladoresVistas.UsuarioScene.OperacionesUsuario.EliminarUsuario;
 
-import com.odvp.biblioteca.Objetos.Libro;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
+import com.odvp.biblioteca.postgresql.CRUD.UsuarioDAO;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class EliminarLibroVentana extends Stage {
+public class EliminarUsuarioVentana extends Stage {
 
     private Button aceptarButton, cancelarButton;
     private PasswordField passwordField;
     private boolean eliminar = false;
-    private LibroDAO libroDAO;
+    private UsuarioDAO usuarioDAO;
     private int ID;
 
     private final String contra = "odvp";
-    public EliminarLibroVentana(int libroId, LibroDAO libroDAO) {
-        setTitle("Eliminar Libro");
-        this.libroDAO = libroDAO;
-        this.ID = libroId;
+    public EliminarUsuarioVentana(int usuarioId, UsuarioDAO usuarioDAO) {
+        setTitle("Eliminar Usuario");
+        this.usuarioDAO = usuarioDAO;
+        this.ID = usuarioId;
         VBox root = new VBox(20);
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
         root.setPrefSize(332, 290);
 
-        Label titleLabel = new Label("Eliminar libro");
+        Label titleLabel = new Label("Eliminar Usuario");
         titleLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, javafx.scene.text.FontPosture.ITALIC, 16));
 
         Separator separator = new Separator();
         separator.setPrefWidth(200);
 
         Label alertaLabel = new Label("Mensaje de alerta");
-        alertaLabel.setText("¿Estás seguro que deseas dar de baja el libro con el ID: " +
-                libroId + " ? EL libro dejará de estar disponible para prestamos");
+        alertaLabel.setText("¿Estás seguro que deseas dar de baja el usuario con el ID: " +
+                ID + " ? EL usuario dejará de estar disponible para prestamos");
         alertaLabel.setWrapText(true);
         alertaLabel.setAlignment(Pos.CENTER);
         alertaLabel.setPrefWidth(280);
@@ -52,7 +56,7 @@ public class EliminarLibroVentana extends Stage {
 
         aceptarButton = new Button("Confirmar");
         aceptarButton.setOnAction(e-> {
-            if(validarContra()) ejecutar();
+            if(validar()) ejecutar();
             else System.out.println("Clave incorrecta");
         });
 
@@ -76,11 +80,11 @@ public class EliminarLibroVentana extends Stage {
         return eliminar;
     }
 
-    private boolean validarContra(){
+    private boolean validar(){
         return contra.equals(passwordField.getText());
     }
     private void ejecutar(){
-        libroDAO.eliminar(ID);
+        usuarioDAO.eliminar(ID);
         eliminar = true;
         close();
     }

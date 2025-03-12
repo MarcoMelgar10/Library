@@ -29,7 +29,6 @@ public class TableLibros extends TableDefault {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(ModeloLibros.OBS_LIBROS_MOSTRADOS)){
-            System.out.println("cambio en libros");
             addCards(modelo.getLibrosMostrados());
         }
         if(evt.getPropertyName().equals(ModeloLibros.OBS_LIBRO_SELECCIONADO)){

@@ -1,6 +1,32 @@
 package com.odvp.biblioteca.ControladoresVistas.AutorScene;
 
+import com.odvp.biblioteca.ControladoresVistas.AutorScene.OperacionesAutores.ServicioBusquedaAutores;
 import com.odvp.biblioteca.ControladoresVistas.IModulo;
+import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
+import com.odvp.biblioteca.postgresql.CRUD.UsuarioDAO;
+import javafx.scene.layout.BorderPane;
 
-public class ModuloAutores implements IModulo {
+public class ModuloAutores extends BorderPane implements IModulo{
+
+    private HeaderAutores headerAutores;
+    private TableAutores tableAutores;
+    private ServicioBusquedaAutores servicioBusquedaAutores;
+    private ModeloAutores modelo;
+
+    public ModuloAutores(ModeloAutores modelo){
+        this.modelo = modelo;
+        headerAutores = new HeaderAutores(this.modelo);
+        tableAutores = new TableAutores(this.modelo);
+        servicioBusquedaAutores = new ServicioBusquedaAutores(modelo);
+        setTop(headerAutores);
+        setCenter(tableAutores);
+        initValues();
+    }
+
+    public void initValues(){
+        new Thread(() -> {
+            AutorDAO autorDAO = new AutorDAO();
+            modelo.setAutoresMostrados(autorDAO.obtenerAutoresAlfabeticamente());
+        }).start();
+    }
 }

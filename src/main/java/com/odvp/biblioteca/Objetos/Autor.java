@@ -1,9 +1,16 @@
 package com.odvp.biblioteca.Objetos;
+
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
+import com.odvp.biblioteca.Servicios.ServicioIconos;
+import javafx.scene.image.Image;
+
+import java.util.List;
+
 /*
 Clase objeto del autor.
  */
-public class Autor {
-    private int ID;
+public class Autor implements IDatoVisual {
+    private Integer ID;
     private String nombre;
     private String descripcion;
     public Autor(int ID, String nombre, String descripcion){
@@ -12,8 +19,14 @@ public class Autor {
         this.descripcion = descripcion;
     }
 
+    @Override
     public int getID() {
         return ID;
+    }
+
+    @Override
+    public List<Object> getDatos() {
+        return List.of(new Image(ServicioIconos.AUTOR_ICONO), nombre, descripcion);
     }
 
     public String getNombre() {

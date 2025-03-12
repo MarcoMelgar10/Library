@@ -11,7 +11,6 @@ import com.odvp.biblioteca.postgresql.CRUD.*;
 
 public class AgregarUsuario {
     private UsuarioDAO usuarioDAO = new UsuarioDAO();
-
     public AgregarUsuario(ModeloUsuarios modelo){
         AgregarUsuarioVentana agregarLibro = new AgregarUsuarioVentana(usuarioDAO);
         if(agregarLibro.isHubieronCambios()) modelo.anunciarCambio();
