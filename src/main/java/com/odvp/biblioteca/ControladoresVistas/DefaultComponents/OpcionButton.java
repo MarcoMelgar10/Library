@@ -1,7 +1,6 @@
-package com.odvp.biblioteca.FuncionesBarraOpciones;
+package com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
 
 
-import com.odvp.biblioteca.ControladoresVistas.IModulo;
 import com.odvp.biblioteca.LibraryApplication;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -12,11 +11,8 @@ public class OpcionButton extends VBox {
 
     private ImageView optionIcon;
     private Label optionLabel;
-    private IModulo modulo;
-
-    public OpcionButton(String title, IModulo modulo, String iconPath) {
+    public OpcionButton(String title, String iconPath) {
         getStylesheets().add(LibraryApplication.class.getResource("Styles/Styles.css").toExternalForm());
-        this.modulo = modulo;
         // Aplicar estilos desde CSS (opcional)
         getStyleClass().add("option-container");
         this.setAlignment(javafx.geometry.Pos.CENTER);
@@ -39,12 +35,8 @@ public class OpcionButton extends VBox {
 
         // Agregar nodos al VBox
         this.getChildren().addAll(optionIcon, optionLabel);
-        setOnMouseClicked(e -> ManejadorOpciones.getInstance().setCurrentOption(this));
     }
 
-    public IModulo getModulo() {
-        return modulo;
-    }
 
     public void setSelected(boolean selected) {
         if(selected) getStyleClass().add("option-container-selected");

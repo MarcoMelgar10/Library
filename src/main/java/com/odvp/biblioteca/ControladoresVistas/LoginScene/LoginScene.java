@@ -1,8 +1,11 @@
 package com.odvp.biblioteca.ControladoresVistas.LoginScene;
 
 import com.odvp.biblioteca.ControladoresVistas.MainEscena;
+import com.odvp.biblioteca.ControladoresVistas.ModeloMain;
 import com.odvp.biblioteca.LibraryApplication;
+import com.odvp.biblioteca.Objetos.Administrador;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
+import com.odvp.biblioteca.Servicios.ServicioSesion;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -84,8 +87,15 @@ public class LoginScene extends VBox{
     }
 
     private void onAceptarButtonClick() {
+
+        ServicioSesion.setAdministrador(new Administrador(1,"Oscar",""));
+
+        setAmbiente();
+    }
+
+    private void setAmbiente(){
         Stage stage = (Stage) getScene().getWindow();
-        Scene scene = new Scene(new MainEscena());
+        Scene scene = new Scene(new MainEscena(new ModeloMain()));
         stage.setScene(scene);
         stage.setTitle("Main");
         stage.sizeToScene();

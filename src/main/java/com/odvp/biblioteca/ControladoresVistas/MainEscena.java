@@ -1,22 +1,12 @@
 package com.odvp.biblioteca.ControladoresVistas;
 
-import com.odvp.biblioteca.ControladoresVistas.AutorScene.ModeloAutores;
-import com.odvp.biblioteca.ControladoresVistas.AutorScene.ModuloAutores;
-import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
-import com.odvp.biblioteca.ControladoresVistas.BookScene.ModuloLibros;
-import com.odvp.biblioteca.ControladoresVistas.DebtScene.ModeloMulta;
-import com.odvp.biblioteca.ControladoresVistas.DebtScene.ModuloMulta;
-import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.ModeloUsuarios;
-import com.odvp.biblioteca.ControladoresVistas.UsuarioScene.ModuloUsuarios;
-import com.odvp.biblioteca.FuncionesBarraOpciones.ManejadorOpciones;
-import com.odvp.biblioteca.FuncionesBarraOpciones.OpcionButton;
-import com.odvp.biblioteca.Servicios.ServicioIconos;
+import com.odvp.biblioteca.FuncionesBarraOpciones.CargadorModulo;
+import com.odvp.biblioteca.FuncionesBarraOpciones.OpcionMainButton;
+import com.odvp.biblioteca.FuncionesBarraOpciones.ServicioOpcionesMain;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-
-import java.util.List;
 
 /*
     Controlador de la escena principal, donde a la izquiera se carga la barra de opciones
@@ -25,29 +15,27 @@ import java.util.List;
 
 public class MainEscena extends BorderPane{
 
-    ModeloLibros modeloLibros = new ModeloLibros();
-    ModeloUsuarios modeloUsuarios = new ModeloUsuarios();
-    ModeloMulta modeloMulta = new ModeloMulta();
-    ModeloAutores modeloAutores = new ModeloAutores();
-    
+    private final OpcionMainButton opcionLibros, opcionAutores, opcionPrestamos, opcionDeudas, opcionReservas, opcionUsuarios;
+
     VBox panelOpciones;
 
-    OpcionButton opcionLibros = new OpcionButton("Libros",new ModuloLibros(modeloLibros),ServicioIconos.OPCION_MODULO_LIBROS);
-    OpcionButton opcionAutores = new OpcionButton("Autores",new ModuloAutores(modeloAutores),ServicioIconos.OPCION_MODULO_AUTORES);
-    OpcionButton opcionPrestamos = new OpcionButton("Prestamos", null, ServicioIconos.OPCION_MODULO_PRESTAMOS);
-    OpcionButton opcionReservas = new OpcionButton("Reservas", null, ServicioIconos.OPCION_MODULO_RESERVAS);
-    OpcionButton opcionDeudas = new OpcionButton("Multas", new ModuloMulta(modeloMulta), ServicioIconos.OPCION_MODULO_DEUDAS);
-    OpcionButton opcionUsuarios = new OpcionButton("Usuarios", new ModuloUsuarios(modeloUsuarios), ServicioIconos.OPCION_MODULO_USUARIOS);
+    CargadorModulo cargadorModulo;
 
-    ManejadorOpciones manejadorOpciones = ManejadorOpciones.getInstance();
-
-
+    private ModeloMain modelo;
     
-    public MainEscena(){
+    public MainEscena(ModeloMain modeloMain){
         init();
-        manejadorOpciones.setEscenePrincipal(this);
-        manejadorOpciones.setOpciones(List.of(opcionLibros, opcionPrestamos, opcionReservas, opcionDeudas, opcionAutores, opcionUsuarios));
-        manejadorOpciones.setCurrentOption(opcionLibros);
+        this.modelo = modeloMain;
+        cargadorModulo = new CargadorModulo(this, modelo);
+        opcionLibros = ServicioOpcionesMain.opcionLibros(modelo);
+        opcionAutores = ServicioOpcionesMain.opcionAutores(modelo);
+        opcionDeudas = ServicioOpcionesMain.opcionDeudas(modelo);
+        opcionReservas = ServicioOpcionesMain.opcionReservas(modelo);
+        opcionPrestamos = ServicioOpcionesMain.opcionPrestamos(modelo);
+        opcionUsuarios = ServicioOpcionesMain.opcionUsuarios(modelo);
+
+        panelOpciones.getChildren().addAll(opcionLibros, opcionAutores, opcionDeudas, opcionReservas, opcionPrestamos, opcionUsuarios);
+        modelo.setCurrentModulo(ModeloMain.MODULO_LIBROS);
     }
 
     private void init(){

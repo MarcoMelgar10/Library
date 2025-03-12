@@ -27,7 +27,8 @@ public class ModuloMulta extends BorderPane implements IModulo {
         //simularDatos();
     }
 
-    private void simularDatos() {
+    @Override
+    public void cargarDatosIniciales() {
         new Thread(new Task<>() {
             @Override
             protected Object call() throws Exception {

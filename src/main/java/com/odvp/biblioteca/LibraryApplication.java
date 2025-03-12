@@ -23,7 +23,6 @@ public class LibraryApplication extends Application {
         stage.setTitle("Biblioteca");
         stage.setScene(scene);
         stage.show();
-
     }
 
     public static void main(String[] args) {launch();}

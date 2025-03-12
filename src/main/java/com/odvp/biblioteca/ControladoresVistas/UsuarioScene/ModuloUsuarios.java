@@ -17,11 +17,12 @@ public class ModuloUsuarios extends BorderPane implements IModulo {
         servicioBusquedaUsuarios= new ServicioBusquedaUsuarios(modelo);
         setTop(header);
         setCenter(table);
-        simularDatos();
+        cargarDatosIniciales();
     }
 
 
-    public void simularDatos(){
+    @Override
+    public void cargarDatosIniciales(){
         new Thread(() -> {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             modelo.setUsuariosMostrados(usuarioDAO.listaUsuarios());

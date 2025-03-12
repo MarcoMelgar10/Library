@@ -20,10 +20,11 @@ public class ModuloAutores extends BorderPane implements IModulo{
         servicioBusquedaAutores = new ServicioBusquedaAutores(modelo);
         setTop(headerAutores);
         setCenter(tableAutores);
-        initValues();
+        cargarDatosIniciales();
     }
 
-    public void initValues(){
+    @Override
+    public void cargarDatosIniciales(){
         new Thread(() -> {
             AutorDAO autorDAO = new AutorDAO();
             modelo.setAutoresMostrados(autorDAO.obtenerAutoresAlfabeticamente());
