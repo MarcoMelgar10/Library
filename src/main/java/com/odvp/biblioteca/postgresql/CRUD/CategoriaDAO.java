@@ -1,7 +1,6 @@
 package com.odvp.biblioteca.postgresql.CRUD;
 
-import com.odvp.biblioteca.Objetos.CategoryData;
-import com.odvp.biblioteca.postgresql.CRUD.ICRUD;
+import com.odvp.biblioteca.ObjetosVistas.CategoryData;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.*;

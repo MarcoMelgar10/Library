@@ -42,13 +42,13 @@ public class LoginScene extends VBox{
         topBar.setAlignment(Pos.CENTER_RIGHT);
         topBar.setPadding(new Insets(10, 10, 0, 10));
 
-        ambienteIcon = new ImageView(new Image(ServicioIconos.LOGIN_CONFIGURADOR));
-        ambienteIcon.setFitHeight(30);
-        ambienteIcon.setFitWidth(30);
+       // ambienteIcon = new ImageView(new Image(ServicioIconos.LOGIN_CONFIGURADOR));
+       // ambienteIcon.setFitHeight(30);
+       // ambienteIcon.setFitWidth(30);
 
-        botonAmbiente = new StackPane(ambienteIcon);
-        botonAmbiente.setPrefSize(30, 30);
-        topBar.getChildren().add(botonAmbiente);
+      //  botonAmbiente = new StackPane(ambienteIcon);
+      //  botonAmbiente.setPrefSize(30, 30);
+       // topBar.getChildren().add(botonAmbiente);
 
         // Contenedor de Login
         VBox loginContainer = new VBox();

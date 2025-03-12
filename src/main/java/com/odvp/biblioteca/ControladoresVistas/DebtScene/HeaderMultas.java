@@ -25,7 +25,7 @@ public class HeaderMultas extends HeaderDefault {
     private ButtonDefault buttonEdit = ServicioBotones.createButtonEditar();
     private ButtonDefault buttonDelete = ServicioBotones.createButtonEliminar();
     private ButtonDefault buttonView = ServicioBotones.createButtonVisualizar();
-    private ButtonDefault buttonPay = ServicioBotones.createBotonPersonalizado(ServicioIconos.PAGAR_BUTTON, "button-orange");
+    private ButtonDefault buttonPay = ServicioBotones.createBotonPersonalizado(ServicioIconos.CANCELAR_MULTA, "button-orange");
     private SearcherMulta searcher;
     private ModeloMulta modelo;
 

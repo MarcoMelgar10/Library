@@ -2,10 +2,10 @@ package com.odvp.biblioteca.postgresql.CRUD;
 
 import com.odvp.biblioteca.ControladoresVistas.DefaultComponents.IFiltro;
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
-import com.odvp.biblioteca.Objetos.CategoryData;
-import com.odvp.biblioteca.Objetos.IDatoVisual;
+import com.odvp.biblioteca.ObjetosVistas.CategoryData;
+import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.Objetos.Libro;
-import com.odvp.biblioteca.Objetos.LibroCardData;
+import com.odvp.biblioteca.ObjetosVistas.LibroCardData;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.*;
