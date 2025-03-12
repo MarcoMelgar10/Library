@@ -110,7 +110,7 @@ public class MultaDAO {
                     JOIN prestamo p ON p.id_prestamo = m.id_prestamo
                     JOIN usuario u ON p.id_usuario = u.id_usuario 
                     WHERE  m.D_E_L_E_T_E = FALSE
-                    ORDER BY m.id_multa ASC
+                    ORDER BY m.estado DESC, m.id_multa ASC
                 """;
 
         ArrayList<MultaCardData> multas = new ArrayList<>();
@@ -165,7 +165,7 @@ public class MultaDAO {
                     JOIN prestamo p on p.id_prestamo = m.id_prestamo
                     JOIN usuario u ON p.id_usuario = u.id_usuario 
                     WHERE m.D_E_L_E_T_E = FALSE
-                    ORDER BY m.id_multa ASC
+                    ORDER BY m.estado DESC, m.id_multa ASC
                 """;
 
         ArrayList<IDatoVisual> multas = new ArrayList<>();
@@ -238,7 +238,7 @@ public class MultaDAO {
             JOIN usuario u ON p.id_usuario = u.id_usuario 
             WHERE unaccent(CONCAT(u.nombre, ' ', u.apellido_paterno, ' ', u.apellido_materno)) ILIKE unaccent(?)
                OR unaccent(CONCAT(u.apellido_paterno, ' ', u.apellido_materno)) ILIKE unaccent(?) AND m.D_E_L_E_T_E = FALSE
-            ORDER BY m.id_multa ASC
+            ORDER BY m.estado DESC, m.id_multa ASC
         """;
 
         ArrayList<IDatoVisual> multas = new ArrayList<>();
