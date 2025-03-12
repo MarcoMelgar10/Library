@@ -11,13 +11,15 @@ module com.odvp.biblioteca {
 
     opens com.odvp.biblioteca to javafx.fxml;
     exports com.odvp.biblioteca;
-    exports com.odvp.biblioteca.ControladoresVistas;
-    opens com.odvp.biblioteca.ControladoresVistas to javafx.fxml;
-    exports com.odvp.biblioteca.ControladoresVistas.BookScene;
-    opens com.odvp.biblioteca.ControladoresVistas.BookScene to javafx.fxml;
-    exports com.odvp.biblioteca.ControladoresVistas.DefaultComponents;
-    opens com.odvp.biblioteca.ControladoresVistas.DefaultComponents to javafx.fxml;
-    opens com.odvp.biblioteca.ControladoresVistas.UsuarioScene to javafx.fxml;
-    exports com.odvp.biblioteca.ControladoresVistas.LoginScene;
-    opens com.odvp.biblioteca.ControladoresVistas.LoginScene to javafx.fxml;
+    exports com.odvp.biblioteca.main.modulos;
+    opens com.odvp.biblioteca.main.modulos to javafx.fxml;
+    exports com.odvp.biblioteca.main.modulos.libros;
+    opens com.odvp.biblioteca.main.modulos.libros to javafx.fxml;
+    exports com.odvp.biblioteca.main.modulos.defaulltComponents;
+    opens com.odvp.biblioteca.main.modulos.defaulltComponents to javafx.fxml;
+    opens com.odvp.biblioteca.main.modulos.usuarios to javafx.fxml;
+    exports com.odvp.biblioteca.login;
+    opens com.odvp.biblioteca.login to javafx.fxml;
+    exports com.odvp.biblioteca.main;
+    opens com.odvp.biblioteca.main to javafx.fxml;
 }
