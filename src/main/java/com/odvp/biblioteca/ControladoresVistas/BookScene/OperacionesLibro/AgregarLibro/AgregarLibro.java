@@ -1,11 +1,11 @@
 package com.odvp.biblioteca.ControladoresVistas.BookScene.OperacionesLibro.AgregarLibro;
 
 import com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros;
-import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.postgresql.CRUD.AutorDAO;
 import com.odvp.biblioteca.postgresql.CRUD.CategoriaDAO;
 import com.odvp.biblioteca.postgresql.CRUD.LibroDAO;
 import com.odvp.biblioteca.postgresql.CRUD.SubCategoriaDAO;
+
 import java.util.List;
 
 /*
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AgregarLibro{
     private LibroDAO libroDAO = new LibroDAO();
-    private AutorDAO autorDAO = AutorDAO.getInstance();
+    private AutorDAO autorDAO = new AutorDAO();
     private CategoriaDAO categoriaDAO = new CategoriaDAO();
     private SubCategoriaDAO subCategoriaDAO = new SubCategoriaDAO();
 

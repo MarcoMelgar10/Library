@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros.OBS_CAMBIO_GENERICO;
-import static com.odvp.biblioteca.ControladoresVistas.BookScene.ModeloLibros.OBS_TEXTO_BUSCADOR;
 
 public class ModeloMulta {
     public static final String OBS_CAMBIO_TEXTO = "CAMBIO_TEXTO";
@@ -66,7 +65,4 @@ public class ModeloMulta {
         return textoBusqueda;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
     }
-}

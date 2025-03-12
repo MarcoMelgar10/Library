@@ -3,16 +3,17 @@ package com.odvp.biblioteca.postgresql.CRUD;
 import com.odvp.biblioteca.Objetos.Multa;
 import com.odvp.biblioteca.ObjetosVistas.IDatoVisual;
 import com.odvp.biblioteca.ObjetosVistas.MultaCardData;
-import com.odvp.biblioteca.ObjetosVistas.MultaDTO;
 import com.odvp.biblioteca.postgresql.conexionPostgresql.ConexionDB;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 
 /*
-  Clase para realizar la interaccion con la base de datas, para la tabla multa.
+  Clase para realizar la interaccion con la base de datas, para la tabla multaCardData.
    */
 public class MultaDAO {
 
@@ -37,7 +38,7 @@ public class MultaDAO {
     estado = false, significa "Cancelada", al contrario "Activa"
      */
     public void modificar(Multa multa) {
-        String qry = "UPDATE multa SET descripcion = ?, monto =?, fecha_multa= ?, estado = ? WHERE id_multa = ?";
+        String qry = "UPDATE multa SET descripcion = ?, monto =?, fecha_multa= ?, estado = ? WHERE id_multa = ? AND D_E_L_E_T_E = FALSE";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement ps = conn.prepareStatement(qry)) {
             ps.setString(1, multa.getDescripcion());
@@ -62,7 +63,7 @@ public class MultaDAO {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) { // Usa if en lugar de while, porque esperamos solo una multa
+                if (rs.next()) { // Usa if en lugar de while, porque esperamos solo una multaCardData
                     String descripcion = rs.getString("descripcion");
                     int monto = rs.getInt("monto");
                     Date fechaMulta = rs.getDate("fecha_multa");
@@ -77,30 +78,42 @@ public class MultaDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage()); // Para ver más detalles del error
-            System.out.println(e.getSQLState()); // Para ver más detalles del error
+            System.out.println(e.getMessage());
+            System.out.println(e.getSQLState());
         }
 
-        System.out.println("No se encontró la multa con ID: " + id);
+        System.out.println("No se encontró la multaCardData con ID: " + id);
         return null;
     }
 
     public void eliminar(int id) {
+        String qry = "UPDATE multa SET D_E_L_E_T_E = TRUE WHERE id_multa = ?";
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement st = conn.prepareStatement(qry)) {
+            st.setInt(1, id);
+            st.execute();
+            System.out.println("Multa cancelada");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+
 
     }
 
 
-    public ArrayList<MultaDTO> listaMultas() {
+    public ArrayList<MultaCardData> listaMultas() {
         String qry = """
                     SELECT m.id_multa, m.descripcion, m.monto, m.fecha_multa, m.estado, 
                            m.fecha_cancelacion, m.id_prestamo, u.nombre, u.apellido_paterno, u.apellido_materno
                     FROM multa m 
                     JOIN prestamo p ON p.id_prestamo = m.id_prestamo
                     JOIN usuario u ON p.id_usuario = u.id_usuario 
+                    WHERE  m.D_E_L_E_T_E = FALSE
                     ORDER BY m.id_multa ASC
                 """;
 
-        ArrayList<MultaDTO> multas = new ArrayList<>();
+        ArrayList<MultaCardData> multas = new ArrayList<>();
 
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement stmt = conn.prepareStatement(qry);
@@ -109,11 +122,9 @@ public class MultaDAO {
             while (rs.next()) {
                 int idMulta = rs.getInt("id_multa");
                 int idPrestamo = rs.getInt("id_prestamo");
-                String descripcion = rs.getString("descripcion");
                 int monto = rs.getInt("monto");
                 Date fechaMulta = rs.getDate("fecha_multa");
                 boolean estado = rs.getBoolean("estado");
-                Date fechaEliminacion = rs.getDate("fecha_cancelacion");
                 String nombreUsuario = rs.getString("nombre"); // Datos de usuario
                 nombreUsuario += " ";
                 nombreUsuario += rs.getString("apellido_paterno");
@@ -121,11 +132,12 @@ public class MultaDAO {
                 nombreUsuario += rs.getString("apellido_materno");
 
                 // Crear objeto DTO
-                MultaDTO multaDTO = new MultaDTO(idMulta, descripcion, monto, fechaMulta, estado, fechaEliminacion, nombreUsuario, idPrestamo);
-                multas.add(multaDTO);
+                MultaCardData multaCardData = new MultaCardData(idMulta,nombreUsuario, monto, fechaMulta, estado, idPrestamo);
+                multas.add(multaCardData);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage()
+            + " " + e.getSQLState());
         }
         return multas;
     }
@@ -147,10 +159,12 @@ public class MultaDAO {
 
     public List<IDatoVisual> listaMultasVisual() {
         String qry = """
-                    SELECT m.id_multa, m.monto, m.fecha_multa, m.estado, m.id_prestamo, u.nombre 
+                    SELECT m.id_multa, m.monto, m.fecha_multa, m.estado, m.id_prestamo, 
+                    u.nombre, u.apellido_materno, u.apellido_paterno
                     FROM multa m 
                     JOIN prestamo p on p.id_prestamo = m.id_prestamo
                     JOIN usuario u ON p.id_usuario = u.id_usuario 
+                    WHERE m.D_E_L_E_T_E = FALSE
                     ORDER BY m.id_multa ASC
                 """;
 
@@ -174,9 +188,9 @@ public class MultaDAO {
                 System.out.println("Se ejecuta");
 
 
-                MultaCardData multa = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, estado, idPrestamo);
+                MultaCardData multaCardData = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, estado, idPrestamo);
 
-                multas.add(multa);
+                multas.add(multaCardData);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -203,10 +217,11 @@ public class MultaDAO {
     }
 
     public void cancelarMulta(int idMulta) {
-        String qry = "UPDATE multa SET estado = false WHERE id_multa = ?";
+        String qry = "UPDATE multa SET estado = false, fecha_cancelacion = ? WHERE id_multa = ?";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement st = conn.prepareStatement(qry)) {
-            st.setInt(1, idMulta);
+            st.setDate(1, Date.valueOf(LocalDate.now()));
+            st.setInt(2, idMulta);
             st.execute();
             System.out.println("Multa cancelada");
         } catch (SQLException e) {
@@ -222,7 +237,7 @@ public class MultaDAO {
             JOIN prestamo p ON p.id_prestamo = m.id_prestamo
             JOIN usuario u ON p.id_usuario = u.id_usuario 
             WHERE unaccent(CONCAT(u.nombre, ' ', u.apellido_paterno, ' ', u.apellido_materno)) ILIKE unaccent(?)
-               OR unaccent(CONCAT(u.apellido_paterno, ' ', u.apellido_materno)) ILIKE unaccent(?)
+               OR unaccent(CONCAT(u.apellido_paterno, ' ', u.apellido_materno)) ILIKE unaccent(?) AND m.D_E_L_E_T_E = FALSE
             ORDER BY m.id_multa ASC
         """;
 
@@ -249,10 +264,8 @@ public class MultaDAO {
                             rs.getString("apellido_paterno") + " " +
                             rs.getString("apellido_materno");
 
-                    System.out.println("Se ejecuta");
-
-                    MultaCardData multa = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, estado, idPrestamo);
-                    multas.add(multa);
+                    MultaCardData multaCardData = new MultaCardData(idMulta, nombreUsuario, monto, fechaMulta, estado, idPrestamo);
+                    multas.add(multaCardData);
                 }
             }
         } catch (SQLException e) {

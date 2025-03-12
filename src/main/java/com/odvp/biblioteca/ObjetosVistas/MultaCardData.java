@@ -1,6 +1,5 @@
 package com.odvp.biblioteca.ObjetosVistas;
 
-import com.odvp.biblioteca.LibraryApplication;
 import com.odvp.biblioteca.Servicios.ServicioIconos;
 import javafx.scene.image.Image;
 
@@ -31,11 +30,63 @@ public class MultaCardData implements IDatoVisual {
         this.estado = estado;
         ServicioIconos icon = new ServicioIconos();
         if (!estado){
-            image = new Image(icon.MULTA_SIN_CANCELAR);
-        }else{
             image = new Image(icon.MULTA_CANCELADA);
+        }else{
+            image = new Image(icon.MULTA_SIN_CANCELAR);
         }
 
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public int getMonto() {
+        return monto;
+    }
+
+    public void setMonto(int monto) {
+        this.monto = monto;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getId_prestamo() {
+        return id_prestamo;
+    }
+
+    public void setId_prestamo(int id_prestamo) {
+        this.id_prestamo = id_prestamo;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     @Override
