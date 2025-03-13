@@ -7,8 +7,11 @@ import com.odvp.biblioteca.main.modulos.libros.ModuloLibros;
 import com.odvp.biblioteca.main.modulos.deudas.ModeloMulta;
 import com.odvp.biblioteca.main.modulos.deudas.ModuloMulta;
 import com.odvp.biblioteca.main.modulos.IModulo;
+import com.odvp.biblioteca.main.modulos.reservas.ModeloReserva;
+import com.odvp.biblioteca.main.modulos.reservas.ModuloReserva;
 import com.odvp.biblioteca.main.modulos.usuarios.ModeloUsuarios;
 import com.odvp.biblioteca.main.modulos.usuarios.ModuloUsuarios;
+import javafx.scene.Node;
 
 public class ServicioModulos {
 
@@ -16,6 +19,7 @@ public class ServicioModulos {
     private static final ModuloAutores moduloAutores = new ModuloAutores(new ModeloAutores());
     private static final ModuloMulta moduloMulta = new ModuloMulta(new ModeloMulta());
     private static final ModuloUsuarios moduloUsuarios = new ModuloUsuarios(new ModeloUsuarios());
+    private static final ModuloReserva moduloReserva = new ModuloReserva(new ModeloReserva());
 
     public static ModuloLibros getModuloLibros() {
         return moduloLibros;
@@ -37,4 +41,5 @@ public class ServicioModulos {
         modulo.cargarDatosIniciales();
     }
 
+    public static ModuloReserva getModuloReserva() {return moduloReserva;}
 }

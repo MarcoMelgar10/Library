@@ -11,13 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModuloMulta extends BorderPane implements IModulo {
-    private ModeloMulta modeloMulta;
     private HeaderMultas header;
     private TablaMulta table;
     private ModeloMulta modelo;
 
     public ModuloMulta(ModeloMulta modelo) {
-        this.modeloMulta =  new ModeloMulta();
         this.modelo = modelo;
         header = new HeaderMultas(modelo);
         table = new TablaMulta(modelo);
