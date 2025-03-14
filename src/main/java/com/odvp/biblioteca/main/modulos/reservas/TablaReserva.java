@@ -1,8 +1,6 @@
 package com.odvp.biblioteca.main.modulos.reservas;
 
 import com.odvp.biblioteca.main.modulos.defaulltComponents.TableDefault;
-import com.odvp.biblioteca.main.modulos.deudas.ModeloMulta;
-
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 import java.util.Objects;
@@ -11,10 +9,10 @@ public class TablaReserva extends TableDefault {
     private ModeloReserva modelo;
     public TablaReserva(ModeloReserva modelo) {
         super(
-                List.of("Estado", "Codigo", "Usuario", "Fecha"),
-                List.of(50, 70, 500, 50),
-                List.of(false, false, false, false),
-                List.of(false, true, false, false));
+                List.of("Estado", "Codigo", "Usuario", "Libro", "Fecha"),
+                List.of(50, 70, 200, 200, 100),
+                List.of(false, false, false, true, true),
+                List.of(false, true, false, false, false));
         this.modelo = modelo;
         this.modelo.addObserver(this);
     }

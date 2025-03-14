@@ -30,27 +30,26 @@ public class ReservaDAO{
 
     public ArrayList<ReservaCardData> listaReservasVisual() {
         String qry = "SELECT r.id_reserva, r.fecha_reserva, r.estado, " +
-                "u.nombre, u.apellido_paterno, u.apellido_materno, u.titulo FROM reserva r" +
-                "JOIN usuario u ON u.id_usuario = r.id_usuario" +
-                "JOIN libro l on l.id_libro = r.id_libro " +
-                "WHERE D_E_L_E_T_E = FALSE";
+                "u.nombre, u.apellido_paterno, u.apellido_materno, l.titulo " +
+                "FROM reserva r " +
+                "JOIN usuario u ON u.id_usuario = r.id_usuario " +
+                "JOIN libro l on l.id_libro = r.id_libro WHERE r.D_E_L_E_T_E = FALSE " +
+                "ORDER BY r.id_reserva asc";
         ArrayList<ReservaCardData> reservas = new ArrayList<>();
-
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
                 PreparedStatement stmt = conn.prepareStatement(qry);
-             ResultSet rs = stmt.executeQuery()) {
+                 ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 int idReserva = rs.getInt("id_reserva");
                 Date fechaReserva = rs.getDate("fecha_reserva"); // Se obtiene como java.sql.Date
                 String estado = rs.getString("estado");
-                String nombreCompletoUsuario = rs.getString("u.nombre");
+                String nombreCompletoUsuario = rs.getString("nombre");
                 nombreCompletoUsuario += " ";
-                nombreCompletoUsuario += rs.getString("u.apellido_paterno");
+                nombreCompletoUsuario += rs.getString("apellido_paterno");
                 nombreCompletoUsuario += " ";
-                nombreCompletoUsuario += rs.getString("u.apellido_materno");
-                String titulo = rs.getString("l.titulo");
+                nombreCompletoUsuario += rs.getString("apellido_materno");
+                String titulo = rs.getString("titulo");
 
-                // Convertir java.sql.Date a java.util.Date
                 ReservaCardData reserva = new ReservaCardData(idReserva, nombreCompletoUsuario, titulo, new Date(fechaReserva.getTime()), estado);
                 reservas.add(reserva);
             }

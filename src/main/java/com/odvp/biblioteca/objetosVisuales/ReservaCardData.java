@@ -1,6 +1,11 @@
 package com.odvp.biblioteca.objetosVisuales;
 
-import java.util.Date;
+import com.odvp.biblioteca.servicios.ServicioIconos;
+import javafx.scene.image.Image;
+
+import javax.swing.*;
+import java.awt.*;
+import java.sql.Date;
 import java.util.List;
 
 public class ReservaCardData implements IDatoVisual{
@@ -9,6 +14,7 @@ public class ReservaCardData implements IDatoVisual{
     private String tituloLibro;
     private Date fecha_reserva;
     private String estado;
+    private Image image;
 
     public ReservaCardData(int ID, String nombreUsuario, String tituloLibro, Date fecha_reserva, String estado) {
         this.ID = ID;
@@ -16,6 +22,12 @@ public class ReservaCardData implements IDatoVisual{
         this.tituloLibro = tituloLibro;
         this.fecha_reserva = fecha_reserva;
         this.estado = estado;
+        ServicioIconos icon = new ServicioIconos();
+        if (estado.equals("pendiente")){
+            image = new Image(icon.RESERVA_PENDIENTE);
+        }else{
+            image = new Image(icon.RESERVA_CONFIRMADA);
+        }
     }
 
     public String getNombreUsuario() {
@@ -57,6 +69,6 @@ public class ReservaCardData implements IDatoVisual{
 
     @Override
     public List<Object> getDatos() {
-        return List.of();
+        return List.of(image, ID, nombreUsuario, tituloLibro, fecha_reserva);
     }
 }

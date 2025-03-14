@@ -27,6 +27,10 @@ public class ServicioIconos {
     public static final String MULTA_SIN_CANCELAR = LibraryApplication.class.getResource("Icons/DebtResources/bankrupt.png").toExternalForm();
     public static final String MULTA_CANCELADA = LibraryApplication.class.getResource("Icons/DebtResources/wallet.png").toExternalForm();
 
+    public static final String RESERVA_CONFIRMADA = LibraryApplication.class.getResource("Icons/ReservaResources/bookingRed.png").toExternalForm();
+    public static final String RESERVA_PENDIENTE = LibraryApplication.class.getResource("Icons/ReservaResources/bookingGreen.png").toExternalForm();
+
+
  //   public static final String LOGIN_CONFIGURADOR = LibraryApplication.class.getResource("Icons/LoginResources/configurador.png").toExternalForm();
  //   public static final String LOGIN_INICIO = LibraryApplication.class.getResource("Icons/LoginResources/inicio.png").toExternalForm();
 
