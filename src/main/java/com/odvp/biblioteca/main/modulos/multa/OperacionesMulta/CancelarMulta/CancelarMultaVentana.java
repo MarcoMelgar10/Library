@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.CancelarMulta;
+package com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.CancelarMulta;
 
 import com.odvp.biblioteca.objetosVisuales.MultaCardData;
 import com.odvp.biblioteca.database.daos.MultaDAO;

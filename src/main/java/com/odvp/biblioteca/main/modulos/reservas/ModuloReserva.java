@@ -1,7 +1,10 @@
 package com.odvp.biblioteca.main.modulos.reservas;
 
+import com.odvp.biblioteca.database.daos.MultaDAO;
 import com.odvp.biblioteca.database.daos.ReservaDAO;
+import com.odvp.biblioteca.main.modulos.IModulo;
 import com.odvp.biblioteca.objetosVisuales.IDatoVisual;
+import com.odvp.biblioteca.objetosVisuales.MultaCardData;
 import com.odvp.biblioteca.objetosVisuales.ReservaCardData;
 import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
@@ -9,7 +12,7 @@ import javafx.scene.layout.BorderPane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModuloReserva extends BorderPane {
+public class ModuloReserva extends BorderPane implements IModulo {
     private HeaderReserva header;
     private TablaReserva table;
     private ModeloReserva modelo;
@@ -22,20 +25,19 @@ public class ModuloReserva extends BorderPane {
         setCenter(table);
         cargarDatosIniciales();
     }
-
-    private void cargarDatosIniciales() {
+        @Override
+        public void cargarDatosIniciales() {
         new Thread(new Task<>() {
-            @Override
-            protected Object call() throws Exception {
-                List<IDatoVisual> datoReserva = new ArrayList<>();
-                ReservaDAO reservaDAO = new ReservaDAO();
-                List<ReservaCardData> reservas = reservaDAO.listaReservasVisual();
-                for (ReservaCardData reserva :reservas) {
-                    datoReserva.add(new ReservaCardData(reserva.getID(), reserva.getNombreUsuario(), reserva.getTituloLibro(), reserva.getFecha_reserva(), reserva.getEstado()));
-                }
-                modelo.setrReservaMostrada(datoReserva);
-                return null;
-            }
-        }).start();
-    }
+                protected Object call() throws Exception {
+                        List<IDatoVisual> reservaDatos = new ArrayList<>();
+                        ReservaDAO reservaDAO = new ReservaDAO();
+                        List<ReservaCardData> reservas = reservaDAO.listaReservasVisual();
+                        for (ReservaCardData reserva : reservas) {
+                            reservaDatos.add(new ReservaCardData(reserva.getID(), reserva.getNombreUsuario(), reserva.getTituloLibro(), reserva.getFecha_reserva(), reserva.getEstado()));
+                        }
+                        modelo.setrReservaMostrada(reservaDatos);
+                        return null;
+                    }
+                }).start();
+        }
 }

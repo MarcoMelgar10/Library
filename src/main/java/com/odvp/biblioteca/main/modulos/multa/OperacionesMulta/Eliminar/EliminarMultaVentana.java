@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.Eliminar;
+package com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.Eliminar;
 
 import com.odvp.biblioteca.database.daos.MultaDAO;
 import javafx.geometry.Insets;

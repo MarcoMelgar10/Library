@@ -1,6 +1,6 @@
-package com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.Visualizar;
+package com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.Visualizar;
 
-import com.odvp.biblioteca.main.modulos.deudas.ModeloMulta;
+import com.odvp.biblioteca.main.modulos.multa.ModeloMulta;
 import com.odvp.biblioteca.objetos.Multa;
 import com.odvp.biblioteca.database.daos.MultaDAO;
 

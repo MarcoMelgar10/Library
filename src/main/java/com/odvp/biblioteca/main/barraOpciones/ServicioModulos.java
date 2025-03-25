@@ -4,14 +4,13 @@ import com.odvp.biblioteca.main.modulos.autores.ModeloAutores;
 import com.odvp.biblioteca.main.modulos.autores.ModuloAutores;
 import com.odvp.biblioteca.main.modulos.libros.ModeloLibros;
 import com.odvp.biblioteca.main.modulos.libros.ModuloLibros;
-import com.odvp.biblioteca.main.modulos.deudas.ModeloMulta;
-import com.odvp.biblioteca.main.modulos.deudas.ModuloMulta;
+import com.odvp.biblioteca.main.modulos.multa.ModeloMulta;
+import com.odvp.biblioteca.main.modulos.multa.ModuloMulta;
 import com.odvp.biblioteca.main.modulos.IModulo;
 import com.odvp.biblioteca.main.modulos.reservas.ModeloReserva;
 import com.odvp.biblioteca.main.modulos.reservas.ModuloReserva;
 import com.odvp.biblioteca.main.modulos.usuarios.ModeloUsuarios;
 import com.odvp.biblioteca.main.modulos.usuarios.ModuloUsuarios;
-import javafx.scene.Node;
 
 public class ServicioModulos {
 

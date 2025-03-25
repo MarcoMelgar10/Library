@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.main.modulos.deudas;
+package com.odvp.biblioteca.main.modulos.multa;
 
 import com.odvp.biblioteca.objetosVisuales.IDatoVisual;
 import com.odvp.biblioteca.database.daos.MultaDAO;

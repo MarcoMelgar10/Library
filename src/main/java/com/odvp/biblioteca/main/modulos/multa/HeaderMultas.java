@@ -1,10 +1,10 @@
-package com.odvp.biblioteca.main.modulos.deudas;
+package com.odvp.biblioteca.main.modulos.multa;
 
-import com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.Agregar.AgregarMulta;
-import com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.CancelarMulta.CancelarMulta;
-import com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.Editar.EditarMulta;
-import com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.Eliminar.EliminarMulta;
-import com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.Visualizar.VisualizarMulta;
+import com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.Agregar.AgregarMulta;
+import com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.CancelarMulta.CancelarMulta;
+import com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.Editar.EditarMulta;
+import com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.Eliminar.EliminarMulta;
+import com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.Visualizar.VisualizarMulta;
 import com.odvp.biblioteca.main.modulos.defaulltComponents.ButtonDefault;
 import com.odvp.biblioteca.main.modulos.defaulltComponents.HeaderDefault;
 import com.odvp.biblioteca.servicios.ServicioBotones;

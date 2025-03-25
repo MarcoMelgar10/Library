@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.main.modulos.deudas;
+package com.odvp.biblioteca.main.modulos.multa;
 
 import com.odvp.biblioteca.main.modulos.defaulltComponents.TableDefault;
 

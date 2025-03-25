@@ -1,4 +1,4 @@
-package com.odvp.biblioteca.main.modulos.deudas.OperacionesMulta.Agregar;
+package com.odvp.biblioteca.main.modulos.multa.OperacionesMulta.Agregar;
 
 import com.odvp.biblioteca.objetos.Multa;
 import com.odvp.biblioteca.servicios.ServicioIconos;
