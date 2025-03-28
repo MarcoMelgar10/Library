@@ -5,7 +5,6 @@ import com.odvp.biblioteca.database.daos.ReservaDAO;
 import com.odvp.biblioteca.database.daos.UsuarioDAO;
 import com.odvp.biblioteca.main.modulos.reservas.ModeloReserva;
 import com.odvp.biblioteca.objetosVisuales.IDatoVisual;
-import com.odvp.biblioteca.objetosVisuales.ReservaCardData;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class AgregarReserva {
         AgregarReservaVentana agregarReservaVentana = new AgregarReservaVentana(reservaDAO, usuarioDAO, libroDAO);
         if (agregarReservaVentana.isHubieronCambios()) {
             List<IDatoVisual> reservas = reservaDAO.listaReservasIVisual();
-            modelo.setrReservaMostrada(reservas);
+            modelo.setReservaMostrada(reservas);
         }
 
     }

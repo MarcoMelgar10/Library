@@ -12,8 +12,8 @@ public class Reserva {
     private int idLibro;
     private String observacion;
 
-    // Constructor
-    public Reserva(int idReserva,int idUsuario, int idLibro, Date fechaReserva, Date fechaVencimiento, Date fechaRecogida, String estado, String observacion ) {
+
+    public Reserva(int idReserva, int idUsuario, int idLibro, Date fechaReserva, Date fechaVencimiento, Date fechaRecogida,String estado, String observacion ) {
         this.idReserva = idReserva;
         this.fechaReserva = fechaReserva;
         this.fechaVencimiento = fechaVencimiento;
@@ -24,7 +24,7 @@ public class Reserva {
         this.idLibro = idLibro;
     }
 
-    // Getters y Setters
+
     public int getIdReserva() {
         return idReserva;
     }
@@ -78,6 +78,30 @@ public class Reserva {
                 ", idUsuario=" + idUsuario +
                 ", idLibro=" + idLibro +
                 '}';
+    }
+
+    public Date getFechaRecogida() {
+        return fechaRecogida;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public void setFechaRecogida(Date fechaRecogida) {
+        this.fechaRecogida = fechaRecogida;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
     }
 }
 

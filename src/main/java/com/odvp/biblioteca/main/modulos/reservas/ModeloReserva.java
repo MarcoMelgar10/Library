@@ -2,6 +2,7 @@ package com.odvp.biblioteca.main.modulos.reservas;
 
 import com.odvp.biblioteca.objetosVisuales.IDatoVisual;
 import com.odvp.biblioteca.objetosVisuales.MultaCardData;
+import com.odvp.biblioteca.objetosVisuales.ReservaCardData;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -27,7 +28,7 @@ public class ModeloReserva {
         return OBS_RESERVA_SELECCIONADA;
     }
 
-    public void setrReservaMostrada(List<IDatoVisual> reservaMostrada){
+    public void setReservaMostrada(List<IDatoVisual> reservaMostrada){
         List<IDatoVisual> oldDeudaMostrada = List.copyOf(this.reservaMostrada);
         this.reservaMostrada = reservaMostrada;
         support.firePropertyChange(OBS_RESERVA_MOSTRADAS, oldDeudaMostrada, this.reservaMostrada);
@@ -47,8 +48,8 @@ public class ModeloReserva {
         return reservaMostrada;
     }
 
-    public MultaCardData reservaSeleccionada(){
-        return (MultaCardData) reservaSeleccionada;
+    public ReservaCardData reservaSeleccionada(){
+        return (ReservaCardData) reservaSeleccionada;
     }
 
     public void anunciarCambio(){

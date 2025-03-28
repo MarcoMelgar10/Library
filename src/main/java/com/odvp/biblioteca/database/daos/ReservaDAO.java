@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /*
@@ -47,25 +48,14 @@ public class ReservaDAO{
         }
     }
 
-    public void elimnar(int id){
-        String qry = "UPDATE reserva set D_E_L_E_T_E = true WHER id_reserva = ? ";
-        try (Connection conn = ConexionDB.getOrCreate().getConexion();
-             PreparedStatement stmt = conn.prepareStatement(qry)) {
-            stmt.setInt(1, id);
-            stmt.executeQuery();
-            System.out.println("Reserva eliminada");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getSQLState());
-        }
-    }
+
     public ArrayList<IDatoVisual> listaReservasIVisual() {
         String qry = "SELECT r.id_reserva, r.fecha_reserva, r.estado, " +
                 "u.nombre, u.apellido_paterno, u.apellido_materno, l.titulo " +
                 "FROM reserva r " +
                 "JOIN usuario u ON u.id_usuario = r.id_usuario " +
                 "JOIN libro l on l.id_libro = r.id_libro WHERE r.D_E_L_E_T_E = FALSE " +
-                "ORDER BY r.id_reserva asc";
+                "ORDER BY  r.estado desc, r.id_reserva asc";
         ArrayList<IDatoVisual> reservas = new ArrayList<>();
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement stmt = conn.prepareStatement(qry);
@@ -96,7 +86,7 @@ public class ReservaDAO{
                 "FROM reserva r " +
                 "JOIN usuario u ON u.id_usuario = r.id_usuario " +
                 "JOIN libro l on l.id_libro = r.id_libro WHERE r.D_E_L_E_T_E = FALSE " +
-                "ORDER BY r.id_reserva asc";
+                "ORDER BY r.estado desc, r.id_reserva asc";
         ArrayList<ReservaCardData> reservas = new ArrayList<>();
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
                 PreparedStatement stmt = conn.prepareStatement(qry);
@@ -142,7 +132,7 @@ public class ReservaDAO{
 
                 // Create and return a Reserva object with all attributes
                 return new Reserva(idReserva, idLibro, idUsuario, fechaReserva, fechaVencimiento,fechaRecogida,
-                        estado, observaciones);
+                         estado, observaciones);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -167,5 +157,147 @@ public class ReservaDAO{
             System.out.println("SQL Error: " + e.getMessage());
         }
         return -1;
+    }
+
+    public List<IDatoVisual> listaReservasVisual(String textoBusqueda) {
+        // Consulta SQL mejorada con manejo adecuado de búsqueda y condiciones
+        String qry = """
+                SELECT r.id_reserva, r.fecha_reserva, r.estado, 
+                u.nombre, u.apellido_paterno, u.apellido_materno, l.titulo 
+                FROM reserva r 
+                JOIN usuario u ON u.id_usuario = r.id_usuario 
+                JOIN libro l ON l.id_libro = r.id_libro 
+                WHERE r.D_E_L_E_T_E = FALSE 
+                AND (
+                    unaccent(CONCAT(u.nombre, ' ', u.apellido_paterno, ' ', u.apellido_materno)) ILIKE unaccent(?)
+                    OR unaccent(l.titulo) ILIKE unaccent(?)
+                    OR CAST(r.id_reserva AS TEXT) LIKE ?
+                )
+                ORDER BY r.estado desc, r.id_reserva ASC
+            """;
+
+        List<IDatoVisual> reservas = new ArrayList<>();
+
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement stmt = conn.prepareStatement(qry)) {
+
+            String filtro = "%" + textoBusqueda + "%";
+
+            // Establecer parámetros de búsqueda
+            stmt.setString(1, filtro); // Nombre completo del usuario
+            stmt.setString(2, filtro); // Título del libro
+            stmt.setString(3, filtro); // ID de reserva (como texto)
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    // Construir objeto ReservaCardData de forma más eficiente
+                    reservas.add(new ReservaCardData(
+                            rs.getInt("id_reserva"),
+                            String.format("%s %s %s",
+                                    rs.getString("nombre"),
+                                    rs.getString("apellido_paterno"),
+                                    rs.getString("apellido_materno")),
+                            rs.getString("titulo"),
+                            new Date(rs.getDate("fecha_reserva").getTime()),
+                            rs.getString("estado")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return reservas;
+    }
+
+
+    public void eliminar(int id) {
+        String qry = "UPDATE reserva SET D_E_L_E_T_E = TRUE WHERE id_multa = ?";
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement st = conn.prepareStatement(qry)) {
+            st.setInt(1, id);
+            st.execute();
+            System.out.println("Reserva cancelada");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
+
+    public boolean actualizar(Reserva reserva) throws SQLException {
+        String sql = """
+            UPDATE reserva SET
+                id_usuario = ?,
+                id_libro = ?,
+                fecha_reserva = ?,
+                fecha_vencimiento = ?,
+                fecha_recogida = ?,
+                estado = ?,
+                observacion = ?,
+            WHERE id_reserva = ?
+            """;
+
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Establecer parámetros
+            pstmt.setInt(1, reserva.getIdUsuario());
+            pstmt.setInt(2, reserva.getIdLibro());
+            pstmt.setDate(3, (Date) reserva.getFechaReserva());
+            pstmt.setDate(4, (Date) reserva.getFechaVencimiento());
+            pstmt.setDate(5, (Date) reserva.getFechaRecogida());
+            pstmt.setString(6, reserva.getEstado());
+            pstmt.setString(7, reserva.getObservacion());
+            pstmt.setInt(8, reserva.getIdReserva());
+
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        }
+    }
+
+    public Reserva obtener(int idReserva) {
+        String qry = """
+        SELECT 
+            id_reserva, id_libro, id_usuario, 
+            fecha_reserva, fecha_vencimiento, 
+            fecha_recogida, estado, observaciones
+        FROM reserva 
+        WHERE id_reserva = ? AND D_E_L_E_T_E = FALSE
+        """;
+
+        try (Connection conn = ConexionDB.getOrCreate().getConexion();
+             PreparedStatement ps = conn.prepareStatement(qry)) {
+
+            ps.setInt(1, idReserva);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) { // Usamos if porque esperamos solo una reserva
+                    int idLibro = rs.getInt("id_libro");
+                    int idUsuario = rs.getInt("id_usuario");
+                    Date fechaReserva = rs.getDate("fecha_reserva");
+                    Date fechaVencimiento = rs.getDate("fecha_vencimiento");
+                    Date fechaRecogida = rs.getDate("fecha_recogida");
+                    String estado = rs.getString("estado");
+                    String observaciones = rs.getString("observaciones");
+
+                    System.out.println("Reserva encontrada");
+                    return new Reserva(
+                            idReserva,
+                            idLibro,
+                            idUsuario,
+                            fechaReserva,
+                            fechaVencimiento,
+                            fechaRecogida,
+                            estado,
+                            observaciones
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener reserva: " + e.getMessage());
+            System.out.println("Estado SQL: " + e.getSQLState());
+        }
+
+        System.out.println("No se encontró la reserva con ID: " + idReserva);
+        return null;
     }
 }

@@ -1,10 +1,8 @@
 package com.odvp.biblioteca.main.modulos.reservas;
 
-import com.odvp.biblioteca.database.daos.MultaDAO;
 import com.odvp.biblioteca.database.daos.ReservaDAO;
 import com.odvp.biblioteca.main.modulos.IModulo;
 import com.odvp.biblioteca.objetosVisuales.IDatoVisual;
-import com.odvp.biblioteca.objetosVisuales.MultaCardData;
 import com.odvp.biblioteca.objetosVisuales.ReservaCardData;
 import javafx.concurrent.Task;
 import javafx.scene.layout.BorderPane;
@@ -35,7 +33,7 @@ public class ModuloReserva extends BorderPane implements IModulo {
                         for (ReservaCardData reserva : reservas) {
                             reservaDatos.add(new ReservaCardData(reserva.getID(), reserva.getNombreUsuario(), reserva.getTituloLibro(), reserva.getFecha_reserva(), reserva.getEstado()));
                         }
-                        modelo.setrReservaMostrada(reservaDatos);
+                        modelo.setReservaMostrada(reservaDatos);
                         return null;
                     }
                 }).start();
