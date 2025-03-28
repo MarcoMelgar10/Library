@@ -5,14 +5,20 @@ import java.util.Date;
 public class Reserva {
     private int idReserva;
     private Date fechaReserva;
-    private boolean estado;
+    private Date fechaVencimiento;
+    private Date fechaRecogida;
+    private String estado;
     private int idUsuario;
     private int idLibro;
+    private String observacion;
 
     // Constructor
-    public Reserva(int idReserva, Date fechaReserva, boolean estado, int idUsuario, int idLibro) {
+    public Reserva(int idReserva,int idUsuario, int idLibro, Date fechaReserva, Date fechaVencimiento, Date fechaRecogida, String estado, String observacion ) {
         this.idReserva = idReserva;
         this.fechaReserva = fechaReserva;
+        this.fechaVencimiento = fechaVencimiento;
+        this.fechaRecogida = fechaRecogida;
+        this.observacion = observacion;
         this.estado = estado;
         this.idUsuario = idUsuario;
         this.idLibro = idLibro;
@@ -35,11 +41,11 @@ public class Reserva {
         this.fechaReserva = fechaReserva;
     }
 
-    public boolean isEstado() {
+    public String isEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
@@ -57,6 +63,10 @@ public class Reserva {
 
     public void setIdLibro(int idLibro) {
         this.idLibro = idLibro;
+    }
+
+    public String getObservacion() {
+        return observacion;
     }
 
     @Override

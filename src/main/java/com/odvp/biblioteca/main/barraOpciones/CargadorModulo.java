@@ -48,7 +48,7 @@ public class CargadorModulo implements PropertyChangeListener {
                     escenePrincipal.setCenter(null);
                     break;
                 case ModeloMain.MODULO_RESERVAS:
-                    escenePrincipal.setCenter(null);
+                    escenePrincipal.setCenter(ServicioModulos.getModuloReserva());
                     break;
             }
         }

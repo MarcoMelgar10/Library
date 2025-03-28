@@ -156,6 +156,7 @@ public class MultaDAO {
         }
     }
 
+
     public List<IDatoVisual> listaMultasVisual() {
         String qry = """
                     SELECT m.id_multa, m.monto, m.fecha_multa, m.estado, m.id_prestamo, 

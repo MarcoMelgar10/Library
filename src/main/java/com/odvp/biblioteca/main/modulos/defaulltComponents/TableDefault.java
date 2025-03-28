@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +107,7 @@ public abstract class TableDefault extends VBox implements PropertyChangeListene
 
         task.setOnFailed(event -> {
             Platform.runLater(() -> cardsPane.getChildren().setAll(new Label("Error al cargar datos")));
+            Platform.runLater(()-> System.out.println(task.getException().getMessage()));
         });
         return task;
     }
@@ -139,6 +141,9 @@ public abstract class TableDefault extends VBox implements PropertyChangeListene
                     image.setFitHeight(32);
                     image.setFitWidth(32);
                     elementos.add(image);
+                }
+                else if(elemento instanceof Date){
+                    elementos.add(new Label(elemento.toString()));
                 }
             }
             int nroElemento = 0;
