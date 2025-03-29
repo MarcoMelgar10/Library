@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class AgregarReservaVentana extends Stage {
     private final ReservaDAO reservaDAO;
     private TextField usuarioTextField, idLibroTextField;
     private TextArea observacionTextArea;
-    private DatePicker fechaReservaPicker, fechaVencimientoPicker;
+    private Label fechaReservaPicker, fechaVencimientoPicker;
     private Button cancelarButton, aceptarButton;
     private Label idReservaLabel, nombreUsuario, tituloLibro;
     private final HashMap<String, Integer> usuarios = new LinkedHashMap<>();
@@ -115,21 +116,15 @@ public class AgregarReservaVentana extends Stage {
         tituloLibro.setPrefWidth(200);
 
         Label fechaReservaLabel = new Label("Fecha de reserva:");
-        fechaReservaPicker = new DatePicker(LocalDate.now());
+        fechaReservaPicker = new Label(LocalDate.now().toString());
         fechaReservaPicker.setPrefWidth(125);
-        fechaReservaPicker.setEditable(false);
-        fechaReservaPicker.getEditor().setDisable(true);
-        fechaReservaPicker.getEditor().setOpacity(1);
 
 
 
         Label fechaVencimientoLabel = new Label("Fecha de vencimiento:");
-        fechaVencimientoPicker = new DatePicker(LocalDate.now().plusDays(10));
+        fechaVencimientoPicker = new Label(LocalDate.now().plusDays(10).toString());
         fechaVencimientoPicker.setPrefWidth(125);
-        fechaVencimientoPicker.setEditable(false);
-        fechaVencimientoPicker.getEditor().setDisable(true);
-        fechaVencimientoPicker.getEditor().setOpacity(1);
-        fechaVencimientoPicker.setDisable(false);
+
 
         Label observacionLabel = new Label("Observacion:");
         observacionTextArea = new TextArea();
@@ -196,7 +191,7 @@ public class AgregarReservaVentana extends Stage {
             } catch (NumberFormatException e) {
                 Platform.runLater(() -> nombreUsuario.setText("ID inválido"));
             } catch (Exception e) {
-                Platform.runLater(() -> nombreUsuario.setText("Error al buscar"));
+                Platform.runLater(() -> nombreUsuario.setText(""));
             }
         });
     }
@@ -217,7 +212,7 @@ public class AgregarReservaVentana extends Stage {
             } catch (NumberFormatException e) {
                 Platform.runLater(() -> tituloLibro.setText("ID inválido"));
             } catch (Exception e) {
-                Platform.runLater(() -> tituloLibro.setText("Error al buscar"));
+                Platform.runLater(() -> tituloLibro.setText(""));
             }
         });
     }
@@ -226,9 +221,7 @@ public class AgregarReservaVentana extends Stage {
         try {
             int idUsuario = Integer.parseInt(usuarioTextField.getText());
             int idLibro = Integer.parseInt(idLibroTextField.getText());
-            boolean fechaDevolucionValida = fechaVencimientoPicker.getValue() != null &&
-                    fechaVencimientoPicker.getValue().isAfter(fechaReservaPicker.getValue());
-            return usuarios.containsValue(idUsuario) && libros.containsValue(idLibro) && fechaDevolucionValida;
+            return usuarios.containsValue(idUsuario) && libros.containsValue(idLibro);
         } catch (NumberFormatException e) {
             return false;
         }
@@ -238,8 +231,8 @@ public class AgregarReservaVentana extends Stage {
         try {
             int idUsuario = Integer.parseInt(usuarioTextField.getText());
             int idLibro = Integer.parseInt(idLibroTextField.getText());
-            Date fechaReserva = Date.valueOf(fechaReservaPicker.getValue());
-            Date fechaDevolucion = Date.valueOf(fechaVencimientoPicker.getValue());
+            Date fechaReserva = Date.valueOf(fechaReservaPicker.getText());
+            Date fechaDevolucion = Date.valueOf(fechaVencimientoPicker.getText());
             Reserva reserva = new Reserva(nextID, idUsuario, idLibro, fechaReserva, fechaDevolucion, null, "pendiente", observacionTextArea.getText());
             reservaDAO.insertar(reserva);
             hubieronCambios = true;

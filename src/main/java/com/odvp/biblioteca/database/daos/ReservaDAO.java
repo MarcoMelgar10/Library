@@ -211,7 +211,7 @@ public class ReservaDAO{
 
 
     public void eliminar(int id) {
-        String qry = "UPDATE reserva SET D_E_L_E_T_E = TRUE WHERE id_multa = ?";
+        String qry = "UPDATE reserva SET D_E_L_E_T_E = TRUE WHERE id_reserva = ?";
         try (Connection conn = ConexionDB.getOrCreate().getConexion();
              PreparedStatement st = conn.prepareStatement(qry)) {
             st.setInt(1, id);
@@ -232,7 +232,7 @@ public class ReservaDAO{
                 fecha_vencimiento = ?,
                 fecha_recogida = ?,
                 estado = ?,
-                observacion = ?,
+                observaciones = ?
             WHERE id_reserva = ?
             """;
 
@@ -282,8 +282,8 @@ public class ReservaDAO{
                     System.out.println("Reserva encontrada");
                     return new Reserva(
                             idReserva,
-                            idLibro,
                             idUsuario,
+                            idLibro,
                             fechaReserva,
                             fechaVencimiento,
                             fechaRecogida,
