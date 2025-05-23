@@ -1,23 +1,17 @@
-#DESCRIPCION DE LAS CARPETAS Y QUE CONTINEN:
+DESCRIPTION OF THE FOLDERS AND THEIR CONTENTS:
+java:
 
-**java**:
+View Controllers: Contains all the controllers for the views (FXML), organized into folders based on the Master they are used in.
 
-**Controladores Vistas**: contiene todos los controllers de las vistas (FXML), dividido por carpetas
-dependiendo el Maestro en el que se usan.
+Options Bar Functions: Contains the classes used for the functionality of the options bar located on the left side of the app.
 
-**Funciones Barra Opciones** : contiene las clases utilizadas para el funcionamiento de la barra de 
-opciones ubicada  a la izquierda en la app
+Master Functions: Contains the classes used for the functionality of the Masters, organized into folders according to which Master they are associated with.
 
-**Funciones Maestros**: contiene las clases utilizadas para el funcionamiento de los Maestros, estan
-ordenadas por carpetas de acuerdo a en que Maestro participan
+resources:
 
-**resocurces**:
+Icons: Images used for icons.
 
-**Icons**:  imagene ocupada para los iconos
+Styles: Contains the .css file.
 
-**Styles**: contiene el .css
-
-**Vistas**: qui se encuentran todas las vistas .fxml de cada componente FX, estan separadas
-por los Maestros a donde pertenecen
-
+Views: Contains all the .fxml views for each FX component, separated by the Masters they belong to.
 
